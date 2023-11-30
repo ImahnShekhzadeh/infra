@@ -31,8 +31,7 @@ os.makedirs(saving_path__submit, exist_ok=True)
 for run_id in range(num_runs):
     # Define submit file
     submit_file_name = os.path.join(
-        saving_path__submit,
-        f"run_dgp_{date_time[-8:]}_{run_id}.sh"
+        saving_path__submit, f"run_dgp_{date_time[-8:]}_{run_id}.sh"
     )
 
     # Define output and error file names
