@@ -1,0 +1,12 @@
+# Files TeX creates that are not relevant (can be obtained through rerunning): 
+*.bcf
+*.aux
+*.bbl
+*.blg
+*.nav
+*.snm
+*.log
+*.out
+*.run.xml
+*.toc
+*.synctex.gz
