@@ -56,7 +56,7 @@
 
 \title{Infra}
 % \subtitle{Questions}
-\author{Imahn Shekhzadeh \\ imahn.shekhzadeh@unige.ch\normalsize}
+\author{Imahn Shekhzadeh \\ \texttt{\href{mailto:email@example.com}{imahn.shekhzadeh@unige.ch}}\normalsize}
 \date{\today}
 
 \begin{document}
@@ -768,9 +768,28 @@
 	
 	\begin{itemize}
 		\item  When using  argparse  in combination with a JSON configuration file, the JSON keys need to match the long option names specified in \textit{parser.add\_argument} method calls. The argparse module itself does not automatically recognize abbreviated forms from a JSON file.
-		
-		\item Sometimes, when specifying the 
 	\end{itemize} 
+
+	\subsection{Jupyter Notebooks}
+	\begin{itemize}
+		\item Converting jupyter notebooks into PDFs:
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf, xleftmargin=\parindent]
+			for nb in /path/one/Notebook1.ipynb /path/two/Notebook2.ipynb [...]
+			do
+				jupyter nbconvert --to pdf "$nb"
+			done 
+		\end{lstlisting}
+	
+		If you have several notebooks in the same directory, 
+		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf__wildcard, xleftmargin=\parindent]
+			for nb in *.ipynb
+			do
+				jupyter nbconvert --to pdf "$nb"
+			done 
+		\end{lstlisting}
+		
+	\end{itemize}
 
 	\newpage 
 	
