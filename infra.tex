@@ -1192,9 +1192,18 @@
 			git rebase -i HEAD~$num1
 		}
 		
+		# Reset entire repo to state of `HEAD`, or reset specific file to a specific commit hash.
 		lres() {
-			git reset --hard HEAD
-		}
+			if [ $# -eq 0 ]; then
+				git reset --hard HEAD
+			elif [ $# -eq 2 ]; then
+				local commit_hash="$1"
+				local file_path="$2"
+				git restore --source="$commit_hash" "$file_path"
+			else
+				echo "Usage: lres [commit_hash file_path]"
+			fi
+		} 
 		
 		lsh(){
 			git show "$@"
@@ -1254,6 +1263,11 @@
 		# tailscale 
 		ts() {
 			tailscale status "$@"
+		}
+	
+		# xournalpp (https://github.com/xournalpp/xournalpp)
+		xopp() {
+			xournalpp "$@"
 		}
 	
 		# strings comparison
