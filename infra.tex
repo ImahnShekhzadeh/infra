@@ -1221,6 +1221,11 @@
 		
 		# ---------------------------- MISCELLANEOUS ------------------
 		
+		# convert input notebook to PDF
+		jconv() {
+			jupyter nbconvert --to pdf "$1"
+		}
+		
 		# `less` with ANSI escape characters
 		less() {
 			/usr/bin/less -R "$@"
