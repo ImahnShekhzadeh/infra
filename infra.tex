@@ -980,7 +980,7 @@
 	
 	\section{Git}
 	
-	\subsection{Renaming a repository}
+	\subsection{Renaming a Repository}
 	
 	\begin{enumerate}
 		\item Rename the repository remotely first (by going to your repository's URL), 
@@ -1000,6 +1000,17 @@
 		which lists the remote names and their URLs.
 		
 	\end{enumerate}
+
+	\subsection{Restore File}
+	
+		To reset a specific file to the state of a previous commit in Git, you can use the \textit{git restore} command:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
+			git restore --source=<commit-hash> <file_path>
+			# git restore --source=HEAD <file_path>
+		\end{lstlisting}
+		
+		\noindent Replace \textit{<commit-hash>} with the commit SHA and \textit{<file-path>} with the path to the file. After doing this, the file will be in the state it was in at the specified commit. This change is local and you would need to commit it if you want it to be reflected in the repository history.
 	
 	\newpage 
 	
