@@ -134,16 +134,18 @@
 	\end{itemize}
 	
 	\newpage 
-	\section{Linux (e.g.~bash commands)}
+	
+	\section{Bash}
+	
 	\begin{itemize}
-		\item If you want to download a file from an URL, use this command (better than \textit{wget}): 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:curl, caption=Curl, xleftmargin=\parindent]
+		\item Downloading file from URL and allowing for redirects, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:curl, xleftmargin=\parindent]
 			curl -Lo output.out https://url.com
 		\end{lstlisting}
 	
-		\item Let's say your directory structure looks like this: 
-
+		\item For this directory structure, 
+		
 		\begin{lstlisting}[style=mystylebash, label=alg:exmp__dir_struc, caption=Example directory structure, xleftmargin=\parindent]
 			infra_upd.tex
 			infra_upd.log
@@ -151,35 +153,22 @@
 			infra_upd.out
 			infra_upd.pdf
 		\end{lstlisting} 
-	
-		\quad Now to rename all files, e.g.~to \textit{infra.*}, do this in bash: 
-		\begin{lstlisting}[style=mystylebash, label=alg:linux_mv_files_for, caption=Renaming of files with for-loop, xleftmargin=\parindent]
+		
+		rename \textit{all} of them via
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:linux_mv_files_for, xleftmargin=\parindent]
 			for file in infra_upd.*; do mv "$file" "${file/infra_upd/infra}"; done
 		\end{lstlisting}
-	
-		What happens is called a 	\href{https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script}{\color{blue}substring replacement}. 
-	
-	
-		\item Under Ubuntu, you can find \textit{all} available kernels like this: 
-	
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel, caption=Find kernel versions in Ubuntu, xleftmargin=\parindent]
-			dpkg --list | grep linux-image
-		\end{lstlisting}
-
-		To find the currently \textit{active} kernel version, do 
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel__current, caption=Current kerel versions in Ubuntu, xleftmargin=\parindent]
-			uname -a
-		\end{lstlisting}
 		
-		\item Appending line to file: 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__line_appending, caption=Append line to file, xleftmargin=\parindent]
+		What happens is called a 	\href{https://stackoverflow.com/questions/13210880/replace-one-substring-for-another-string-in-shell-script}{\color{blue}substring replacement}. 
+		
+		\item Appending line to file,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__line_appending, xleftmargin=\parindent]
 			echo "this is a line" | tee -a output.out # -a: appending, important
 		\end{lstlisting}
-	
-		The \textit{-a} option stands for \textit{appending}, otherwise \textit{tee} overwrites \textit{output.out} (if existent). 
-	
-		\item Checking whether a provided string (e.g.~via an argument) is empty or not (typically used within conditional statements): 
+		
+		\item Checking whether provided string (e.g.~via an argument) is empty or not (typically used within conditional statements): 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:bash__empty_string_check, caption=Check (e.g.~in if-clause) whether string is empty or not, xleftmargin=\parindent]
 			test_sth() {
@@ -192,9 +181,9 @@
 			}
 		\end{lstlisting}
 	
-		\item For retrieving all but the first argument: 
+		\item For retrieving all but the first argument, 
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift, caption=Argument retrieval, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift, xleftmargin=\parindent]
 			test_sth(){
 				shift
 				
@@ -202,9 +191,9 @@
 			}
 		\end{lstlisting}
 		
-		And of course there is nothing stopping us from doing this $N\geq 1$-times $\dots$ Pseudocode: 
+		\item And of course there is nothing stopping us from doing this $N\geq 1$-times $\dots$ Pseudocode: 
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift_gen, caption=Argument retrieval (\textit{pseudocode}), xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift_gen, xleftmargin=\parindent]
 			test_sth(){
 				shift
 				...
@@ -217,48 +206,33 @@
 		If $N$ arguments are not provided, this is \textbf{not} a problem, the code will still run through.
 		
 		\item Example for an alias:
-
+		
 		\begin{lstlisting}[style=mystylebash, label=alg:bash_aliases, xleftmargin=\parindent]
 			# forward output
 			ts(){
 				test_sth "$@"
 			}
 		\end{lstlisting}
-
-		\item Better colors in CLI: 
+	
+		\item Finding out the size of a file or directory,
 		
-		\begin{enumerate}
-			\item Use monokai color scheme, i.e.~dark gray background (\#272822) with light peach color for the text (\#F8F8F2)
-			\item File paths are still displayed in blue, which is suboptimal, to change the color to the better readable cyan-blue color, click on the three horizontal lines in the CLI, then on \textbf{Preferences}, then choose the currently active color, switch to the \textbf{Colors} tab, then go to \textbf{Palette}, click on the blue color \& instead use the color \#66D9EF
-		\end{enumerate}
-		
-		\item To find out the size of a file or directory, use 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:dir_size, caption=Finding dir size, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:dir_size, xleftmargin=\parindent]
 			du -hs <path_to_file_or_dir> # du -hs file.ext
-
+			
 			# for shorter summary (single quotation strings required)
 			du -hs <path_to_file_or_dir> | awk '{print $1}'
 		\end{lstlisting}
 	
-		where \textit{-h} stands for human readability and \textit{-s} for summarizing. 
-		
-		\item To get the number of available CPU resources, do 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:bash__cpu_res, xleftmargin=\parindent]
-			echo "$(nproc)"
-		\end{lstlisting}
-	
 		\item When you want to create a new directory and you want all parent directories to be created as well (assuming they don't already exist), do
-
+		
 		\begin{lstlisting}[style=mystylebash, label=alg:bash__dir_creation, xleftmargin=\parindent]
 			mkdir -p <dir>
 		\end{lstlisting}
-
+		
 		The \textit{-p} option is safe, since if the directory is already existent, no error will be outputted
 		
 		\item Searching for all files with a specific extension, e.g. \textit{.ext}: 
-
+		
 		\begin{lstlisting}[style=mystylebash, label=alg:bash_find, xleftmargin=\parindent]
 			find . -name "*.ext"
 			# find . -name "*.png"
@@ -268,7 +242,41 @@
 		
 		\item In Bash, using [[ ]] instead of [ ] is preferred, since [[ ]]  is safer and more capable within Bash scripts. Also, within [ ] (where word splitting and filename expansion do occur), it's good practice to double-quote your variables. But it's safe to omit the double-quotes for e.g.~\$\# within [[ ]].
 		
-		\item It is possible to use colored outputs in Bash. Check the bash function \textit{str\_diff} in App.~\ref{app:bashrc_file}. (Note that the \textit{-e} option is mandatory to enable interpretation of the backslash escapes)
+	\end{itemize}
+	
+	\newpage 
+	\section{Linux}
+	\begin{itemize}
+	
+		\item Under Ubuntu, listing \textit{all} available kernels, 
+	
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel, caption=Find kernel versions in Ubuntu, xleftmargin=\parindent]
+			dpkg --list | grep linux-image
+		\end{lstlisting}
+
+		Finding the currently \textit{active} kernel version,
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel__current, caption=Current kerel versions in Ubuntu, xleftmargin=\parindent]
+			uname -a
+		\end{lstlisting}
+	
+		The \textit{-a} option stands for \textit{appending}, otherwise \textit{tee} overwrites \textit{output.out} (if existent). 
+
+		\item Better colors in CLI: 
+		
+		\begin{enumerate}
+			\item Use monokai color scheme, i.e.~dark gray background (\#272822) with light peach color for the text (\#F8F8F2)
+			\item File paths are still displayed in blue, which is suboptimal, to change the color to the better readable cyan-blue color, click on the three horizontal lines in the CLI, then on \textbf{Preferences}, then choose the currently active color, switch to the \textbf{Colors} tab, then go to \textbf{Palette}, click on the blue color \& instead use the color \#66D9EF
+		\end{enumerate}
+	
+		where \textit{-h} stands for human readability and \textit{-s} for summarizing. 
+		
+		\item Retrieving the number of available CPU resources,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:bash__cpu_res, xleftmargin=\parindent]
+			echo "$(nproc)"
+		\end{lstlisting}
+		
+		\item It is possible to use colored outputs in Bash. Check the bash function \textit{str\_diff} in App.~\ref{app:bashrc_file}. (Note that the \textit{-e} option is mandatory to enable interpretation of the backslash escapes).
 	
 		\item Print day and time from CLI,
 		
