@@ -242,6 +242,18 @@
 		
 		\item In Bash, using [[ ]] instead of [ ] is preferred, since [[ ]]  is safer and more capable within Bash scripts. Also, within [ ] (where word splitting and filename expansion do occur), it's good practice to double-quote your variables. But it's safe to omit the double-quotes for e.g.~\$\# within [[ ]].
 		
+		\item Unzipping a file via the CLI, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:bash_unzip, xleftmargin=\parindent]
+			unzip /path/to/file.zip -d /path/to/destination
+		\end{lstlisting}
+		
+		\item Opening a file and automatically scrolling to the bottom,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:less__bottom_scroll, xleftmargin=\parindent]
+			less +G /path/to/file.ext
+		\end{lstlisting}
+		
 	\end{itemize}
 	
 	\newpage 
@@ -325,17 +337,6 @@
 			eog /path/to/your/image.jpg
 		\end{lstlisting}
 	
-		\item Unzipping a file via the CLI, 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:bash_unzip, xleftmargin=\parindent]
-			unzip /path/to/file.zip -d /path/to/destination
-		\end{lstlisting}
-	
-		\item Opening a file and automatically scrolling to the bottom:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:less__bottom_scroll, xleftmargin=\parindent]
-			less +G /path/to/file.ext
-		\end{lstlisting}
 	\end{itemize}
 	
 	\newpage 
