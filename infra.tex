@@ -179,35 +179,6 @@
 	
 		The \textit{-a} option stands for \textit{appending}, otherwise \textit{tee} overwrites \textit{output.out} (if existent). 
 	
-		\item Opening VSCode from CLI: 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file, xleftmargin=\parindent]
-			code path_to_file/file_name.ext
-		\end{lstlisting}
-	
-		If a VSCode editor is already open, use the \textit{-n} flag to open the file in a new editor:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file_new_editor, xleftmargin=\parindent]
-			code -n path_to_file/file_name.ext
-		\end{lstlisting}
-		
-		A folder can also be opened directly:
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_dir, caption=Opening VSCode dir from CLI, xleftmargin=\parindent]
-			code path_to_dir
-		\end{lstlisting}
-		
-		\item Opening LibreOffice from CLI:
-
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__libre_office, xleftmargin=\parindent]
-			libreoffice --writer path_to_dir/filename.odt
-		\end{lstlisting}
-	
-		\item Opening an image via the CLI: 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_eog, xleftmargin=\parindent]
-			eog /path/to/your/image.jpg
-		\end{lstlisting}
-	
 		\item Checking whether a provided string (e.g.~via an argument) is empty or not (typically used within conditional statements): 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:bash__empty_string_check, caption=Check (e.g.~in if-clause) whether string is empty or not, xleftmargin=\parindent]
@@ -298,18 +269,6 @@
 		\item In Bash, using [[ ]] instead of [ ] is preferred, since [[ ]]  is safer and more capable within Bash scripts. Also, within [ ] (where word splitting and filename expansion do occur), it's good practice to double-quote your variables. But it's safe to omit the double-quotes for e.g.~\$\# within [[ ]].
 		
 		\item It is possible to use colored outputs in Bash. Check the bash function \textit{str\_diff} in App.~\ref{app:bashrc_file}. (Note that the \textit{-e} option is mandatory to enable interpretation of the backslash escapes)
-		
-		\item Unzipping a file via the CLI, 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:bash_unzip, xleftmargin=\parindent]
-			unzip /path/to/file.zip -d /path/to/destination
-		\end{lstlisting}
-	
-		\item To open the settings from CLI, 
-			
-		\begin{lstlisting}[style=mystylebash, label=alg:cli_settings, xleftmargin=\parindent]
-			gnome-control-center
-		\end{lstlisting}
 	
 		\item Print day and time from CLI,
 		
@@ -317,13 +276,58 @@
 			echo "$(date +%d_%m_%y-%H_%M_%S)"
 			# echo "$(date +%dp%mp%y-%Hp%Mp%S)"
 		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\subsection{Opening Programs from CLI}
+	
+	\begin{itemize}
+		\item Opening the settings from CLI, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:cli_settings, xleftmargin=\parindent]
+			gnome-control-center
+		\end{lstlisting}
+	
+		\item Opening VSCode from CLI: 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file, xleftmargin=\parindent]
+			code path_to_file/file_name.ext
+		\end{lstlisting}
+		
+		If a VSCode editor is already open, use the \textit{-n} flag to open the file in a new editor:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file_new_editor, xleftmargin=\parindent]
+			code -n path_to_file/file_name.ext
+		\end{lstlisting}
+		
+		A folder can also be opened directly:
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_dir, caption=Opening VSCode dir from CLI, xleftmargin=\parindent]
+			code path_to_dir
+		\end{lstlisting}
+		
+		\item Opening LibreOffice from CLI:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__libre_office, xleftmargin=\parindent]
+			libreoffice --writer path_to_dir/filename.odt
+		\end{lstlisting}
+		
+		\item Opening an image via the CLI: 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_eog, xleftmargin=\parindent]
+			eog /path/to/your/image.jpg
+		\end{lstlisting}
+	
+		\item Unzipping a file via the CLI, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:bash_unzip, xleftmargin=\parindent]
+			unzip /path/to/file.zip -d /path/to/destination
+		\end{lstlisting}
 	
 		\item Opening a file and automatically scrolling to the bottom:
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:less__bottom_scroll, xleftmargin=\parindent]
 			less +G /path/to/file.ext
 		\end{lstlisting}
-		
 	\end{itemize}
 	
 	\newpage 
