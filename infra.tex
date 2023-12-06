@@ -92,17 +92,6 @@
 			# scp -r folder_name shekhza2@login1.yggdrasil.hpc.unige.ch:/home/users/s/shekhza2/
 		\end{lstlisting}
 		
-		\item With 
-		\begin{center}
-			htop 
-		\end{center}
-		you can see the login resource consumption for all users. 
-		
-		\item If you did an `sshfs` and the connection hung up, type 
-		\begin{center}
-			fusermount -zu /home/imahn/folder\_name
-		\end{center}
-		
 		\item To see all the machines that are occupied, just type 
 		\begin{lstlisting}[style=mystylebash, label=alg:squeue, caption=Squeue commands, xleftmargin=\parindent]
 			squeue
@@ -115,14 +104,6 @@
 		\begin{lstlisting}[style=mystylebash, label=alg:conda_info, xleftmargin=\parindent]
 			conda info
 		\end{lstlisting}
-	
-		\item To export an yml-file to share it with others, type 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:conda_export, xleftmargin=\parindent]
-			conda env export > environment.yml
-		\end{lstlisting}
-	
-		At the end of the file, there will be a line starting with \enquote{Prefix:}, you can safely delete it, for details see \href{https://stackoverflow.com/questions/39280638/how-to-share-conda-environments-across-platforms}{here}
 		
 		\item 
 
@@ -132,7 +113,7 @@
 		\end{lstlisting}
 	
 	\end{itemize}
-	
+
 	\newpage 
 	
 	\section{Bash}
@@ -296,6 +277,16 @@
 			echo "$(date +%d_%m_%y-%H_%M_%S)"
 			# echo "$(date +%dp%mp%y-%Hp%Mp%S)"
 		\end{lstlisting}
+	
+		\item Seeing the resource consumption,
+		\begin{lstlisting}[style=mystylebash, label=alg:htop, xleftmargin=\parindent]
+			htop
+		\end{lstlisting}
+		
+		\item If you did an \textit{sshfs} and the connection hung up, kill the connection via
+		\begin{lstlisting}[style=mystylebash, label=alg:fusermount, xleftmargin=\parindent]
+			fusermount -zu /path/to/dir
+		\end{lstlisting}
 		
 	\end{itemize}
 	
@@ -370,6 +361,18 @@
 		\end{lstlisting}
 	
 	\end{itemize} 
+
+	\subsection{Export}
+	
+	\begin{itemize}
+		\item Exporting an yml-file to share with others for reproducibility,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:conda_export, xleftmargin=\parindent]
+			conda env export > environment.yml
+		\end{lstlisting}
+		
+		At the end of the file, there will be a line starting with \enquote{Prefix:}, you can safely delete it, for details see \href{https://stackoverflow.com/questions/39280638/how-to-share-conda-environments-across-platforms}{here}
+	\end{itemize}
 	
 	\subsection{Installation \& Removal of Packages}
 	
