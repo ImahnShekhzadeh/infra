@@ -1012,63 +1012,92 @@
 	\end{itemize}
 	
 	\subsection{Merging}
-	\begin{itemize}
-		\item Assume that the following commit-history is given:
-	\end{itemize}
-
-	\begin{tikzpicture}
-		% Draw the main branch
-		\draw (0,0) -- (6,0);
-		\foreach \x in {0,1,2,3,4,5}
-		\draw (\x cm, 3pt) -- (\x cm, -3pt);
-		
-		% Label the main branch commits
-		\node at (0, -0.5) {A};
-		\node at (1, -0.5) {B};
-		\node at (2, -0.5) {C};
-		\node at (3, -0.5) {D};
-		\node at (4, -0.5) {D'};
-		\node at (5, -0.5) {D''};
-		\node at (6, -0.5) {branch <main>};
-		
-		% Draw the new_feature branch
-		\draw (3,0) -- (3,1) -- (7,1);
-		\foreach \x in {3,4,5,6}
-		\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
-		
-		% Label the new_feature branch commits
-		\node at (3, 1.5) {E};
-		\node at (4, 1.5) {F};
-		\node at (5, 1.5) {G};
-		\node at (6, 1.5) {H};
-		\node at (7, 1.5) {branch <new_feature>};
-	\end{tikzpicture}
-
-	\begin{itemize} 
-		\item When merging <main> and <new_feature>, the commits D and D'' will be either auto-merged or there will be a merge conflict. But of course, they will not be lost! 
-		\item Now assume that a slightly different commit-history is given: 
-	\end{itemize} 
 	
 	\begin{itemize}
-		\item E -- F -- G -- H branch <new_feature>
-		\item / 
-		\item A -- B -- C -- D branch <main>
-		\item \ 
-		\item D' – D'' branch <cool_feature>
-	\end{itemize}
-	
-	\begin{itemize}
-		\item After merging <main> with <new_feature>, which happens via a fast-forward, we can delete it, as it is of no use to us anymore. The commit structure then looks like: 
+		\item Assuming the following commit-history is given,
+		
+		\begin{tikzpicture}
+			% Draw the main branch
+			\draw (0,0) -- (5,0);
+			\foreach \x in {0,1,2,3,4,5}
+			\draw (\x cm, 3pt) -- (\x cm, -3pt);
+			
+			% Label the main branch commits
+			\node at (0, -0.5) {A};
+			\node at (1, -0.5) {B};
+			\node at (2, -0.5) {C};
+			\node at (3, -0.5) {D};
+			\node at (4, -0.5) {D'};
+			\node at (5, -0.5) {D''};
+			
+			% Draw the new_feature branch
+			\draw (2,0) -- (3,1) -- (6,1);
+			\foreach \x in {3,4,5,6}
+			\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
+			
+			% Label the new_feature branch commits
+			\node at (3, 1.5) {E};
+			\node at (4, 1.5) {F};
+			\node at (5, 1.5) {G};
+			\node at (6, 1.5) {H};
+			
+			% Position the branch labels
+			\node[align=left] at (8.5, 0) {main};
+			\node[align=left] at (8.5, 1) {new\_branch};
+		\end{tikzpicture}
+		
+		when merging \textit{main} and \textit{new\_branch}, the two branches will be either auto-merged or there will be a merge conflict.
+		
+		\item Assuming the following commit history is given,
+		
+		\begin{tikzpicture}
+			% Draw the main branch
+			\draw (0,0) -- (3,0);
+			\foreach \x in {0,1,2,3}
+			\draw (\x cm, 3pt) -- (\x cm, -3pt);
+			
+			% Label the main branch commits
+			\node at (0, -0.5) {A};
+			\node at (1, -0.5) {B};
+			\node at (2, -0.5) {C};
+			\node at (3, -0.5) {D};
+			
+			% Draw the new_feature branch
+			\draw (3,0) -- (4,1) -- (7,1);
+			\foreach \x in {4,5,6,7}
+			\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
+			
+			% Label the new_feature branch commits
+			\node at (4, 1.5) {E};
+			\node at (5, 1.5) {F};
+			\node at (6, 1.5) {G};
+			\node at (7, 1.5) {H};
+			
+			% Draw the cool_feature branch
+			\draw (3,0) -- (4,-1) -- (5,-1);
+			\foreach \x in {4,5}
+			\draw (\x cm, -1cm + 3pt) -- (\x cm, -1cm - 3pt);
+			
+			% Label the cool_feature branch commits
+			\node at (4, -1.5) {D'};
+			\node at (5, -1.5) {D''};
+			
+			% Position the branch labels
+			\node[align=left] at (7.5, 1) {new\_branch};
+			\node[align=left] at (7.5, -1) {cool\_branch};
+			\node[align=left] at (7.5, 0) {main};
+		\end{tikzpicture}
+
+		\item After merging \textit{main} with \textit{new\_feature}, which happens via a fast-forward, you can delete it. New commit structure: 
 	\end{itemize} 
 
 	\begin{itemize} 
 		\item A -- B -- C -- D -- E -- F -- G -- H branch <main>
-		\item \ 
-		\item To merge <new_feature> into master, do the following:
+		\item Merging \textit{new_feature} into \textit{master}, do 
 	\end{itemize}
 
 	\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
-		git checkout master
+		git switch main
 		git merge <new_feature>
 	\end{lstlisting}
 	
