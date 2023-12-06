@@ -1197,6 +1197,26 @@
 		
 		# ------------------------------- GIT -----------------------------
 
+		# example usage: `lsta 2` or `lsta` 
+		lsta() {
+			local stash_index=${1:-0}  # Default to 0 if no argument provided
+			
+			# Check if the provided argument is an integer
+			if ! [[ $stash_index =~ ^[0-9]+$ ]]; then
+				echo "The provided index is not a valid integer."
+				return 1
+			fi
+			
+			# Check if the stash index exists
+			if ! git rev-parse --verify stash@{$stash_index} >/dev/null 2>&1; then
+				echo "No stash found at index $stash_index"
+				return 1  
+			fi
+			
+			# If all checks pass, apply the stash
+			git stash apply "stash@{$stash_index}" --index
+		}
+		
 		# Forward commands to `git stash`
 		lst() {
 			git stash "$@"
