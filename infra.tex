@@ -996,6 +996,71 @@
 	
 	\section{Git}
 	
+	\subsection{Cloning}
+	\begin{itemize}
+		\item Cloning a repository via \textit{sshfs} and adjusting the folder name, 
+		\begin{lstlisting}[style=mystylebash, label=alg:cloning1, xleftmargin=\parindent]
+			git clone <ssh_url> <folder_name>
+			# git clone <https_path> <folder_name>
+		\end{lstlisting}
+	
+		\item After moving into the <folder_name> via cd, do 
+		\begin{lstlisting}[style=mystylebash, label=alg:cloning3, xleftmargin=\parindent]
+			git switch <desired_branch>
+		\end{lstlisting}
+	\end{itemize}
+	
+	\subsection{Merging}
+	\begin{itemize}
+		\item Assume that the following commit-history is given: 
+		\item E -- F -- G -- H branch <new_feature>
+		\item / 
+		\item A -- B -- C -- D -- D' -- D'' branch <main>
+		\item When merging <main> and <new_feature>, the commits D and D'' will be either auto-merged or there will be a merge conflict. But of course, they will not be lost! 
+		\item Now assume that a slightly different commit-history is given: 
+		\item E -- F -- G -- H branch <new_feature>
+		\item / 
+		\item A -- B -- C -- D branch <main>
+		\item \ 
+		\item D' – D'' branch <cool_feature>
+		\item After merging <main> with <new_feature>, which happens via a fast-forward, we can delete it, as it is of no use to us anymore. The commit structure then looks like: 
+		\item A -- B -- C -- D -- E -- F -- G -- H branch <main>
+		\item \ 
+		\item To merge <new_feature> into master, do the following:
+	\end{itemize}
+	\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
+		git checkout master
+		git merge <new_feature>
+	\end{lstlisting}
+	
+	\subsection{Checking History}
+	\begin{itemize}
+		\item Viewing the history of commits,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:history1, xleftmargin=\parindent]
+			git log
+		\end{lstlisting}
+	
+		\item Viewing a specific file,
+		\begin{lstlisting}[style=mystylebash, label=alg:history1, xleftmargin=\parindent]
+			git show commit-hash:file-name
+			# git show 123abc:example.txt
+		\end{lstlisting}
+	\end{itemize}
+	
+	\subsection{Removing a File/Folder}
+	
+	\begin{itemize}
+		\item To remove a file/folder that is already tracked, adding it to .gitignore won’t remove it (though this also needs to happen). For this, do:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_remove, xleftmargin=\parindent]
+			git rm --cached <file>
+			git rm -r --cached <folder>
+		\end{lstlisting}
+
+		\item Adding the file/folder to \textit{.gitignore} is still a good idea, though, since the file/dir won’t be removed locally with the commands.
+	\end{itemize}
+	
 	\subsection{Renaming a Repository}
 	
 	\begin{enumerate}
