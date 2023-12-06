@@ -1196,9 +1196,14 @@
 		}
 		
 		# ------------------------------- GIT -----------------------------
-		
-		# Stashing
+
+		# Forward commands to `git stash`
 		lst() {
+			git stash "$@"
+		}
+		
+		# Stash files, if arguments are provided, they are ignored
+		lstf() {
 			git stash --include-untracked
 		}
 
