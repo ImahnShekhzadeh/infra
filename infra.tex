@@ -811,7 +811,44 @@
 		\end{lstlisting}
 		
 	\end{itemize}
-
+	
+	\subsection{Map (Built-In Function)}
+	
+	\begin{itemize}
+		\item Function signature:
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__func_signa, xleftmargin=\parindent]
+			map(function, iterable, *iterables)
+		\end{lstlisting}
+		
+		Description provided in the \href{https://docs.python.org/3/library/functions.html#map}{documentation}:
+		
+		\begin{quote}
+			Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted. For cases where the function inputs are already arranged into argument tuples, see \textit{itertools.starmap()}.
+		\end{quote}		
+		
+		\item Example usage:~Natively multiplying Python lists elementwise,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__python_lists_elementwise, xleftmargin=\parindent]
+			from typing import List
+			
+			def multiply(x: List, y: List):
+			return x * y
+			
+			list_one = [i for i in range(1000)]
+			list_two = [j for j in range(1000, 2000)]
+			result = list(map(multiply, list_one, list_two)) # `map` is a built-in function, do not use `(list_one, list_two)` in this case
+		\end{lstlisting}
+		
+		\item Example usage:~Converting NumPy arrays into PyTorch tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__numpy_torch_conv, xleftmargin=\parindent]
+			a = np.array([1, 2, 3, 4])
+			tensor_list = list(map(torch.from_numpy, (a,))) # list containing tensor, use of additional brackets necessary
+		\end{lstlisting}
+		
+	\end{itemize}
+	
 	\newpage 
 	
 	\section{AWS S3} 
