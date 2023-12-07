@@ -74,21 +74,15 @@
 	
 	\begin{itemize}
 		\item To connect to Baobab from your local machine, just type into a terminal: 
-		\begin{lstlisting}[style=mystylebash, label=alg:eval, caption=ssh, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:eval, xleftmargin=\parindent]
 			eval $(ssh-agent)
 			ssh-add /home/imahn/.ssh/id_ed25519_unige_hpc
 			ssh shekhza2@login2.baobab.hpc.unige.ch 
 			# ssh shekhza2@login1.yggdrasil.hpc.unige.ch
 		\end{lstlisting} 
 		
-		\item To mount your scratch directory to a local folder do
-		\begin{lstlisting}[style=mystylepython, label=alg:sshfs, caption=Local mounting, xleftmargin=\parindent]
-			mkdir /home/imahn/baobab # if non-existent
-			sshfs shekhza2@login2.baobab.hpc.unige.ch:/home/users/s/shekhza2/ /home/imahn/baobab/
-		\end{lstlisting} 
-		
 		\item Scp into yggdrasil: 
-		\begin{lstlisting}[style=mystylebash, label=alg:scp, caption=Scp file (folder) onto cluster, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:scp, xleftmargin=\parindent]
 			scp file shekhza2@login1.yggdrasil.hpc.unige.ch:/home/users/s/shekhza2/
 			# scp -r folder_name shekhza2@login1.yggdrasil.hpc.unige.ch:/home/users/s/shekhza2/
 		\end{lstlisting}
@@ -128,7 +122,7 @@
 	
 		\item For this directory structure, 
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:exmp__dir_struc, caption=Example directory structure, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:exmp__dir_struc, xleftmargin=\parindent]
 			infra_upd.tex
 			infra_upd.log
 			infra_upd.aux
@@ -225,7 +219,6 @@
 		\item In Bash, using [[ ]] instead of [ ] is preferred, since [[ ]]  is safer and more capable within Bash scripts. Also, within [ ] (where word splitting and filename expansion do occur), it's good practice to double-quote your variables. But it's safe to omit the double-quotes for e.g.~\$\# within [[ ]].
 		
 		\item Unzipping a file via the CLI, 
-		
 		\begin{lstlisting}[style=mystylebash, label=alg:bash_unzip, xleftmargin=\parindent]
 			unzip /path/to/file.zip -d /path/to/destination
 		\end{lstlisting}
@@ -234,6 +227,17 @@
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:less__bottom_scroll, xleftmargin=\parindent]
 			less +G /path/to/file.ext
+		\end{lstlisting}
+	
+		\item Comparing the contents of two directories,
+		\begin{lstlisting}[style=mystylebash, label=alg:bash_diff__dir, xleftmargin=\parindent]
+			diff -r --color directory1 directory2 # `-r` for recursive comparison
+			diff -rq --color directory1 directory2 # `-q` suppresses the output of differences and only shows which files differ
+		\end{lstlisting}
+		
+		Ignoring files only existent in one of the directories (which treats absent files as empty),
+		\begin{lstlisting}[style=mystylebash, label=alg:, xleftmargin=\parindent]
+			diff -rq --color --unidirectional-new-file directory1 directory2 
 		\end{lstlisting}
 		
 	\end{itemize}
@@ -1450,22 +1454,56 @@
 			/usr/bin/diff --color "$@"
 		}
 
-		# overload `shred` func
-		# usage (e.g.): shred 10 <file_name>
-		#               shred <file_name>
-		shred() {		
+		# overload `shred` func, allow (recursive) shredding of dirs/files
+		# multiple files/dirs can be provided, mixing allowed
+		# usage (e.g.): `shred 10 <file_name>`
+		# shred <file_name>
+		# shred <dir_path>
+		# shred <file_name> <dir_path>
+		shred() {
 			
 			# check whether first argument is a number
 			if [[ "$1" =~ ^[0-9]+$ ]]; then
-				iterations=$1
+				local iterations="$1"
 				shift
-			else 
+			else
 				iterations=5 # default
-			fi	
+			fi
 			
-			/usr/bin/shred -uz -n "$iterations" "$@"
+			# check file/dir existences
+			for path in "$@"; do
+				if check_existence "$path"; then
+				# check whether passed input is directory or not
+					if [[ -d "$path" ]]; then
+						echo "Files to be shredded in $path:"
+						find "$path" -type f -print0 | xargs -0 ls -ld
+					fi
+				else
+					echo "Error occurred in check_existence for file/dir: $path"
+					return 1
+				fi
+			done
+			
+			# prompt user for confirmation
+			read -rp "Do you wish to proceed with shredding all files in $@ for $iterations iterations? (yes/no): " confirmation
+			
+			if [[ $confirmation = [yY] || $confirmation = [yY][eE][sS] ]]; then
+				for path in "$@"; do
+					if [[ -d "$path" ]]; then
+						# shred all files within the directory
+						find "$path" -type f -exec /usr/bin/shred -uz -n "$iterations" {} \;
+						echo "All files in $path have been shredded for $iterations iterations."
+					elif [[ -f "$path" ]]; then
+						# shred the individual file
+						/usr/bin/shred -uz -n "$iterations" "$path"
+						echo "File '$path' has been shredded for $iterations iterations."
+					fi
+				done
+			else
+				echo "Shredding aborted."
+			fi
 		}
-	
+		
 		# shortcut for clearing terminal output
 		c() {
 			clear
