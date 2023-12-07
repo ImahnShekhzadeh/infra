@@ -846,6 +846,14 @@
 			a = np.array([1, 2, 3, 4])
 			tensor_list = list(map(torch.from_numpy, (a,))) # list containing tensor, use of additional brackets necessary
 		\end{lstlisting}
+	
+		\item Example usage:~Converting NumPy arrays into PyTorch tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__numpy_torch_tuple_unpacking, xleftmargin=\parindent]
+			a = np.array([1, 2, 3, 4]) 
+			b = np.array([5, 6, 7, 8]) 
+			a, b = map(torch.from_numpy, (a, b)) # tuple unpacking
+		\end{lstlisting}
 		
 	\end{itemize}
 	
