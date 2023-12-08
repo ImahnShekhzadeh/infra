@@ -1473,8 +1473,25 @@
 			git show "$@"
 		}
 	
-		lm() {
-			git mv "$@"
+		# Usage: lmv /path/to/directory file1 file2 file3 ... 
+		lmv() {
+			local target_dir=$1 # The first argument is the directory path                                                
+			if [[ ! -d "$target_dir" ]]; then
+				echo "Target directory does not exist: $target_dir" >&2
+				return 1
+			fi
+			
+			# Shift the arguments so that $@ contains only the files to move                                              
+			shift
+			
+			# Now, loop through all the remaining arguments                                                               
+			for file in "$@"; do
+				if [[ -e $file ]]; then
+					git mv "$file" "$target_dir"
+				else
+					echo "File does not exist: $file" >&2
+				fi
+			done
 		}
 		
 		# ---------------------------- PROTONVPN ----------------------
