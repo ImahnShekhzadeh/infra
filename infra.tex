@@ -1499,6 +1499,17 @@
 			git push origin --delete "$@"
 		}
 
+		# switch branches and create if non-existent
+		lsw() {                                                                                                           
+			if git rev-parse --verify "$1" >/dev/null 2>&1; then                                                            
+			  echo "Switching to existing branch '$1'."                                                                     
+			  git switch "$1"                                                                                               
+			else                                                                                                            
+			  echo "Branch '$1' does not exist. Creating and switching to new branch '$1'."                                 
+			  git switch -c "$1"                                                                                            
+			fi                                                                                                              
+		}
+
 		# example usage: `lsta 2` or `lsta` 
 		lsta() {
 			local stash_index=${1:-0}  # Default to 0 if no argument provided
