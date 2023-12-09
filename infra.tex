@@ -1502,10 +1502,8 @@
 		# switch branches and create if non-existent
 		lsw() {                                                                                                           
 			if git rev-parse --verify "$1" >/dev/null 2>&1; then                                                            
-			  echo "Switching to existing branch '$1'."                                                                     
 			  git switch "$1"                                                                                               
 			else                                                                                                            
-			  echo "Branch '$1' does not exist. Creating and switching to new branch '$1'."                                 
 			  git switch -c "$1"                                                                                            
 			fi                                                                                                              
 		}
@@ -1630,6 +1628,11 @@
 		
 		# ---------------------------- MISCELLANEOUS ------------------
 		
+		# pdflatex
+		pd() {
+			/usr/bin/pdflatex "$@"
+		}
+
 		# convert input notebook to PDF
 		jconv() {
 			jupyter nbconvert --to pdf "$1"
