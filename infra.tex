@@ -1581,8 +1581,9 @@
 		
 		# Reset entire repo to state of `HEAD`, or reset specific file to a specific commit hash.
 		lres() {
-			if [ $# -eq 0 ]; then
-				git reset --hard HEAD
+			if [[ $# -eq 0 ]] || [[ $# -eq 1 ]]; then
+				local commit_hash=${1:-HEAD} 
+				git reset --hard "$commit_hash"
 			elif [ $# -eq 2 ]; then
 				local commit_hash="$1"
 				local file_path="$2"
