@@ -1414,6 +1414,11 @@
 		
 		# ------------------------------- GIT -----------------------------
 		
+		# list all local and remote branches
+		lb() {
+			git branch -a
+		}
+
 		# delete remote branch
 		ldb() {
 			git push origin --delete "$@"
