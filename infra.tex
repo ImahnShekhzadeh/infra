@@ -1210,6 +1210,31 @@
 		
 		\noindent Replace $\langle$commit-hash$\rangle$ with the commit SHA and $\langle$file-path$\rangle$ with the path to the file. This change is local and you would need to commit it if you want it to be reflected in the repository history.
 	
+	\subsection{Delete Branches}
+	
+		\begin{itemize}
+			\item Local git branch,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_delete_branch, xleftmargin=\parindent]
+				git branch -d <branch_name>
+				# git branch -d testing
+			\end{lstlisting}
+		
+			\item Regardless of merge status,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_delete_branch__force, xleftmargin=\parindent]
+				git branch -D <branch_name>
+				# git branch -D testing
+			\end{lstlisting}
+		
+			\item Remote branch,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_delete_branch__remote, xleftmargin=\parindent]
+				git push origin --delete <branch_name>
+				# git push origin --delete testing
+			\end{lstlisting}
+		\end{itemize}
+	
 	\newpage 
 	
 	\section{Remote Development}
