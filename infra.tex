@@ -1413,6 +1413,11 @@
 		}
 		
 		# ------------------------------- GIT -----------------------------
+		
+		# delete remote branch
+		ld() {
+			git push origin --delete "$@"
+		}
 
 		# example usage: `lsta 2` or `lsta` 
 		lsta() {
