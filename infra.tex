@@ -1683,7 +1683,8 @@
 					if [[ -d "$path" ]]; then
 						# shred all files within the directory
 						find "$path" -type f -exec /usr/bin/shred -uz -n "$iterations" {} \;
-						echo "All files in $path have been shredded for $iterations iterations."
+						rm -rf "$path"
+						echo "All files in '$path' have been shredded for $iterations iterations."
 					elif [[ -f "$path" ]]; then
 						# shred the individual file
 						/usr/bin/shred -uz -n "$iterations" "$path"
