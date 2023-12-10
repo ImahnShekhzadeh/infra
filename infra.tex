@@ -1769,12 +1769,22 @@
 
 	\begin{itemize}
 		\item \textbf{\url{https://github.com/charmbracelet/glow}}
-		\item \textbf{\url{https://github.com/0xacx/chatGPT-shell-cli}}
+		\item \textbf{\url{https://github.com/kardolus/chatgpt-cli/tree/main}}	
 		
 		\begin{itemize}
-			\item Prerequisite:~\url{https://jqlang.github.io/jq/} (for download cf.~\url{https://jqlang.github.io/jq/download/})
+			\item For setting the right model (cf.~\href{https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo}{here} for all available models), 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:chatgpt_set_model, xleftmargin=\parindent]
+				chatgpt --set-model gpt-4-1106-preview --set-max-tokens 128000
+			\end{lstlisting}
+
+			\item Usage:
+
+			\begin{lstlisting}[style=mystylebash, label=alg:chatgpt_usage, xleftmargin=\parindent]
+				chatgpt -i
+			\end{lstlisting}
 		\end{itemize}
-		
+
 		\item \textbf{\url{https://tailscale.com/download/}}
 		
 		\begin{itemize}
