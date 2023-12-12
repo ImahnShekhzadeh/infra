@@ -821,7 +821,7 @@
 			from typing import List
 			
 			def multiply(x: List, y: List):
-			return x * y
+			    return x * y
 			
 			list_one = [i for i in range(1000)]
 			list_two = [j for j in range(1000, 2000)]
@@ -845,6 +845,11 @@
 		
 	\end{itemize}
 	
+	\subsection{PyTorch}
+	
+		\subsubsection{Leaf Tensors}
+		
+			If \textit{requires\_grad} is \textit{False}, then the created leaf tensor will be leaf by convention. If \textit{requires\_grad} is \textit{True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation.
 	\newpage 
 	
 	\section{AWS S3} 
@@ -1371,7 +1376,7 @@
 			x.device_buffer.device() # x: Jay array
 		\end{lstlisting}
 	
-		\item To make a Jax array out of a Python list or a \textsc{NumPy} array  (do not use for \textsc{PyTorch} tensors): 
+		\item To make a Jax array out of a Python list or a \textsc{NumPy} array  (do not use for \textsc{} tensors): 
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:jax_array_crea, caption=Jax array creation, xleftmargin=\parindent]
 			from jax import numpy as jnp
