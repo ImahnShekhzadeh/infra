@@ -849,7 +849,9 @@
 	
 		\subsubsection{Leaf Tensors}
 		
-			If \textit{requires\_grad} is \textit{False}, then the created leaf tensor will be leaf by convention. If \textit{requires\_grad} is \textit{True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation.
+			If \textit{requires\_grad} is \textit{False}, then the created leaf tensor will be leaf by convention. If \textit{requires\_grad} is \textit{True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation. 
+			
+			However, by definition, leaf tensors themselves do not have a gradient function because they are not the result of a differentiable operation applied to other tensors, i.e.~\textit{grad\_fn} on such tensors will return \textit{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
 	\newpage 
 	
 	\section{AWS S3} 
