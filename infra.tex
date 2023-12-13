@@ -874,6 +874,9 @@
 				
 				Note that in the example of this code snippet, doing \texttt{y.grad} means that we access the gradient of the scalar loss function \texttt{y.sum()} --- on which we performed \texttt{.backward()}. Correspondingly, doing \texttt{x.grad} implies the gradient of the scalar loss function \texttt{y.sum()} with respect to \texttt{x}.
 				
+				\item In general, it is \textbf{not} possible to perform \textbf{in-place} operations on leaf tensors for which \\ \texttt{requires\_grad=True}, since
+				PyTorch dynamically builds a computational graph during the forward pass, which is used during backpropagation to calculate the gradients. If leaf tensors that have \texttt{requires\_grad=True} are changed in-place, then the values used during the forward pass are changed, which will affect the gradient calculations in the backward pass.
+				
 			\end{itemize}		
 		
 		\subsubsection{Autograd \& Backward}
