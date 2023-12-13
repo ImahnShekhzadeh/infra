@@ -879,7 +879,9 @@
 		\subsubsection{Autograd \& Backward}
 		
 			\begin{itemize}
-				\item The function \texttt{torch.autograd.grad()} computes the gradient. It is particularly useful if more direct control over the gradient computation is desired, in particular compared to \texttt{.backward()}.
+				\item The function \texttt{torch.autograd.grad()} computes the gradient. If the gradient of a scalar (loss function) wrt a (weight) matrix is taken, then the output will also be a matrix, where each element corresponds to the partial derivative of the scalar (loss function) wrt to the (weight) matrix element.
+				
+				\item \texttt{torch.autograd.grad()} is particularly useful if more direct control over the gradient computation is desired, in particular compared to \texttt{.backward()}.
 				
 				\item Note that the default behavior of \texttt{.backward()} accumulates gradients in the \texttt{.grad} attribute of tensors,
 				
