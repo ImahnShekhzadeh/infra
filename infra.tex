@@ -848,10 +848,59 @@
 	\subsection{PyTorch}
 	
 		\subsubsection{Leaf Tensors}
-		
-			If \textit{requires\_grad} is \textit{False}, then the created leaf tensor will be leaf by convention. If \textit{requires\_grad} is \textit{True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation. 
 			
-			However, by definition, leaf tensors themselves do not have a gradient function because they are not the result of a differentiable operation applied to other tensors, i.e.~\textit{grad\_fn} on such tensors will return \textit{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
+			\begin{itemize}
+				\item If the \textit{requires\_grad} of tensors is \textit{False}, then the created leaf tensor will be leaf by convention. If \textit{requires\_grad} is \textit{True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation.
+				
+				\item However, by definition, leaf tensors themselves do not have a \textbf{gradient function} because they are not the result of a differentiable operation applied to other tensors, i.e.~\textit{grad\_fn} on such tensors will return \textit{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
+				
+				\item The \texttt{.grad} attribute on leaf tensors that require gradients, i.e.~those for which \\ \texttt{requires\_grad=True}, stores the gradient computed during backpropagation. (For leaf tensors that have \texttt{requires\_grad=False}, calling the \texttt{.grad} attribute outputs \texttt{None}.) Note that for non-leaf tensors, calling \texttt{.grad} results in a \texttt{UserWarning}, since non-leaf tensors are generally intermediate results in the computation graph, and their gradients are usually not needed once the gradients of the leaf tensors have been obtained. However, there are cases where those gradients are needed, which can be enforced by setting \texttt{retain\_grad=True} on those tensors,
+				
+				\begin{lstlisting}[style=mystylepython, label=alg:retain_grad, xleftmargin=\parindent]
+					x = torch.tensor([1., 2., 3.], requires_grad=True, device=torch.device("cuda:0"))
+					
+					# fwd pass
+					y = x**2
+					
+					# retain gradients
+					y.retain_grad()
+
+					# backward pas
+					y.sum().backward()
+					
+					# access gradients
+					y.grad # `torch.tensor([1., 1., 1.], device="cuda:0")`
+				\end{lstlisting}
+				
+				Note that in the example of this code snippet, doing \texttt{y.grad} means that we access the gradient of the scalar loss function \texttt{y.sum()} --- on which we performed \texttt{.backward()}. Correspondingly, doing \texttt{x.grad} implies the gradient of the scalar loss function \texttt{y.sum()} with respect to \texttt{x}.
+				
+			\end{itemize}		
+		
+		\subsubsection{Autograd \& Backward}
+		
+			\begin{itemize}
+				\item The function \texttt{torch.autograd.grad()} computes the gradient. It is particularly useful if more direct control over the gradient computation is desired, in particular compared to \texttt{.backward()}.
+				
+				\item Note that the default behavior of \texttt{.backward()} accumulates gradients in the \texttt{.grad} attribute of tensors,
+				
+				\begin{lstlisting}[style=mystylepython, label=alg:torch_backward, xleftmargin=\parindent]
+					x = torch.tensor([1., 2., 3.], requires_grad=True, device=torch.device("cuda:0"))
+					
+					# fwd pass
+					y = 2 * x
+					
+					# first backward pass
+					y.sum().backward(retain_graph=True)
+					print(f"Gradients of `x` after first backward pass: {x.grad}") # `torch.tensor([2., 2., 2.])`
+					
+					# second backward pass
+					y.sum().backward()
+					print(f"Gradients of `x` after second backward pass: {x.grad}")  # `torch.tensor([4., 4., 4.])`, notice how gradients have accumulated
+				\end{lstlisting}
+				
+				However, this behavior can be suppressed by simply zeroing the gradients, i.e.~\texttt{x.grad.zero\_()} --- note that \texttt{x.grad} returns a tensor, and \texttt{<tensor>.zero\_()} is a general PyTorch function that sets all elements in-place to $0$.
+			\end{itemize}
+
 	\newpage 
 	
 	\section{AWS S3} 
