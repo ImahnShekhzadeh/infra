@@ -850,9 +850,9 @@
 		\subsubsection{Leaf Tensors}
 			
 			\begin{itemize}
-				\item If the \textit{requires\_grad} of tensors is \textit{False}, then the created leaf tensor will be leaf by convention. If \textit{requires\_grad} is \textit{True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation.
+				\item If \texttt{requires\_grad=False}, then the tensor will be leaf by convention. If \texttt{requires\_grad=True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation, e.g.~\texttt{.to(device)} when the tensor is on \texttt{cpu} and \texttt{device="cuda:0"}.
 				
-				\item However, by definition, leaf tensors themselves do not have a \textbf{gradient function} because they are not the result of a differentiable operation applied to other tensors, i.e.~\textit{grad\_fn} on such tensors will return \textit{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
+				\item However, by definition, leaf tensors themselves do not have a \textbf{gradient function} \texttt{.grad\_fn} \mbox{because} they are not the result of a differentiable operation applied to other tensors, i.e.~\texttt{grad\_fn} on such tensors will return \texttt{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
 				
 				\item The \texttt{.grad} attribute on leaf tensors that require gradients, i.e.~those for which \\ \texttt{requires\_grad=True}, stores the gradient computed during backpropagation. (For leaf tensors that have \texttt{requires\_grad=False}, calling the \texttt{.grad} attribute outputs \texttt{None}.) Note that for non-leaf tensors, calling \texttt{.grad} results in a \texttt{UserWarning}, since non-leaf tensors are generally intermediate results in the computation graph, and their gradients are usually not needed once the gradients of the leaf tensors have been obtained. However, there are cases where those gradients are needed, which can be enforced by setting \texttt{retain\_grad=True} on those tensors,
 				
