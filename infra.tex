@@ -1611,7 +1611,7 @@
 			
 			read endpoint_url profile <<< $(update__profile_url "$2" "$3")
 			
-			$(which aws) s3 ls s3://"$path" --endpoint-url "$endpoint_url" --profile "$profile"
+			$(which aws) s3 ls s3://"$path" --recursive --endpoint-url "$endpoint_url" --profile "$profile"
 		}
 		
 		# removing prefixes/files
@@ -1625,7 +1625,12 @@
 			
 			read endpoint_url profile <<< $(update__profile_url "$2" "$3")
 			
-			$(which aws) s3 rm s3://"$path" --recursive --endpoint-url "$endpoint_url" --profile "$profile"
+			command_output=$($(which aws) s3 rm s3://"$path" --recursive --endpoint-url "$endpoint_url" --profile "$profile")
+			
+			if [[ -z "$command_output" ]]; then
+			# no use of `--recursive`, which shouldn't be used for single file deletion
+				$(which aws) s3 rm s3://"$path" --endpoint-url "$endpoint_url" --profile "$profile"
+			fi
 		}
 		
 		# ------------------------------- GIT -----------------------------
