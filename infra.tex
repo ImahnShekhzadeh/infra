@@ -1374,7 +1374,15 @@
 		\begin{lstlisting}[style=mystylebash, label=alg:git_list_branches, xleftmargin=\parindent]
 			git branch -a
 		\end{lstlisting}
-
+	
+	\subsection{Remote URL}
+		Obtaining the remote URL, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
+			git remote get-url origin 
+			git remote get-url origin | sed 's/\.git$//'  # optional: trim output
+		\end{lstlisting}
+		
 	\newpage 
 	
 	\section{Remote Development}
