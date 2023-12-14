@@ -969,7 +969,7 @@
 	\subsection{AWS Credentials (Profiles)}
 	
 	\begin{itemize}
-		\item It is possible to use several profiles in the file \textit{$\sim$/.aws/credentials}. 
+		\item It is possible to use several profiles in the file \texttt{$\sim$/.aws/credentials}. 
 		\item For example:
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:aws_profiles, xleftmargin=\parindent]
@@ -986,7 +986,7 @@
 			aws_secret_access_key = YET_ANOTHER_SECRET_ACCESS_KEY
 		\end{lstlisting}
 	
-		To use a specific profile when running \textit{aws cli} commands, you can use the \textit{--profile} option in the command:
+		Using specific profile when running \texttt{aws cli} commands via \texttt{--profile} option in the command:
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:aws_cli__profile, xleftmargin=\parindent]
 			aws s3 --profile profile1 [...]
@@ -1552,6 +1552,9 @@
 			fi
 			
 		}
+	
+		# ---------------------------- AWS --------------------------
+		
 		
 		# ------------------------------- GIT -----------------------------
 		
@@ -1998,6 +2001,7 @@
 
 				"files.associations": {"*.log": "plaintext"},
 				"[plaintext]": {"editor.wordWrap": "off"}, 
+				"[shellscript]": {"editor.wordWrap": "off"},
 				"workbench.editor.tabSizing": "shrink"
 			}
 		\end{lstlisting}
