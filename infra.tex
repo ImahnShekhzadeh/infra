@@ -1564,6 +1564,11 @@
 		lbd() {
 			git push origin --delete "$@"
 		}
+		
+		# cloning
+		lcl() {
+			git clone "$@"
+		}
 
 		# switch branches and create if non-existent
 		lsw() {                                                                                                           
@@ -1930,18 +1935,19 @@
 		
 		\end{itemize}	
 
-	\subsection{Open the \textit{settings.json} File}\label{app:open_settings_file_vs}
+	\subsection{\texttt{settings.json}}\label{app:open_settings_file_vs}
+		Opening the file,
 		
 		\begin{enumerate}
 			\item press Ctrl + Shift + P to the Command Palette, 
-			\item type \textbf{Open User Settings (JSON)} and select it to open the \textbf{settings.json} file.
+			\item type \textbf{Open User Settings (JSON)} and select it to open the \texttt{settings.json} file.
 		\end{enumerate}
 
 
 	\subsection{Fix Unresolved Python Imports}
 	
 		\begin{itemize}
-			\item If you run a docker container where a conda environment is installed (with packages that you do not have locally), then VSCode will show those imports as unresolved. To fix this, open the \textbf{settings.json}, cf.~App.~\ref{app:open_settings_file_vs}, and add the following setting: 
+			\item If you run a docker container where a conda environment is installed (with packages that you do not have locally), then VSCode will show those imports as unresolved. To fix this, open the \texttt{settings.json} file, cf.~App.~\ref{app:open_settings_file_vs}, and add the following setting: 
 			
 			\begin{lstlisting}[style=mystylepython, label=alg:vscode_pylance__unresolved_imports, xleftmargin=\parindent]
 				"python.analysis.diagnosticSeverityOverrides": {
@@ -1949,9 +1955,9 @@
 				}
 			\end{lstlisting}
 			
-			How to incorporate this into the \textbf{settings.json} file is shown in App.~\ref{app:vscode__settings_file}.
+			Incorporating this into the \texttt{settings.json} file is shown in App.~\ref{app:vscode__settings_file}.
 			
-			\item Note that if you have an SSH connection to another machine going on (e.g.~in the Remote Development extension), then putting the above lines into the \textit{settings.json} file will not have an immediate effect, for this the SSH connection needs to be restarted.
+			\item Note that if you have an SSH connection to another machine going on, e.g.~in the \texttt{Remote Development} extension, putting the above lines into the \texttt{settings.json} file will not have an immediate effect, for this the SSH connection needs to be restarted.
 			
 		\end{itemize}
 	
@@ -1962,9 +1968,10 @@
 		\item then type \textbf{Workspaces:~Duplicate As Workspace is New Window}
 	\end{enumerate}
 	
-	\subsection{\textit{settings.json}} \label{app:vscode__settings_file}
+	\subsection{\texttt{settings.json}} \label{app:vscode__settings_file}
+		Contents of \texttt{settings.json},
 	
-		\begin{lstlisting}[style=mystylebash, label=alg:vscode__settings_file, caption=Contents of settings.json file, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:vscode__settings_file, xleftmargin=\parindent]
 			{
 				"workbench.colorTheme": "Default Dark Modern",
 				"telemetry.telemetryLevel": "off",
