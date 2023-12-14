@@ -1116,15 +1116,6 @@
 			git switch <desired_branch>
 		\end{lstlisting}
 	\end{itemize}
-
-	\subsection{Remote Branch}
-
-	Creating a local branch and then pushing it remotely,
-	
-	\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
-		git push origin <local-branch>
-		# git push origin code-dev
-	\end{lstlisting}
 	
 	\subsection{Merging}
 	
@@ -1350,6 +1341,15 @@
 		\end{lstlisting}
 		
 		\noindent Replace $\langle$commit-hash$\rangle$ with the commit SHA and $\langle$file-path$\rangle$ with the path to the file. This change is local and you would need to commit it if you want it to be reflected in the repository history.
+	
+	\subsection{Remote Branch}
+	
+		Creating a local branch and then pushing it remotely,
+		
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			git push origin <local-branch>
+			# git push origin code-dev
+		\end{lstlisting}
 	
 	\subsection{Delete Branches}
 	
