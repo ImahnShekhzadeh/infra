@@ -1587,17 +1587,12 @@
 		
 		# listing
 		# example usages:
-		#    `lal migrate`
-		#    `lal migrate default`
-		#    `lal migrate https://kalousis.s3.unige.ch`
-		#    `lal migrate https://kalousis.s3.unige.ch default`
-		
-		
-		# example usages (bucket name & prefix, i.e. 'folder'):
-		#    `lal bucket_name/prefix/`
-		#     etc.
+		#    `lal path`
+		#    `lal path default`
+		#    `lal path https://kalousis.s3.unige.ch`
+		#    `lal path https://kalousis.s3.unige.ch default`
 		lal() {
-			local bucket_name="$1"
+			local path="$1"
 			
 			# define default values in case `endpoint_url` and `profile` are empty strings
 			local endpoint_url="https://kalousis.s3.unige.ch"
@@ -1610,7 +1605,7 @@
 				read profile <<< $(get__profile_endpoint_url "$2" "$3")
 			fi
 			
-			$(which aws) s3 ls s3://"$bucket_name" --endpoint-url "$endpoint_url" --profile "$profile"
+			$(which aws) s3 ls s3://"$path" --endpoint-url "$endpoint_url" --profile "$profile"
 		}
 		
 		# ------------------------------- GIT -----------------------------
