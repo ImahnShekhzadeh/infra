@@ -1607,6 +1607,29 @@
 			
 			$(which aws) s3 ls s3://"$path" --endpoint-url "$endpoint_url" --profile "$profile"
 		}
+	
+		# removing prefixes/files
+		# example usages (only bucket name provided):
+		#    `larm path`
+		#    `larm path default`
+		#    `larm path https://kalousis.s3.unige.ch`
+		#    `larm path https://kalousis.s3.unige.ch default`
+		larm() {
+			local path="$1"
+			
+			# define default values in case `endpoint_url` and `profile` are empty strings
+			local endpoint_url="https://kalousis.s3.unige.ch"
+			local profile="default"
+			
+			# update `endpoint_url` and `profile` if provided
+			if [[ "$2" == https://* ]]; then
+				read endpoint_url profile <<< $(get__profile_endpoint_url "$2" "$3")
+			else 
+				read profile <<< $(get__profile_endpoint_url "$2" "$3") # for `endpoint_url`, default val will be taken
+			fi
+			
+			$(which aws) s3 rm s3://"$path" --recursive --endpoint-url "$endpoint_url" --profile "$profile"
+		}
 		
 		# ------------------------------- GIT -----------------------------
 		
