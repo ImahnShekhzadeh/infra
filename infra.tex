@@ -1051,7 +1051,7 @@
 		
 	\end{itemize}
 
-	\subsubsection{Folder/File Deletion}
+	\subsubsection{Directory/File Deletion}
 	
 	\begin{itemize}
 		\item Deleting a folder (which is essentially a prefix in S3) and its contents in
@@ -1554,32 +1554,47 @@
 		}
 	
 		# ---------------------------- AWS --------------------------
+		
+		# helper function
+		get__profile_endpoint_url() {
+			
+			# check if the first argument contains "https://"                                       
+			if [[ "$1" == https://* ]]; then
+				local endpoint_url="$1"
+			
+				# if there's a second argument, it's the profile
+				if [ -n "$2" ]; then
+					local profile="$2"
+				fi
+			
+			elif [ -n "$1" ]; then
+			
+				# if the first argument doesn't contain "https://", it's the profile
+				local profile="$1"
+			fi
+				
+				echo "$1 $2"
+			
+		}
+		
 		# listing
-		# NOTE: three arguments required
 		# example usages:
-		#    `lal my_bucket`
+		#    `lal migrate`
+		#    `lal migrate default`
 		#    `lal migrate https://kalousis.s3.unige.ch`
 		#    `lal migrate https://kalousis.s3.unige.ch default`
 		lal() {
 			local bucket_name="$1"
 			
-			# define default values
+			# define default values in case `endpoint_url` and `profile` are empty strings
 			local endpoint_url="https://kalousis.s3.unige.ch"
 			local profile="default"
 			
-			# check if the second argument contains "https://"                                       
+			# update `endpoint_url` and `profile` if provided
 			if [[ "$2" == https://* ]]; then
-				local endpoint_url="$2"
-			
-				# if there's a third argument, it's the profile
-				if [ -n "$3" ]; then
-					local profile="$3"
-				fi
-			
-			elif [ -n "$2" ]; then
-			
-				# if the second argument doesn't contain "https://", it's the profile
-				local profile="$2"
+				read endpoint_url profile <<< $(get__profile_endpoint_url "$2" "$3")
+			else 
+				read profile <<< $(get__profile_endpoint_url "$2" "$3")
 			fi
 			
 			$(which aws) s3 ls s3://"$bucket_name" --endpoint-url "$endpoint_url" --profile "$profile"
