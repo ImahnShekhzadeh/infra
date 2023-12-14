@@ -1391,6 +1391,18 @@
 			git remote get-url origin | sed 's/\.git$//'  # optional: trim output
 		\end{lstlisting}
 		
+	\subsection{Repo Change}
+		Moving all files from \texttt{branch-to-move} to \texttt{branch-to-merge-into} and preserving the commit history --- do all of this while in the old repo,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
+			git remote -v  # check existing remotes
+			git remote add <target> https://target-repo-url.git  # add new remote
+			# git remote add new-remote url
+			git push target branch-to-move:branch-to-merge-into 
+		\end{lstlisting}
+	
+		Do all of this in the old repo. If issue emerges during the last step, reclone the new repo and check whether this solves the issue.
+	
 	\newpage 
 	
 	\section{Remote Development}
