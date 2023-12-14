@@ -1015,11 +1015,19 @@
 
 	\begin{itemize} 
 		
-		\item Directly showing the file contents of an s3 bucket,
+		\item Directly \enquote{folder} contents of an s3 bucket,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:aws__bucket_ls, xleftmargin=\parindent]
 			aws s3 ls s3://custom-bucket-name --recursive --endpoint-url https://custom-s3-endpoint.com --profile default # `--recursive` optional
 		\end{lstlisting}
+		
+		\item Showing file contents,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__bucket_prefix_ls, xleftmargin=\parindent]
+			aws s3 ls s3://custom-bucket-name/prefix/ --recursive --endpoint-url https://custom-s3-endpoint.com --profile default # `--recursive` optional
+		\end{lstlisting}
+	
+		Note that the \texttt{/} at the end of the prefix (\enquote{folder}) is necessary.
 		
 	\end{itemize}
 
@@ -1583,6 +1591,11 @@
 		#    `lal migrate default`
 		#    `lal migrate https://kalousis.s3.unige.ch`
 		#    `lal migrate https://kalousis.s3.unige.ch default`
+		
+		
+		# example usages (bucket name & prefix, i.e. 'folder'):
+		#    `lal bucket_name/prefix/`
+		#     etc.
 		lal() {
 			local bucket_name="$1"
 			
