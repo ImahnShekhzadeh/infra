@@ -776,12 +776,12 @@
 	\subsection{Config File \& JSON Files}
 	
 	\begin{itemize}
-		\item  When using  argparse  in combination with a JSON configuration file, the JSON keys need to match the long option names specified in \textit{parser.add\_argument} method calls. The argparse module itself does not automatically recognize abbreviated forms from a JSON file.
+		\item  When using \texttt{argparse} in combination with a JSON configuration file, the JSON keys need to match the long option names specified in \texttt{parser.add\_argument()} method calls. The \texttt{argparse} module itself does not automatically recognize abbreviated forms from a JSON file.
 	\end{itemize} 
 
 	\subsection{Jupyter Notebooks}
 	\begin{itemize}
-		\item Converting jupyter notebooks into PDFs:
+		\item Converting jupyter notebooks into PDFs,
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf, xleftmargin=\parindent]
 			for nb in /path/one/Notebook1.ipynb /path/two/Notebook2.ipynb [...]
@@ -1431,7 +1431,7 @@
 				sudo chown custom-username path/to/custom/script.ext
 			\end{lstlisting}
 			
-			The \textit{custom-username} here refers to the username on the remote machine.
+			The \texttt{custom-username} here refers to the username on the remote machine.
 			
 		\end{itemize}
 	
@@ -1444,7 +1444,7 @@
 	\begin{itemize}
 		\item To put a Jax array onto a specific device, use this: 
 		
-		\begin{lstlisting}[style=mystylepython, label=alg:jax_device, caption=Device specification in Jax, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylepython, label=alg:jax_device, xleftmargin=\parindent]
 			import jax
 			from jax import devices, device_put, numpy as jnp
 			
@@ -1455,20 +1455,20 @@
 		
 		\item Specifying the dtype of an array: 
 		
-		\begin{lstlisting}[style=mystylepython, label=alg:jax_dtype, caption=Jax device retrieval, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylepython, label=alg:jax_dtype, xleftmargin=\parindent]
 			x = jnp.array([1, 2, 3], dtype=jnp.float32)
 			print(f"Dtype: {x.dtype}")
 		\end{lstlisting}
 	
 		\item To find out the device of a Jax array, use this:
 		
-		\begin{lstlisting}[style=mystylepython, label=alg:jax__dev_retrieval, caption=Jax device retrieval, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylepython, label=alg:jax__dev_retrieval, xleftmargin=\parindent]
 			x.device_buffer.device() # x: Jay array
 		\end{lstlisting}
 	
 		\item To make a Jax array out of a Python list or a \textsc{NumPy} array  (do not use for \textsc{} tensors): 
 		
-		\begin{lstlisting}[style=mystylepython, label=alg:jax_array_crea, caption=Jax array creation, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylepython, label=alg:jax_array_crea, xleftmargin=\parindent]
 			from jax import numpy as jnp
 			
 			a = jnp.array([1., 2., 3.])
@@ -1477,7 +1477,7 @@
 
 		\item jit (just-in-time compilation):~sets up a function with XLA (extended linear algebra):~check out the NB \textit{test\_\_jit-compil.ipynb}. To use jit, do this: 
 		
-		\begin{lstlisting}[style=mystylepython, label=alg:jax_jit, caption=Jax array, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylepython, label=alg:jax_jit, xleftmargin=\parindent]
 			import jax
 			from jax import numpy as jnp
 			
@@ -1494,7 +1494,7 @@
 	\section{\texttt{.bashrc}}
 	\label{app:bashrc_file}
 	
-	\begin{lstlisting}[style=mystylebash, label=alg:bashrc_contents, caption=Contents of .bashrc file, xleftmargin=\parindent]
+	\begin{lstlisting}[style=mystylebash, label=alg:bashrc_contents, xleftmargin=\parindent]
 		ca() {
 			local conda_out="$(conda env list | grep -E "$env_name" | head -n 1 | awk '{print $1}')"
 			
@@ -1712,8 +1712,15 @@
 		# if-else statements in bash: https://linuxhandbook.com/if-else-bash/
 		# example usage: lgit "bit" "add ..."
 		lpush() {
+			
+			(
+			#  use subshell to change directory to Git root and perform actions 
+			cd "$(git rev-parse --show-toplevel)" || exit
 			git add . && git commit -a -m "$1" && git push origin $(bname) && llog
+			)
+			
 		}
+	
 	
 		# https://stackoverflow.com/questions/3236871/how-to-return-a-string-value-from-a-bash-function
 		bname() {
@@ -2127,14 +2134,14 @@
 	
 	\subsection{Dark Theme}
 	
-		Go to \textit{Tools} $\rightarrow$ \textit{Options} $\rightarrow$ \textit{LibreOffice} $\rightarrow$ \textit{Application Colors} $\rightarrow$ \textit{Custom Colors} $\rightarrow$ \textit{General} $\rightarrow$ \textit{Document Background} and choose a dark color.
+		Go to \texttt{Tools} $\rightarrow$ \texttt{Options} $\rightarrow$ \texttt{LibreOffice} $\rightarrow$ \texttt{Application Colors} $\rightarrow$ \texttt{Custom Colors} $\rightarrow$ \texttt{General} $\rightarrow$ \texttt{Document Background} and choose a dark color.
 
 	\newpage 
 	
 	\section{UNIGE-specific}
 	
 	\begin{itemize}
-		\item Setting up UNIGE e-mail in TB:~\newline\url{https://plone.unige.ch/distic/pub/messagerie/configuration/comment-configurer-compte-office365-thunderbird}
+		\item \href{https://plone.unige.ch/distic/pub/messagerie/configuration/comment-configurer-compte-office365-thunderbird}{Setting up UNIGE e-mail in TB}
 	\end{itemize}
 	
 \end{document} 
