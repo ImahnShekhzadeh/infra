@@ -1283,6 +1283,7 @@
 		\end{lstlisting}
 
 	\subsection{Checking History}
+
 	\begin{itemize}
 		\item Viewing the history of commits,
 		
@@ -1342,7 +1343,9 @@
 		
 		\noindent Replace $\langle$commit-hash$\rangle$ with the commit SHA and $\langle$file-path$\rangle$ with the path to the file. This change is local and you would need to commit it if you want it to be reflected in the repository history.
 	
-	\subsection{Remote Branch}
+	\subsection{Branches}
+	
+	\subsubsection{Remote Branch Creation}
 	
 		Creating a local branch and then pushing it remotely,
 		
@@ -1351,7 +1354,7 @@
 			# git push origin code-dev
 		\end{lstlisting}
 	
-	\subsection{Delete Branches}
+	\subsubsection{Delete Branches}
 	
 		\begin{itemize}
 			\item Local git branch,
@@ -1376,14 +1379,14 @@
 			\end{lstlisting}
 		\end{itemize}
 	
-	\subsection{List Branches}
+	\subsubsection{List Branches}
 		Listing all local and remote branches, 
 
 		\begin{lstlisting}[style=mystylebash, label=alg:git_list_branches, xleftmargin=\parindent]
 			git branch -a
 		\end{lstlisting}
 	
-	\subsection{Remote URL}
+	\subsubsection{Remote URL}
 		Obtaining the remote URL, 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
@@ -1391,7 +1394,7 @@
 			git remote get-url origin | sed 's/\.git$//'  # optional: trim output
 		\end{lstlisting}
 		
-	\subsection{Repo Change}
+	\subsubsection{Repo Change}
 		Moving all files from \texttt{branch-to-move} to \texttt{branch-to-merge-into} and preserving the commit history --- do all of this while in the old repo,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
