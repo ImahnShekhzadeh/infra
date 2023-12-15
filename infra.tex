@@ -790,11 +790,14 @@
 			done 
 		\end{lstlisting}
 	
-		If you have several notebooks in the same directory, 
+		Wildcarding notation would also work, 
+		
 		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf__wildcard, xleftmargin=\parindent]
-			for nb in *.ipynb
-			do
-				jupyter nbconvert --to pdf "$nb"
+			# optionally: `output_dir="[...]"`
+			
+			for nb in *.ipynb; do
+				nb_name="${nb%.ipynb}"
+				jupyter nbconvert --to pdf "$nb" # `--output "$output_dir/$nb_name.pdf"`
 			done 
 		\end{lstlisting}
 		
