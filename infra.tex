@@ -1126,15 +1126,15 @@
 			\node at (5, -0.5) {D''};
 			
 			% Draw the new_feature branch
-			\draw (2,0) -- (3,1) -- (6,1);
-			\foreach \x in {3,4,5,6}
+			\draw (3,0) -- (4,1) -- (7,1);
+			\foreach \x in {4,5,6,7}
 			\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
 			
 			% Label the new_feature branch commits
-			\node at (3, 1.5) {E};
-			\node at (4, 1.5) {F};
-			\node at (5, 1.5) {G};
-			\node at (6, 1.5) {H};
+			\node at (4, 1.5) {E};
+			\node at (5, 1.5) {F};
+			\node at (6, 1.5) {G};
+			\node at (7, 1.5) {H};
 			
 			% Position the branch labels
 			\node[align=left] at (9, 0) {\texttt{main}};
@@ -1201,8 +1201,18 @@
 			\node at (6, -0.5) {G};
 			\node at (7, -0.5) {H};
 			
-			% Label the branch
-			\node at (9, 0) {\texttt{main}};
+			% Draw the diverging branch
+			\draw (3,0) -- (4,-1) -- (5,-1);
+			\foreach \x in {4,5}
+			\draw (\x cm, -1cm + 3pt) -- (\x cm, -1cm - 3pt);
+			
+			% Label the diverging branch commits
+			\node at (4, -1.5) {D'};
+			\node at (5, -1.5) {D''};
+			
+			% Position the branch labels
+			\node[align=left] at (9,0) {\texttt{main}};
+			\node[align=left] at (9,-1) {\texttt{cool\_feature}};
 		\end{tikzpicture}
 				
 		\item Merging \texttt{new\_feature} into \texttt{main},
@@ -1266,9 +1276,7 @@
 			git restore --source HEAD file
 		\end{lstlisting}
 		
-		\texttt{git restore} does not overwrite \texttt{HEAD}, though. For that, a push would be necessary.  
-		
-		It can sometimes also be useful to run dry merges to proactively check for conflicts during a merge; for this, run
+		\texttt{git restore} does not overwrite \texttt{HEAD}, though. For that, a push would be necessary.  It can sometimes also be useful to run dry merges to proactively check for conflicts during a merge; for this, run
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
 			git merge --no-commit --no-ff branch-name
@@ -1296,10 +1304,12 @@
 		\end{lstlisting}
 	
 		\item Viewing a specific file,
+		
 		\begin{lstlisting}[style=mystylebash, label=alg:history1, xleftmargin=\parindent]
 			git show <commit-hash>:<file-name>
 			# git show 123abc:example.txt
 		\end{lstlisting}
+	
 	\end{itemize}
 	
 	\subsection{Removing a File/Folder}
@@ -1658,7 +1668,16 @@
 		lb() {
 			git branch -a
 		}
+		
+		# create remote branch
+		# usage:
+		#     `lbc new-branch`
+		lbc() {
+			local branch_name="$1"
 
+			git branch $(branch_name) && git push origin $(branch_name)
+		}
+		
 		# delete remote branch
 		lbd() {
 			git push origin --delete "$@"
