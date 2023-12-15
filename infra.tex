@@ -1108,22 +1108,23 @@
 	
 	\subsection{Cloning}
 	\begin{itemize}
-		\item Cloning a repository via \textit{sshfs} and adjusting the folder name, 
+		\item Cloning a repository via \texttt{sshfs} and adjusting the folder name, 
+
 		\begin{lstlisting}[style=mystylebash, label=alg:cloning1, xleftmargin=\parindent]
-			git clone <ssh_url> <folder_name>
-			# git clone <https_path> <folder_name>
+			git clone ssh-url folder-name
+			# git clone https-path folder-name
 		\end{lstlisting}
 	
-		\item After moving into the <folder_name> via cd, do 
+		\item After moving into the \texttt{folder\_name} via cd, do 
 		\begin{lstlisting}[style=mystylebash, label=alg:cloning3, xleftmargin=\parindent]
-			git switch <desired_branch>
+			git switch custom-branch
 		\end{lstlisting}
 	\end{itemize}
 	
 	\subsection{Merging}
 	
 	\begin{itemize}
-		\item Assuming the following commit-history is given,
+		\item Assuming the following commit history is given,
 		
 		\begin{tikzpicture}
 			% Draw the main branch
@@ -1155,7 +1156,7 @@
 			\node[align=left] at (8.5, 1) {new\_branch};
 		\end{tikzpicture}
 		
-		when merging \textit{main} and \textit{new\_branch}, the two branches will be either auto-merged or there will be a merge conflict.
+		when merging \texttt{main} and \texttt{new\_branch}, the two branches will be either auto-merged or there will be a merge conflict.
 		
 		\item Assuming the following commit history is given,
 		
@@ -1192,17 +1193,17 @@
 			\node at (5, -1.5) {D''};
 			
 			% Position the branch labels
-			\node[align=left] at (7.5, 1) {new\_branch};
-			\node[align=left] at (7.5, -1) {cool\_branch};
-			\node[align=left] at (7.5, 0) {main};
+			\node[align=left] at (9, 1) {new\_branch};
+			\node[align=left] at (9, -1) {cool\_branch};
+			\node[align=left] at (9, 0) {main};
 		\end{tikzpicture}
 
-		\item After merging \textit{main} with \textit{new\_feature}, which happens via a fast-forward, you can delete it. New commit structure: 
+		\item After merging \texttt{main} with \texttt{new\_feature}, which happens via a fast-forward, you can delete it. New commit structure: 
 	\end{itemize} 
 
 	\begin{itemize} 
-		\item A -- B -- C -- D -- E -- F -- G -- H branch <main>
-		\item Merging \textit{new_feature} into \textit{master}, do 
+		\item A -- B -- C -- D -- E -- F -- G -- H \quad\quad main
+		\item Merging \texttt{new\_feature} into \texttt{main},
 	\end{itemize}
 
 	\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
@@ -1259,16 +1260,16 @@
 		Locally restore file
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
-			git restore --source <commit SHA> file
+			git restore --source commit-SHA file
 			git restore --source HEAD file
 		\end{lstlisting}
 		
-		\textit{git restore} does not overwrite \textit{HEAD}, though. For that, a push would be necessary.  
+		\texttt{git restore} does not overwrite \texttt{HEAD}, though. For that, a push would be necessary.  
 		
 		It can sometimes also be useful to run dry merges to proactively check for conflicts during a merge; for this, run
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
-			git merge --no-commit --no-ff <branch_name>
+			git merge --no-commit --no-ff branch-name
 		\end{lstlisting}
 
 		Afterwards, type 
@@ -1277,12 +1278,10 @@
 			git merge --abort
 		\end{lstlisting}
 		
-		to abort, and no changes will occur.
-
-		If you only want to do a fast-forward, do 
+		to abort, and no changes will occur. If you only want to do a fast-forward, do 
 
 		\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
-			git merge <branch_to_be_merged> --ff-only
+			git merge branch_to_be_merged --ff-only
 		\end{lstlisting}
 
 	\subsection{Checking History}
