@@ -1766,25 +1766,45 @@
 			git show "$@"
 		}
 	
-		# Usage: lmv /path/to/directory file1 file2 file3 ... 
+		# usage: 
+		#     `lmv file1 file2 file3 [...] /path/to/target_dir`
+		#     `lmv source_dir target_dir`
 		lmv() {
-			local target_dir=$1 # The first argument is the directory path                                                
-			if [[ ! -d "$target_dir" ]]; then
-				echo "Target directory does not exist: $target_dir" >&2
-				return 1
-			fi
-			
-			# Shift the arguments so that $@ contains only the files to move                                              
-			shift
-			
-			# Now, loop through all the remaining arguments                                                               
-			for file in "$@"; do
-				if [[ -e $file ]]; then
-					git mv "$file" "$target_dir"
-				else
-					echo "File does not exist: $file" >&2
+				# convert the arguments to an array
+				local args=("$@")
+
+				# get the last element of the array
+				local target_dir="${args[-1]}"
+
+				if [[ ! -d "$target_dir" ]]; then
+					mkdir -p "$target_dir" || {
+							echo "Target directory does not exist: $target_dir" >&2
+							return 1
+					}
 				fi
-			done
+
+				# shift the arguments so that last argument (`target_dir`) is dropped
+				unset args[-1]                                                                                                        
+
+				# now, loop through all the remaining arguments                                                               
+				for path in "${args[*]}"; do
+						if [[ -e "$path" ]]; then
+								if [[ -d "$path" ]]; then
+										# move each item in the directory individually
+										for item in "$path"/*; do
+											git mv "$item" "$target_dir"
+										done
+
+										# remove the now-empty source dir
+										rmdir "$path"
+								else
+										# if it's a file, just move it
+										git mv "$path" "$target_dir"
+								fi
+						else
+								echo "File does not exist: $path" >&2
+						fi
+				done
 		}
 		
 		# ---------------------------- PROTONVPN ----------------------
