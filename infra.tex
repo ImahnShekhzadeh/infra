@@ -1106,21 +1106,6 @@
 	
 	\section{Git}
 	
-	\subsection{Cloning}
-	\begin{itemize}
-		\item Cloning a repository via \texttt{sshfs} and adjusting the folder name, 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:cloning1, xleftmargin=\parindent]
-			git clone ssh-url folder-name
-			# git clone https-path folder-name
-		\end{lstlisting}
-	
-		\item After moving into the \texttt{folder\_name} via cd, do 
-		\begin{lstlisting}[style=mystylebash, label=alg:cloning3, xleftmargin=\parindent]
-			git switch custom-branch
-		\end{lstlisting}
-	\end{itemize}
-	
 	\subsection{Merging}
 	
 	\begin{itemize}
@@ -1152,11 +1137,11 @@
 			\node at (6, 1.5) {H};
 			
 			% Position the branch labels
-			\node[align=left] at (8.5, 0) {main};
-			\node[align=left] at (8.5, 1) {new\_branch};
+			\node[align=left] at (9, 0) {\texttt{main}};
+			\node[align=left] at (9, 1) {\texttt{new\_branch}};
 		\end{tikzpicture}
 		
-		when merging \texttt{main} and \texttt{new\_branch}, the two branches will be either auto-merged or there will be a merge conflict.
+		when merging \texttt{main} and \texttt{new\_branch}, the commits D and D'' will be either auto-merged or there will be a merge conflict.
 		
 		\item Assuming the following commit history is given,
 		
@@ -1193,23 +1178,41 @@
 			\node at (5, -1.5) {D''};
 			
 			% Position the branch labels
-			\node[align=left] at (9, 1) {new\_branch};
-			\node[align=left] at (9, -1) {cool\_branch};
-			\node[align=left] at (9, 0) {main};
+			\node[align=left] at (9, 1) {\texttt{new\_feature}};
+			\node[align=left] at (9, -1) {\texttt{cool\_feature}};
+			\node[align=left] at (9, 0) {\texttt{main}};
 		\end{tikzpicture}
 
-		\item After merging \texttt{main} with \texttt{new\_feature}, which happens via a fast-forward, you can delete it. New commit structure: 
-	\end{itemize} 
+		Merging \texttt{main} with \texttt{new\_feature} would result in a fast-forward,
 
-	\begin{itemize} 
-		\item A -- B -- C -- D -- E -- F -- G -- H \quad\quad main
+		\begin{tikzpicture}
+			% Draw the main branch
+			\draw (0,0) -- (7,0);
+			\foreach \x in {0,1,2,3,4,5,6,7}
+			\draw (\x cm, 3pt) -- (\x cm, -3pt);
+			
+			% Label the main branch commits
+			\node at (0, -0.5) {A};
+			\node at (1, -0.5) {B};
+			\node at (2, -0.5) {C};
+			\node at (3, -0.5) {D};
+			\node at (4, -0.5) {E};
+			\node at (5, -0.5) {F};
+			\node at (6, -0.5) {G};
+			\node at (7, -0.5) {H};
+			
+			% Label the branch
+			\node at (9, 0) {\texttt{main}};
+		\end{tikzpicture}
+				
 		\item Merging \texttt{new\_feature} into \texttt{main},
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
+			git switch main
+			git merge new_feature
+		\end{lstlisting}
+	
 	\end{itemize}
-
-	\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
-		git switch main
-		git merge <new_feature>
-	\end{lstlisting}
 	
 	\subsection{Merge Conflicts}
 	
@@ -1222,8 +1225,7 @@
 		Afterwards, confirm with Enter that you want to use vimdiff as default editing tool. The vimdiff display will now resemble the following structure: 
 		
 		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
-			| LOCAL | BASE | REMOTE | 
-					MERGED
+			| LOCAL | BASE | REMOTE | MERGED
 		\end{lstlisting}
 		
 		If the file has not already existed in BASE, then we need this view: 
@@ -1661,11 +1663,6 @@
 		lbd() {
 			git push origin --delete "$@"
 		}
-		
-		# cloning
-		lcl() {
-			git clone "$@"
-		}
 
 		# switch branches and create if non-existent
 		lsw() {                                                                                                           
@@ -1674,6 +1671,18 @@
 			else                                                                                                            
 			  git switch -c "$1"                                                                                            
 			fi                                                                                                              
+		}
+	
+		# cloning
+		# example usage:
+		#     `lcl git@github.com:ImahnShekhzadeh/infra.git `
+		#     `lcl git@github.com:ImahnShekhzadeh/infra.git infra`
+		#     `lcl git@github.com:ImahnShekhzadeh/infra.git infra main`
+		lcl() {
+			local dir_name="${2:-$(pwd)}"
+			local branch_name="${3:-main}"
+			
+			git clone "$1" "$dir_name" && cd "$dir_name" && lsw "$branch_name"
 		}
 
 		# example usage: `lsta 2` or `lsta` 
