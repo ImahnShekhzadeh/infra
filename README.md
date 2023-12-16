@@ -9,7 +9,7 @@ It will likely be necessary to adapt the template file to i) the HPC, and ii) th
 
 ## Template Docker File
 
-[This](docker_img) template docker file installs both `PyTorch` and `Jax`, take into account that L58 & L61 assume there is a shell script `run_scripts.sh` that can be run. 
+[This](Dockerfile) template docker file installs both `PyTorch` and `Jax`, take into account that L58 & L61 assume there is a shell script `run_scripts.sh` that can be run. 
 The script `run_scripts.sh` might look like this:
 ```bash
 #!/bin/sh
