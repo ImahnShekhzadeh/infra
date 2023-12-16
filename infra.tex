@@ -94,12 +94,6 @@
 			squeue -u shekhza2 # user
 		\end{lstlisting}
 		
-		\item To find out about your conda environment, just type (e.g. whether you use Anaconda2 or Anaconda3)
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:conda_info, xleftmargin=\parindent]
-			conda info
-		\end{lstlisting}
-		
 		\item 
 
 		\begin{lstlisting}[style=mystylebash, label=alg:jbn_kernel, xleftmargin=\parindent]
@@ -295,7 +289,7 @@
 		
 	\end{itemize}
 	
-	\subsection{Opening Programs from CLI}
+	\section{Opening Programs from CLI}
 	
 	\begin{itemize}
 		\item Opening the settings from CLI, 
@@ -339,7 +333,15 @@
 	
 	\chapter{Anaconda}
 	
-	\subsection{Installation of Environments}
+	\begin{itemize}
+		\item Retrieving information about currently activated conda environment,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:conda_info, xleftmargin=\parindent]
+			conda info
+		\end{lstlisting}
+	\end{itemize}
+	
+	\section{Installation of Environments}
 	
 	\begin{itemize}
 		\item Installing conda with specific python version,
@@ -349,7 +351,7 @@
 			env_name="myenv" && conda create -n "$env_name" python=3.11.3 -y && conda activate "$env_name"
 		\end{lstlisting} 
 	
-		As of Oct 16, I wouldn't recommend installing python 3.12.0 yet (I got a lot of unmet dependency problems when trying to install torch 2.1 with NVIDIA Cuda version 11.8 afterwards). 
+		As of Oct 16, I wouldn't recommend installing python 3.12.0 yet --- I got a lot of unmet dependency problems when trying to install torch 2.1 with NVIDIA Cuda version 11.8 afterwards. 
 		
 		\item Installation of conda environment from bash file: 
 		
@@ -367,7 +369,7 @@
 	
 	\end{itemize} 
 
-	\subsection{Export}
+	\section{Export}
 	
 	\begin{itemize}
 		\item Exporting an yml-file to share with others for reproducibility,
@@ -379,24 +381,24 @@
 		At the end of the file, there will be a line starting with \enquote{Prefix:}, you can safely delete it, for details see \href{https://stackoverflow.com/questions/39280638/how-to-share-conda-environments-across-platforms}{here}
 	\end{itemize}
 	
-	\subsection{Installation \& Removal of Packages}
+	\section{Installation \& Removal of Packages}
 	
 	\begin{itemize} 
 	
-		\item Installation of packages from \textit{pyproject.toml} file, 
+		\item Installation of packages from \texttt{pyproject.toml} file, 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:pyproject_install, xleftmargin=\parindent]
-			pip install -e . 
+			pip install -e .
 		\end{lstlisting}
 	
-		\item Installing specific conda package version:
+		\item Installing specific conda package version,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:conda__spec_env_version, xleftmargin=\parindent]
 			conda install -c conda-forge custom-pkg-name -y
 			# conda install -c conda-forge cloudpathlib=0.15.1 -y
 		\end{lstlisting}
 	
-		\item Removing list of packages from conda environment: 
+		\item Removing list of packages from conda environment,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:conda__remove_pkgs, xleftmargin=\parindent]
 			conda remove -n custom-env-name pkg1 pkg2 ... pkgN -y
@@ -405,12 +407,12 @@
 		
 	\end{itemize}
 
-	\subsection{Usage in VSCode}
+	\section{Usage in VSCode}
 
 	\begin{itemize}
-		\item Selecting a conda environment in VSCode, do Ctrl + Shift + P and type \textit{Python: select interpreter}. 
+		\item Selecting a conda environment in VSCode, do \texttt{Ctrl + Shift + P} and type \newline \texttt{Python:~select interpreter}. 
 		
-		\item Stepping into external code with Python debugger:  \url{https://stackoverflow.com/questions/53594900/visual-studio-code-python-debugging-step-into-the-code-of-external-functions}
+		\item Stepping into external code with Python debugger, \url{https://stackoverflow.com/questions/53594900/visual-studio-code-python-debugging-step-into-the-code-of-external-functions}
 		
 		
 		\item Creating a JSON file, here some instructions: \url{https://code.visualstudio.com/docs/python/debugging}
@@ -423,7 +425,7 @@
 		
 	\end{itemize}
 
-		\subsection{PyTorch}
+	\section{PyTorch}
 	
 	\begin{itemize} 		
 		\item Checking whether gpu version of PyTorch is installed, from python shell (\textbf{for this, activate the right conda env first!}): 
@@ -443,7 +445,7 @@
 			ls -larht <path_from_prev_alg> | grep -E "cuda"
 		\end{lstlisting}
 
-		\item If you had installed PyTorch via conda instead of pip, then this is easier, where the \textit{-E} means we are searching for extended regular expressions (\textbf{again activate the right conda env first!}):
+		\item If you had installed PyTorch via conda instead of pip, then this is easier, where \texttt{-E} means we are searching for extended regular expressions (\textbf{again activate the right conda env first!}):
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:conda__find_out_torch_version, xleftmargin=\parindent]
 			conda list | grep -E "torch|pytorch" 
@@ -474,7 +476,7 @@
 	
 	\chapter{Docker}
 	
-	\subsection{Installation}
+	\section{Installation}
 	
 	\begin{itemize}
 		\item Follow  \href{https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04}{this great tutorial by DigitalOcean}.
@@ -489,7 +491,7 @@
 			
 	\end{itemize}
 	
-	\subsection{Basics}
+	\section{Basics}
 	
 	\begin{itemize} 
 		\item Interactive start of containers: 
@@ -507,7 +509,7 @@
 		\end{lstlisting}
 	\end{itemize}
 	
-	\subsection{Dockerfile}
+	\section{Dockerfile}
 	
 	\begin{itemize}
 		\item When you find the command for pulling a docker image on \url{https://hub.docker.com}, e.g.~
@@ -552,7 +554,7 @@
 		
 		It is also important to put the \textit{.} at the end, since it represents the destination in the Docker image where the file should be copied. The dot . refers to the current working directory inside the Docker image, which is determined by the WORKDIR command in the Dockerfile. If WORKDIR is not set, it defaults to the root directory (/) of the image.
 		
-		Also, each time the script \textit{relative/path/to/script.py} changes, the Dockerfile needs to be rebuilt -- \textbf{however, a cached version will be used, which speeds things up}.
+		Also, each time the script \texttt{relative/path/to/script.py} changes, the Dockerfile needs to be rebuilt -- \textbf{however, a cached version will be used, which speeds things up}.
 		
 		\item Copying local dirs into docker container, 
 		
@@ -560,7 +562,7 @@
 			COPY relative/path/to/dir/ .
 		\end{lstlisting}
 		
-		\item Running a Dockerfile:
+		\item Running a Dockerfile,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:docker_build, xleftmargin=\parindent]
 			d build -f file_name -t img_name .
@@ -568,7 +570,7 @@
 			# d build -f file_name --no-cache -t [...] # forcing to rebuild from scratch, no cached version is used (only do if really required)
 		\end{lstlisting} 
 		
-		where \textit{Image\_name} will be the name of the newly created image, \textit{Tag\_name} the tag name and \textit{file\_name} the name of the docker file. 
+		where \texttt{img\_name} will be the name of the newly created image, \texttt{tag\_name} the tag name and \texttt{file\_name} the name of the docker file. 
 		
 		\item Via 
 		
@@ -581,7 +583,7 @@
 		
 	\end{itemize} 
 	
-	\subsection{Docker images}
+	\section{Docker images}
 	
 	\begin{itemize}
 		
@@ -591,7 +593,7 @@
 			d build -f custom_docker_file .
 		\end{lstlisting}
 		
-		The . specifies the context of the build, which is the current directory in this case. \textbf{I would recommend running this command from the same dir in which \textit{custom\_docker\_file} is located}.
+		The . specifies the context of the build, which is the current directory in this case. \textbf{I would recommend running this command from the same dir in which \texttt{custom\_docker\_file} is located}.
 		
 		\item Check all available Docker images via
 		
@@ -614,9 +616,9 @@
 		
 	\end{itemize}
 	
-	\subsection{Docker containers}
+	\section{Docker containers}
 	
-		\subsubsection{Basics}
+		\subsection{Basics}
 
 		\begin{itemize} 
 	
@@ -690,7 +692,7 @@
 			
 		\end{itemize}
 
-		\subsubsection{Passing Arguments}
+		\subsection{Passing Arguments}
 		
 		It is possible to pass arguments when running a docker container. 
 		
@@ -724,7 +726,7 @@
 			
 		\end{enumerate}
 	
-	\subsubsection{Listing \& Stopping}
+	\subsection{Listing \& Stopping}
 	
 	\begin{itemize} 
 		
@@ -771,13 +773,14 @@
 	
 	\chapter{Python}
 	
-	\subsection{Config File \& JSON Files}
+	\section{Config File \& JSON Files}
 	
 	\begin{itemize}
 		\item  When using \texttt{argparse} in combination with a JSON configuration file, the JSON keys need to match the long option names specified in \texttt{parser.add\_argument()} method calls. The \texttt{argparse} module itself does not automatically recognize abbreviated forms from a JSON file.
 	\end{itemize} 
 
-	\subsection{Jupyter Notebooks}
+	\section{Jupyter Notebooks}
+	
 	\begin{itemize}
 		\item Converting jupyter notebooks into PDFs,
 		
@@ -801,7 +804,7 @@
 		
 	\end{itemize}
 	
-	\subsection{Map (Built-In Function)}
+	\section{Map (Built-In Function)}
 	
 	\begin{itemize}
 		\item Function signature:
@@ -846,7 +849,7 @@
 		
 	\end{itemize}
 	
-	\subsection{PyTorch}
+	\section{PyTorch}
 	
 		\subsubsection{Leaf Tensors}
 			
@@ -909,7 +912,7 @@
 	
 	\chapter{AWS S3} 
 	
-	\subsection{Installation \& Configuration}
+	\section{Installation \& Configuration}
 	
 	\begin{enumerate}
 		\item \href{https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions}{Installation instructions}
@@ -965,11 +968,12 @@
 		
 	\end{enumerate}
 
-	\subsection{AWS Credentials (Profiles)}
+	\section{AWS Credentials (Profiles)}
 	
 	\begin{itemize}
 		\item It is possible to use several profiles in the file \texttt{$\sim$/.aws/credentials}. 
-		\item For example:
+
+		\item For example,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:aws_profiles, xleftmargin=\parindent]
 			[default]
@@ -994,15 +998,15 @@
 		
 	\end{itemize}
 
-	\subsection{Buckets}
+	\section{Buckets}
 	
 	One can have several buckets. 
 	
-	\subsubsection{Creation}
+	\subsection{Creation}
 
 	\begin{itemize}
 		
-		\item To create a new bucket:
+		\item Creating a new bucket,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:aws__new_bucket, xleftmargin=\parindent]
 			aws s3api create-bucket --bucket custom-bucket-name --endpoint-url https://custom-s3-endpoint.com --profile default
@@ -1010,7 +1014,7 @@
 	
 	\end{itemize} 
 
-	\subsubsection{Listings}
+	\subsection{Listings}
 
 	\begin{itemize} 
 		
@@ -1030,7 +1034,7 @@
 		
 	\end{itemize}
 
-	\subsubsection{File Copying}
+	\subsection{File Copying}
 	
 	\begin{itemize}
 		\item Local machine $\longrightarrow$ S3:
@@ -1046,7 +1050,7 @@
 		\end{lstlisting}	
 	\end{itemize}
 
-	\subsubsection{Directory Copying}
+	\subsection{Directory Copying}
 	
 	\begin{itemize}
 		\item Local machine $\longrightarrow$ S3:
@@ -1058,7 +1062,7 @@
 		
 	\end{itemize}
 
-	\subsubsection{Directory/File Deletion}
+	\subsection{Directory/File Deletion}
 	
 	\begin{itemize}
 		\item Deleting a folder (which is essentially a prefix in S3) and its contents in
@@ -1076,7 +1080,7 @@
 		
 	\end{itemize}
 
-	\subsection{Cloudpathlib}
+	\section{Cloudpathlib}
 	
 	\begin{itemize}
 		\item When you use the \href{https://cloudpathlib.drivendata.org/stable/}{cloudpathlib} module, and you want to specify a profile, do this:
@@ -2053,8 +2057,8 @@
 		Opening the file,
 		
 		\begin{enumerate}
-			\item press Ctrl + Shift + P to the Command Palette, 
-			\item type \textbf{Open User Settings (JSON)} and select it to open the \texttt{settings.json} file.
+			\item press \texttt{Ctrl + Shift + P} to the Command Palette, 
+			\item type \texttt{Open User Settings (JSON)} and select it to open the \texttt{settings.json} file.
 		\end{enumerate}
 
 
@@ -2078,8 +2082,8 @@
 	\section{Opening a Duplicate Workspace}
 	
 	\begin{enumerate}
-		\item press Ctrl + Shift + P to the Command Palette, 
-		\item then type \textbf{Workspaces:~Duplicate As Workspace is New Window}
+		\item press \texttt{Ctrl + Shift + P} to open the Command Palette, 
+		\item then type \texttt{Workspaces:~Duplicate As Workspace is New Window}
 	\end{enumerate}
 	
 	\section{\texttt{settings.json}} \label{app:vscode__settings_file}
