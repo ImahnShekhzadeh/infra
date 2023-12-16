@@ -1357,50 +1357,7 @@
 		
 		\noindent Replace $\langle$commit-hash$\rangle$ with the commit SHA and $\langle$file-path$\rangle$ with the path to the file. This change is local and you would need to commit it if you want it to be reflected in the repository history.
 	
-	\subsection{Branches}
-	
-	\subsubsection{Remote Branch Creation}
-	
-		Creating a local branch and then pushing it remotely,
-		
-		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
-			git push origin <local-branch>
-			# git push origin code-dev
-		\end{lstlisting}
-	
-	\subsubsection{Delete Branches}
-	
-		\begin{itemize}
-			\item Local git branch,
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git_delete_branch, xleftmargin=\parindent]
-				git branch -d <branch_name>
-				# git branch -d testing
-			\end{lstlisting}
-		
-			\item Regardless of merge status,
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git_delete_branch__force, xleftmargin=\parindent]
-				git branch -D <branch_name>
-				# git branch -D testing
-			\end{lstlisting}
-		
-			\item Remote branch,
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git_delete_branch__remote, xleftmargin=\parindent]
-				git push origin --delete <branch_name>
-				# git push origin --delete testing
-			\end{lstlisting}
-		\end{itemize}
-	
-	\subsubsection{List Branches}
-		Listing all local and remote branches, 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:git_list_branches, xleftmargin=\parindent]
-			git branch -a
-		\end{lstlisting}
-	
-	\subsubsection{Remote URL}
+	\subsection{Remote URL}
 		Obtaining the remote URL, 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
@@ -1408,7 +1365,7 @@
 			git remote get-url origin | sed 's/\.git$//'  # optional: trim output
 		\end{lstlisting}
 		
-	\subsubsection{Repo Change}
+	\subsection{Repo Change}
 		Moving all files from \texttt{branch-to-move} to \texttt{branch-to-merge-into} and preserving the commit history --- do all of this while in the old repo,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
@@ -1680,7 +1637,15 @@
 		
 		# delete remote branch
 		lbd() {
-			git push origin --delete "$@"
+			local branch="$1" 
+			local exists__in_local=$(git branch --list "$branch")
+			
+			if [[ -z ${exists__in_local} ]]; then
+				git push origin --delete "$branch"
+			else
+				git branch -D "$branch"
+			fi
+
 		}
 
 		# switch branches and create if non-existent
@@ -1995,6 +1960,8 @@
 \section{Amazing Programs, Extensions, Plugins \& Packages}
 
 	\begin{itemize}
+		\item \textbf{\url{https://etherpad.org/}}
+
 		\item \textbf{\url{https://github.com/charmbracelet/glow}}
 		
 		\item \textbf{\url{https://github.com/0xacx/chatGPT-shell-cli}}
