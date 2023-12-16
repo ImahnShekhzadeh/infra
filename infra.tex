@@ -1295,25 +1295,17 @@
 	\end{itemize}
 	
 	\section{Renaming a Repository}
-	
-	\begin{enumerate}
-		\item Rename the repository remotely first (by going to your repository's URL), 
-		\item then go to the locally cloned version of the repository and do
+
+		After having renamed the repository remotely, go to the locally cloned version of the repository and do
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__rename_repo, xleftmargin=\parindent]
-			git remote set-url origin <new-url>
-			# git remote set-url origin https://github.com/username/new-repo-name.git 
-		\end{lstlisting}
-		
-		\item and finally 
-		
+			git remote set-url origin https://github.com/username/new-repo-name.git 
+		\end{lstlisting}		
+		double-check via
 		\begin{lstlisting}[style=mystylebash, label=alg:git__check_remote_url, xleftmargin=\parindent]
 			git remote -v
 		\end{lstlisting}
-		
-		which lists the remote names and their URLs.
-		
-	\end{enumerate}
+		which lists the remote names and their URLs. No force push or the alike is necessary for the changes to take place.		
 
 	\section{Restore File}
 	
