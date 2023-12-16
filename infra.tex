@@ -68,42 +68,7 @@
 	
 	The commands in this document might only run through if you use the \texttt{.bashrc} file provided in App.~\ref{app:bashrc_file}
 	
-	\newpage
-	
-	\chapter{Baobab/Yggdrasil}
-	
-	\begin{itemize}
-		\item To connect to Baobab from your local machine, just type into a terminal: 
-		\begin{lstlisting}[style=mystylebash, label=alg:eval, xleftmargin=\parindent]
-			eval $(ssh-agent)
-			ssh-add /home/imahn/.ssh/id_ed25519_unige_hpc
-			ssh shekhza2@login2.baobab.hpc.unige.ch 
-			# ssh shekhza2@login1.yggdrasil.hpc.unige.ch
-		\end{lstlisting} 
-		
-		\item Scp into yggdrasil: 
-		\begin{lstlisting}[style=mystylebash, label=alg:scp, xleftmargin=\parindent]
-			scp file shekhza2@login1.yggdrasil.hpc.unige.ch:/home/users/s/shekhza2/
-			# scp -r folder_name shekhza2@login1.yggdrasil.hpc.unige.ch:/home/users/s/shekhza2/
-		\end{lstlisting}
-		
-		\item To see all the machines that are occupied, just type 
-		\begin{lstlisting}[style=mystylebash, label=alg:squeue, caption=Squeue commands, xleftmargin=\parindent]
-			squeue
-			squeue -p cms-uhh # partition
-			squeue -u shekhza2 # user
-		\end{lstlisting}
-		
-		\item 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:jbn_kernel, xleftmargin=\parindent]
-			pip install ipykernel 
-			python -m ipykernel install --user --name <environment_name> --display-name "customStuff"
-		\end{lstlisting}
-	
-	\end{itemize}
-
-
+	\newpage	
 	
 	\chapter{Bash}
 	
