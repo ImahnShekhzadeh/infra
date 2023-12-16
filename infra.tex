@@ -1100,7 +1100,7 @@
 	
 	\chapter{Git}
 	
-	\subsection{Merging}
+	\section{Merging}
 	
 	\begin{itemize}
 		\item Assuming the following commit history is given,
@@ -1218,7 +1218,7 @@
 	
 	\end{itemize}
 	
-	\subsection{Merge Conflicts}
+	\section{Merge Conflicts}
 	
 		\begin{enumerate}
 			\item Resolving a merge conflict,
@@ -1294,7 +1294,7 @@
 			\end{lstlisting}
 		\end{enumerate}
 
-	\subsection{Checking History}
+	\section{Checking History}
 
 	\begin{itemize}
 		\item Viewing the history of commits,
@@ -1312,7 +1312,7 @@
 	
 	\end{itemize}
 	
-	\subsection{Removing a File/Folder}
+	\section{Removing a File/Folder}
 	
 	\begin{itemize}
 		\item To remove a file/folder that is already tracked, adding it to .gitignore won’t remove it (though this also needs to happen). For this, do:
@@ -1325,7 +1325,7 @@
 		\item Adding the file/folder to \textit{.gitignore} is still a good idea, though, since the file/dir won’t be removed locally with the commands.
 	\end{itemize}
 	
-	\subsection{Renaming a Repository}
+	\section{Renaming a Repository}
 	
 	\begin{enumerate}
 		\item Rename the repository remotely first (by going to your repository's URL), 
@@ -1346,7 +1346,7 @@
 		
 	\end{enumerate}
 
-	\subsection{Restore File}
+	\section{Restore File}
 	
 		Resetting specific file to state of previous commit,
 		
@@ -1357,7 +1357,7 @@
 		
 		\noindent Replace $\langle$commit-hash$\rangle$ with the commit SHA and $\langle$file-path$\rangle$ with the path to the file. This change is local and you would need to commit it if you want it to be reflected in the repository history.
 	
-	\subsection{Remote URL}
+	\section{Remote URL}
 		Obtaining the remote URL, 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
@@ -1365,7 +1365,7 @@
 			git remote get-url origin | sed 's/\.git$//'  # optional: trim output
 		\end{lstlisting}
 		
-	\subsection{Repo Change}
+	\section{Repo Change}
 		Moving all files from \texttt{branch-to-move} to \texttt{branch-to-merge-into} and preserving the commit history --- do all of this while in the old repo,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
@@ -1379,7 +1379,7 @@
 	
 	\chapter{Remote Development}
 	
-	\subsection{Connection}
+	\section{Connection}
 	
 		\begin{enumerate}
 			\item When connecting two machines remotely, install \href{https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack}{this extension} on local machine (also directly in VSCode possible), 
@@ -1388,7 +1388,7 @@
 			\item enter the passwd for the remote SSH host. 
 		\end{enumerate}	
 
-	\subsection{Troubleshooting}
+	\section{Troubleshooting}
 	
 		\begin{itemize}
 			\item If you find you are getting a permission error for saving a file on the remote machine (in VSCode when doing the local coding), try
@@ -1399,16 +1399,14 @@
 			
 			The \texttt{custom-username} here refers to the username on the remote machine.
 			
-		\end{itemize}
+		\end{itemize}	
 	
-	\newpage	
-	
-	\section{Jax}
+	\chapter{Jax}
 	
 	Try to install via pip first. Only if this doesn't work use conda!
 	
 	\begin{itemize}
-		\item To put a Jax array onto a specific device, use this: 
+		\item Putting a Jax array onto a specific device,
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:jax_device, xleftmargin=\parindent]
 			import jax
@@ -1419,20 +1417,20 @@
 			print(f"Device: {x.device_buffer.device()}")
 		\end{lstlisting}
 		
-		\item Specifying the dtype of an array: 
+		\item Dtype specification,
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:jax_dtype, xleftmargin=\parindent]
 			x = jnp.array([1, 2, 3], dtype=jnp.float32)
 			print(f"Dtype: {x.dtype}")
 		\end{lstlisting}
 	
-		\item To find out the device of a Jax array, use this:
+		\item Device inference,
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:jax__dev_retrieval, xleftmargin=\parindent]
 			x.device_buffer.device() # x: Jay array
 		\end{lstlisting}
 	
-		\item To make a Jax array out of a Python list or a \textsc{NumPy} array  (do not use for \textsc{} tensors): 
+		\item Making a Jax array out of a Python list or a \textsc{NumPy} array (do not use for \textsc{} tensors),
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:jax_array_crea, xleftmargin=\parindent]
 			from jax import numpy as jnp
@@ -1441,7 +1439,7 @@
 			b = jnp.array(np.array([1., 2., 3.]))
 		\end{lstlisting}
 
-		\item jit (just-in-time compilation):~sets up a function with XLA (extended linear algebra):~check out the NB \textit{test\_\_jit-compil.ipynb}. To use jit, do this: 
+		\item jit (just-in-time compilation):~sets up a function with XLA (extended linear algebra):~check out the NB \texttt{test\_\_jit-compil.ipynb}. Using jit,
 		
 		\begin{lstlisting}[style=mystylepython, label=alg:jax_jit, xleftmargin=\parindent]
 			import jax
@@ -2033,11 +2031,15 @@
 		
 		\item \url{https://github.com/termcolor/termcolor}
 		
+		\item \textbf{LibreOffice dark theme,}
+		
+		\texttt{Tools} $\rightarrow$ \texttt{Options} $\rightarrow$ \texttt{LibreOffice} $\rightarrow$ \texttt{Application Colors} $\rightarrow$ \texttt{Custom Colors} $\rightarrow$ \texttt{General} $\rightarrow$ \texttt{Document Background}, choose a dark color.
+		
 	\end{itemize}
 
 \chapter{VSCode}
 
-	\subsection{Recommended Extensions}
+	\section{Recommended Extensions}
 	
 		\begin{itemize}
 					
@@ -2047,7 +2049,7 @@
 		
 		\end{itemize}	
 
-	\subsection{\texttt{settings.json}}\label{app:open_settings_file_vs}
+	\section{\texttt{settings.json}}\label{app:open_settings_file_vs}
 		Opening the file,
 		
 		\begin{enumerate}
@@ -2056,7 +2058,7 @@
 		\end{enumerate}
 
 
-	\subsection{Fix Unresolved Python Imports}
+	\section{Fix Unresolved Python Imports}
 	
 		\begin{itemize}
 			\item If you run a docker container where a conda environment is installed (with packages that you do not have locally), then VSCode will show those imports as unresolved. To fix this, open the \texttt{settings.json} file, cf.~App.~\ref{app:open_settings_file_vs}, and add the following setting: 
@@ -2073,14 +2075,14 @@
 			
 		\end{itemize}
 	
-	\subsection{Opening a Duplicate Workspace}
+	\section{Opening a Duplicate Workspace}
 	
 	\begin{enumerate}
 		\item press Ctrl + Shift + P to the Command Palette, 
 		\item then type \textbf{Workspaces:~Duplicate As Workspace is New Window}
 	\end{enumerate}
 	
-	\subsection{\texttt{settings.json}} \label{app:vscode__settings_file}
+	\section{\texttt{settings.json}} \label{app:vscode__settings_file}
 		Contents of \texttt{settings.json},
 	
 		\begin{lstlisting}[style=mystylebash, label=alg:vscode__settings_file, xleftmargin=\parindent]
@@ -2114,17 +2116,5 @@
 				"workbench.editor.tabSizing": "shrink"
 			}
 		\end{lstlisting}
-	
-	\chapter{LibreOffice}
-	
-	\subsection{Dark Theme}
-	
-		Go to \texttt{Tools} $\rightarrow$ \texttt{Options} $\rightarrow$ \texttt{LibreOffice} $\rightarrow$ \texttt{Application Colors} $\rightarrow$ \texttt{Custom Colors} $\rightarrow$ \texttt{General} $\rightarrow$ \texttt{Document Background} and choose a dark color. 
-	
-	\chapter{UNIGE-specific}
-	
-	\begin{itemize}
-		\item \href{https://plone.unige.ch/distic/pub/messagerie/configuration/comment-configurer-compte-office365-thunderbird}{Setting up UNIGE e-mail in TB}
-	\end{itemize}
 	
 \end{document} 
