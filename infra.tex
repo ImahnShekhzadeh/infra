@@ -1226,73 +1226,79 @@
 	
 	\subsection{Merge Conflicts}
 	
-		To resolve a merge conflict, type 
+		\begin{enumerate}
+			\item Resolving a merge conflict,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:mergetool, xleftmargin=\parindent]
+				git mergetool
+			\end{lstlisting}
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:mergetool, xleftmargin=\parindent]
-			git mergetool
-		\end{lstlisting}
+			\item Confirm with Enter that you want to use vimdiff as default editing tool. vimdiff display will resemble the following structure: 
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				| LOCAL | BASE | REMOTE | 
+				          MERGED
+			\end{lstlisting}
+			
+			If file did not already exist in BASE, then we need this view: 
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]	
+				| LOCAL | MERGED | REMOTE |
+			\end{lstlisting}
+			
+			\noindent LOCAL  -- Current branch
+			\\ BASE   -- Common ancestor (how did the file look like before both changes?)
+			\\ REMOTE -- File that I am merging into the current branch
+			\\ MERGED -- Merge result
+			
+			\item It is probably easiest to take the merged view and edit it directly. In the vim editor, an entire line can be deleted by pressing D (no control before!). 
+			If I instead wanted the changes from either LOCAL, BASE or REMOTE, you have to do one of these,
+			
+			\begin{lstlisting}[style=mystylebash, label=git_merge_view__actions, xleftmargin=\parindent]
+				:diffg LO
+				:diffg BA
+				:diffg LO
+			\end{lstlisting}
+			
+			Of course, the merged view can also be edited directly.			
 
-		Afterwards, confirm with Enter that you want to use vimdiff as default editing tool. The vimdiff display will now resemble the following structure: 
+			\item Type
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				:wqa
+			\end{lstlisting}
+			
+			into vim. Afterwards, do not forget to commit and push. And if you want, do 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_clean, xleftmargin=\parindent]
+				git clean -f
+			\end{lstlisting}
+			
+			Locally restore file,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
+				git restore --source commit-SHA file
+				git restore --source HEAD file
+			\end{lstlisting}
 		
-		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
-			| LOCAL | BASE | REMOTE | MERGED
-		\end{lstlisting}
-		
-		If the file has not already existed in BASE, then we need this view: 
-
-		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]	
-			| LOCAL | MERGED | REMOTE |
-			LOCAL  -- Current branch
-			BASE   -- Common ancestor (how did the file look like before both changes?)
-			REMOTE -- File that I am merging into the current branch
-			MERGED -- Merge result
-		\end{lstlisting}
-
-		It is probably easiest to take the merged view and edit it directly. In the vim editor, an entire line can be deleted by pressing D (no control before!). 
-		If I instead wanted the changes from either LOCAL, BASE or REMOTE, you have to do one of these,
-		
-		\begin{lstlisting}[style=mystylebash, label=git_merge_view__actions, xleftmargin=\parindent]
-			:diffg LO
-			:diffg BA
-			:diffg LO
-		\end{lstlisting}
-		
-		Of course, the merged view can also be edited directly. Regardless of the chosen method, type 
-		
-		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
-			:wqa
-		\end{lstlisting}
-		
-		into vim. Afterwards, do not forget to commit and push. And if you want, do 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:git_clean, xleftmargin=\parindent]
-			git clean -f
-		\end{lstlisting}
-
-		Locally restore file
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
-			git restore --source commit-SHA file
-			git restore --source HEAD file
-		\end{lstlisting}
-		
-		\texttt{git restore} does not overwrite \texttt{HEAD}, though. For that, a push would be necessary.  It can sometimes also be useful to run dry merges to proactively check for conflicts during a merge; for this, run
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
-			git merge --no-commit --no-ff branch-name
-		\end{lstlisting}
-
-		Afterwards, type 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:git__abort_merge, xleftmargin=\parindent]
-			git merge --abort
-		\end{lstlisting}
-		
-		to abort, and no changes will occur. If you only want to do a fast-forward, do 
-
-		\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
-			git merge branch_to_be_merged --ff-only
-		\end{lstlisting}
+			\item \texttt{git restore} does not overwrite \texttt{HEAD}, though. For that, a push would be necessary. It can sometimes also be useful to run dry merges to proactively check for conflicts during a merge; for this, run
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
+				git merge --no-commit --no-ff branch-name
+			\end{lstlisting}
+			
+			Afterwards, type 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__abort_merge, xleftmargin=\parindent]
+				git merge --abort
+			\end{lstlisting}
+			
+			to abort, and no changes will occur. Only for a fast-forward, do 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
+				git merge branch_to_be_merged --ff-only
+			\end{lstlisting}
+		\end{enumerate}
 
 	\subsection{Checking History}
 
@@ -1641,7 +1647,7 @@
 			local exists__in_local=$(git branch --list "$branch")
 			
 			if [[ -z ${exists__in_local} ]]; then
-				git push origin --delete "$branch"
+				git push origin --delete "$branch" && git clean -f
 			else
 				git branch -D "$branch"
 			fi
