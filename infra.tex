@@ -1115,6 +1115,18 @@
 			git switch main && git merge new_feature
 		\end{lstlisting}
 	
+		Running dry merges to proactively check for conflicts \textit{if} a merge was performed,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
+			git merge --no-commit --no-ff branch-name && git merge --abort
+		\end{lstlisting}
+		
+		For a fast-forward only,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
+			git merge branch_to_be_merged --ff-only
+		\end{lstlisting}
+	
 	
 	\section{Merge Conflicts}
 	
@@ -1165,31 +1177,7 @@
 			\begin{lstlisting}[style=mystylebash, label=alg:git_clean, xleftmargin=\parindent]
 				git clean -f
 			\end{lstlisting}
-			
-			Locally restore file,
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
-				git restore --source commit-SHA file
-				git restore --source HEAD file
-			\end{lstlisting}
 		
-			\item \texttt{git restore} does not overwrite \texttt{HEAD}, though. For that, a push would be necessary. It can sometimes also be useful to run dry merges to proactively check for conflicts during a merge; for this, run
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
-				git merge --no-commit --no-ff branch-name
-			\end{lstlisting}
-			
-			Afterwards, type 
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git__abort_merge, xleftmargin=\parindent]
-				git merge --abort
-			\end{lstlisting}
-			
-			to abort, and no changes will occur. Only for a fast-forward, do 
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
-				git merge branch_to_be_merged --ff-only
-			\end{lstlisting}
 		\end{enumerate}
 
 	\section{Checking History}
@@ -1241,11 +1229,9 @@
 		Resetting specific file to state of previous commit,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
-			git restore --source=<commit-hash> <file-path>
-			# git restore --source=HEAD README.md
+			git restore --source=<commit-hash> <file-path> && git push
+			# git restore --source=HEAD README.md && git push
 		\end{lstlisting}
-		
-		\noindent Replace $\langle$commit-hash$\rangle$ with the commit SHA and $\langle$file-path$\rangle$ with the path to the file. This change is local and you would need to commit it if you want it to be reflected in the repository history.
 	
 	\section{Remote URL}
 		Obtaining the remote URL, 
