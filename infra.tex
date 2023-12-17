@@ -80,6 +80,8 @@
 	\begin{lstlisting}[style=mystylebash, label=alg:curl, xleftmargin=\parindent]
 		curl -Lo output.out https://url.com
 	\end{lstlisting}
+	
+	When taking a \texttt{GitHub} link, note that you need to take the URL of the raw file.
 
 	\section{\texttt{for}-loops}
 	
@@ -1057,7 +1059,7 @@
 	\section{Repo Change}
 		Moving all files from \texttt{branch-to-move} to \texttt{branch-to-merge-into} and preserving the commit history --- do all of this while in the old repo,
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:git__remote_url, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
 			git remote -v  # check existing remotes
 			git remote add <target> https://target-repo-url.git  # add new remote
 			# git remote add new-remote url
@@ -1065,6 +1067,26 @@
 		\end{lstlisting}
 	
 		Do all of this in the old repo. If issue emerges during the last step, reclone the new repo and check whether this solves the issue.
+	
+	\section{Remote Repo Creation}
+		
+		If all files to be added to the repository are in \texttt{\$folder\_name},
+			
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			folder_name="[...]" && mkdir $folder_name && cd $folder_name && git init && lpush "this is the commit msg."
+		\end{lstlisting}
+	
+		where the command \texttt{lpush} is defined in App.~\ref{app:bashrc_file}. Make sure there is a \texttt{README.md} file in the folder \texttt{\$folder\_name}.
+		
+		Then install \href{https://cli.github.com/}{GitHub CLI} and do
+		
+		\begin{lstlisting}
+			gh repo create <repository-name> --public # --private
+		\end{lstlisting}
+		
+		Then commit and push.
+		
+		
 	
 	\chapter{Remote Development}
 	
