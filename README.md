@@ -1,5 +1,6 @@
 # infra
-Repository for sharing template Docker file, submit file, etc. Inside [`infra.pdf`](infra.pdf), general instructions and commands for Docker can be found in Chapter $3$.
+Repository for sharing template Docker file, submit file, etc. Inside [`infra.pdf`](infra.pdf), general instructions and commands for Docker can be found in Chapter $3$
+and some useful git commands and information in Chapter $8$.
 
 ## Template Submit File
 
