@@ -67,7 +67,7 @@
 	
 	The commands in this document might only run through if you use the \texttt{.bashrc} file provided in App.~\ref{app:bashrc_file}	
 	
-	\chapter{Bash}
+	\chapter{Bash \& Linux}
 	
 	In Bash, \texttt{[[ ]]} over \texttt{[ ]} is preferred, since \texttt{[[ ]]} is safer and more capable within Bash scripts. 
 	Within \texttt{[ ]}, where word splitting and filename expansion do occur, it is good practice to double-quote variables. 
@@ -100,31 +100,46 @@
 	
 	\section{Argument Retrieval}
 	
-	Retrieving all but the first argument, 
+		Retrieving all but the first argument, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift, xleftmargin=\parindent]
+			bash_func(){
+				shift
+				
+				echo "all provided args (except the first): $@"
+			}
+		\end{lstlisting}
+		
+		Doing this $N\geq 1$-times,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift_gen, xleftmargin=\parindent]
+			test_sth(){
+				shift
+				...
+				shift
+				
+				echo "all provided args (except the first N): $@"
+			}
+		\end{lstlisting}
 	
-	\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift, xleftmargin=\parindent]
-		bash_func(){
-			shift
-			
-			echo "all provided args (except the first): $@"
-		}
-	\end{lstlisting}
-	
-	Doing this $N\geq 1$-times,
-	
-	\begin{lstlisting}[style=mystylebash, label=alg:bash__args_shift_gen, xleftmargin=\parindent]
-		test_sth(){
-			shift
-			...
-			shift
-			
-			echo "all provided args (except the first N): $@"
-		}
-	\end{lstlisting}
+		\section{Colored Outputs}
+		
+		Using colored outputs in Bash, cf.~\texttt{str\_diff} in App.~\ref{app:bashrc_file}. 
+		
+		Personally, I use the following color scheme for the CLI,
+		
+		\begin{enumerate}
+			\item monokai color scheme, i.e.~dark gray background (\#272822) with light peach color for the text (\#F8F8F2).
+			\item File paths are still displayed in blue, which is suboptimal, to change the color to the better readable cyan-blue color, click on the three horizontal 
+			lines in the CLI, then on \textbf{Preferences}, then choose the currently active color, switch to the \textbf{Colors} tab, then go to \textbf{Palette}, 
+			click on the blue color \& instead use the color \#66D9EF
+		\end{enumerate}
+		
+		where \texttt{-e} stands for human readability and \texttt{-s} for summarizing. 
 
 	\section{String/File/Directory Operations}
 	
-	Appending line to file,
+	Appending line to file (\texttt{-a}:~\texttt{appending}, otherwise \texttt{tee} overwrites \texttt{output.out} if existent),
 	
 	\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__line_appending, xleftmargin=\parindent]
 		echo "this is a line" | tee -a output.out # -a: appending, important
@@ -183,100 +198,61 @@
 	\begin{lstlisting}[style=mystylebash, label=alg:, xleftmargin=\parindent]
 		diff -rq --color --unidirectional-new-file directory1 directory2 
 	\end{lstlisting}
+
+	\section{Monitoring}
 	
-	\chapter{Linux}
+	\begin{lstlisting}[style=mystylebash, label=alg:htop, xleftmargin=\parindent]
+		htop
+	\end{lstlisting}
+
+	\section{Systems Information}
+	
+	Retrieving the number of available CPU resources,
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:nproc, xleftmargin=\parindent]
+		echo "$(nproc)"
+	\end{lstlisting}
+
+	Print day and time from CLI,
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:cli_date, xleftmargin=\parindent]
+		echo "$(date +%d_%m_%y-%H_%M_%S)"
+		# echo "$(date +%dp%mp%y-%Hp%Mp%S)"
+	\end{lstlisting}
+
+	Listing all available kernels in Debian-based Linux systems, 
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel, xleftmargin=\parindent]
+		dpkg --list | grep linux-image
+	\end{lstlisting}
+	
+	Currently active kernel version,
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel__current, xleftmargin=\parindent]
+		uname -a
+	\end{lstlisting}
+
+	\section{CUDA}
 	
 	\begin{itemize}
-	
-		\item Listing all available kernels, 
-	
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel, xleftmargin=\parindent]
-			dpkg --list | grep linux-image
-		\end{lstlisting}
-
-		Finding the currently active kernel version,
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_kernel__current, xleftmargin=\parindent]
-			uname -a
-		\end{lstlisting}
-	
-		The \textit{-a} option stands for \textit{appending}, otherwise \textit{tee} overwrites \textit{output.out} (if existent). 
-
-		\item Better colors in CLI: 
+		\item When you need to find out the CUDA version installed, install \texttt{nvidia-cuda-toolkit}, but do NOT reboot. After its use, immediately remove this package and any package installed alongside with it!
+		
+		\item In case NVIDIA drivers do not allow for boot into Ubuntu, e.g.~because you did not uninstall the \texttt{nvidia-cuda-toolkit} package,
 		
 		\begin{enumerate}
-			\item Use monokai color scheme, i.e.~dark gray background (\#272822) with light peach color for the text (\#F8F8F2)
-			\item File paths are still displayed in blue, which is suboptimal, to change the color to the better readable cyan-blue color, click on the three horizontal lines in the CLI, then on \textbf{Preferences}, then choose the currently active color, switch to the \textbf{Colors} tab, then go to \textbf{Palette}, click on the blue color \& instead use the color \#66D9EF
+			\item Boot into an older kernel version of Linux (in order to get there, do a "hard" reboot, and then go into 
+			\enquote{Advanced options for Ubuntu}, and choose an older kernel version). 
+			\item Once booted into the older kernel version, I removed `nvidia-cuda-toolkit` and rebooted. 
+			\item After a few more hard reboots and booting into the older kenel version, at some point, the newer kernel 
+			version was picked up and worker again. 
+			\item Now to fix the monitors (because dual-monitor setup didn't work), I had to open the program 
+			\enquote{Additional Drivers} and change the driver from the open-source version to an NVIDIA proprietary one. 
+			\item Then I had to install CUDA according to \href{https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html}{these instructions}. 
+			\item For PyTorch to recognize the GPU, I had to reboot. 
 		\end{enumerate}
-	
-		where \textit{-h} stands for human readability and \textit{-s} for summarizing. 
-		
-		\item Retrieving the number of available CPU resources,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:bash__cpu_res, xleftmargin=\parindent]
-			echo "$(nproc)"
-		\end{lstlisting}
-		
-		\item It is possible to use colored outputs in Bash. Check the bash function \textit{str\_diff} in App.~\ref{app:bashrc_file}. (Note that the \textit{-e} option is mandatory to enable interpretation of the backslash escapes).
-	
-		\item Print day and time from CLI,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:cli_date, xleftmargin=\parindent]
-			echo "$(date +%d_%m_%y-%H_%M_%S)"
-			# echo "$(date +%dp%mp%y-%Hp%Mp%S)"
-		\end{lstlisting}
-	
-		\item Seeing the resource consumption,
-		\begin{lstlisting}[style=mystylebash, label=alg:htop, xleftmargin=\parindent]
-			htop
-		\end{lstlisting}
-		
-		\item If you did an \textit{sshfs} and the connection hung up, kill the connection via
-		\begin{lstlisting}[style=mystylebash, label=alg:fusermount, xleftmargin=\parindent]
-			fusermount -zu /path/to/dir
-		\end{lstlisting}
 		
 	\end{itemize}
 	
-	\section{Opening Programs from CLI}
-	
-	\begin{itemize}
-		\item Opening the settings from CLI, 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:cli_settings, xleftmargin=\parindent]
-			gnome-control-center
-		\end{lstlisting}
-	
-		\item Opening VSCode from CLI: 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file, xleftmargin=\parindent]
-			code path_to_file/file_name.ext
-		\end{lstlisting}
-		
-		If a VSCode editor is already open, use the \textit{-n} flag to open the file in a new editor:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file_new_editor, xleftmargin=\parindent]
-			code -n path_to_file/file_name.ext
-		\end{lstlisting}
-		
-		A folder can also be opened directly:
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_dir, caption=Opening VSCode dir from CLI, xleftmargin=\parindent]
-			code path_to_dir
-		\end{lstlisting}
-		
-		\item Opening LibreOffice from CLI:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__libre_office, xleftmargin=\parindent]
-			libreoffice --writer path_to_dir/filename.odt
-		\end{lstlisting}
-		
-		\item Opening an image via the CLI: 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_eog, xleftmargin=\parindent]
-			eog /path/to/your/image.jpg
-		\end{lstlisting}
-	
-	\end{itemize}
-
 	\chapter{Docker}
 	
 	\section{Installation}
@@ -646,24 +622,6 @@
 
 	\begin{itemize}
 		\item Selecting a conda environment in VSCode, do \texttt{Ctrl + Shift + P} and type \newline \texttt{Python:~select interpreter}. 
-	\end{itemize}
-	
-	\chapter{CUDA}
-	
-	\begin{itemize}
-		\item When you need to find out the CUDA version installed, install \texttt{nvidia-cuda-toolkit}, but do NOT reboot. After its use, immediately remove this package and any package installed alongside with it!
-		
-		\item In case NVIDIA drivers do not allow for boot into Ubuntu, e.g.~because you did not uninstall the \texttt{nvidia-cuda-toolkit} package,
-		
-		\begin{enumerate}
-			\item Boot into an older kernel version of Linux (in order to get there, do a "hard" reboot, and then go into \enquote{Advanced options for Ubuntu}, and choose an older kernel version). 
-			\item Once booted into the older kernel version, I removed `nvidia-cuda-toolkit` and rebooted. 
-			\item After a few more hard reboots and booting into the older kenel version, at some point, the newer kernel version was picked up and worker again. 
-			\item Now to fix the monitors (because dual-monitor setup didn't work), I had to open the program \enquote{Additional Drivers} and change the driver from the open-source version to an NVIDIA proprietary one. 
-			\item Then I had to install CUDA according to \href{https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html}{these instructions}. 
-			\item For PyTorch to recognize the GPU, I had to reboot. 
-		\end{enumerate}
-		
 	\end{itemize}
 	
 	\chapter{Python}
@@ -1259,17 +1217,18 @@
 		\end{enumerate}	
 
 	\section{Troubleshooting}
-	
-		\begin{itemize}
-			\item If you find you are getting a permission error for saving a file on the remote machine (in VSCode when doing the local coding), try
-			
-			\begin{lstlisting}[style=mystylebash, label=alg:remote_troubleshooting, xleftmargin=\parindent]
-				sudo chown custom-username path/to/custom/script.ext
-			\end{lstlisting}
-			
-			The \texttt{custom-username} here refers to the username on the remote machine.
-			
-		\end{itemize}	
+
+		If you find you are getting a permission error for saving a file on the remote machine (in VSCode when doing the local coding), try
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:remote_troubleshooting, xleftmargin=\parindent]
+			sudo chown custom-username path/to/custom/script.ext
+		\end{lstlisting}
+		
+		\texttt{custom-username} here refers to the username on the remote machine. If the remote connection hung up,
+
+		\begin{lstlisting}[style=mystylebash, label=alg:fusermount, xleftmargin=\parindent]
+			fusermount -zu /path/to/dir
+		\end{lstlisting}
 	
 	\chapter{Jax}
 	
@@ -1906,6 +1865,46 @@
 		\texttt{Tools} $\rightarrow$ \texttt{Options} $\rightarrow$ \texttt{LibreOffice} $\rightarrow$ \texttt{Application Colors} $\rightarrow$ \texttt{Custom Colors} $\rightarrow$ \texttt{General} $\rightarrow$ \texttt{Document Background}, choose a dark color.
 		
 	\end{itemize}
+
+	\chapter{Opening Programs from the CLI in Linux}
+		
+		\begin{itemize}
+			\item Opening the settings from CLI, 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:cli_settings, xleftmargin=\parindent]
+				gnome-control-center
+			\end{lstlisting}
+			
+			\item Opening VSCode from CLI: 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file, xleftmargin=\parindent]
+				code path_to_file/file_name.ext
+			\end{lstlisting}
+			
+			If a VSCode editor is already open, use the \textit{-n} flag to open the file in a new editor:
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_file_new_editor, xleftmargin=\parindent]
+				code -n path_to_file/file_name.ext
+			\end{lstlisting}
+			
+			A folder can also be opened directly:
+			\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__vscode_dir, caption=Opening VSCode dir from CLI, xleftmargin=\parindent]
+				code path_to_dir
+			\end{lstlisting}
+			
+			\item Opening LibreOffice from CLI:
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:ubuntu__libre_office, xleftmargin=\parindent]
+				libreoffice --writer path_to_dir/filename.odt
+			\end{lstlisting}
+			
+			\item Opening an image via the CLI: 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:ubuntu_eog, xleftmargin=\parindent]
+				eog /path/to/your/image.jpg
+			\end{lstlisting}
+			
+		\end{itemize}
 
 \chapter{VSCode}
 
