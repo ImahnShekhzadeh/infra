@@ -535,7 +535,199 @@
 		
 	\end{itemize}
 	
-	\chapter{Anaconda}
+		\chapter{AWS S3} 
+	
+	\section{Installation \& Configuration}
+	
+	\begin{enumerate}
+		\item \href{https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions}{Installation instructions}
+		\item The CLI will display the path under which the \textit{aws} package was installed, but it might be sufficient to simply run 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws, xleftmargin=\parindent]
+			aws
+		\end{lstlisting}
+		
+		Double check by running 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws_path, xleftmargin=\parindent]
+			which aws
+		\end{lstlisting}
+		
+		\item After installation, configuration is necessary. For this run
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws_configure, xleftmargin=\parindent]
+			aws configure
+		\end{lstlisting}
+		
+		You can leave these fields empty:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws_configure__default_reg, xleftmargin=\parindent]
+			Default region name [None]:
+			Default output format [None]:
+		\end{lstlisting}
+		
+		A configuration file will be saved under 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__config_file, xleftmargin=\parindent]
+			~/.aws/credentials
+		\end{lstlisting}
+		
+		\item In the case you are a member of UNIGE, you can obtain the AWS access key ID and the secret access key as follows:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__access_secret_key, xleftmargin=\parindent]
+			echo -n "$user_name" | base64 # the `-n` is important in this context
+			echo -n "$passwd" | md5sum
+		\end{lstlisting}
+		
+		where \$user\_name and \$passwd need to be provided
+		
+		Otherwise, you need login to the AWS Management Console. 
+		
+		\item \textbf{To test the configuration was successful, do this:}
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws_configure_test, xleftmargin=\parindent]
+			aws s3 ls --endpoint-url https://your-custom-s3-endpoint.com
+		\end{lstlisting}
+		
+		where you replace the endpoint-url \url{https://your-custom-s3-endpoint.com} with yours.
+		
+	\end{enumerate}
+	
+	\section{AWS Credentials (Profiles)}
+	
+	\begin{itemize}
+		\item It is possible to use several profiles in the file \texttt{$\sim$/.aws/credentials}. 
+		
+		\item For example,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws_profiles, xleftmargin=\parindent]
+			[default]
+			aws_access_key_id = YOUR_DEFAULT_ACCESS_KEY
+			aws_secret_access_key = YOUR_DEFAULT_SECRET_KEY
+			
+			[profile1]                                                                   
+			aws_access_key_id = ANOTHER_ACCESS_KEY_ID
+			aws_secret_access_key = ANOTHER_SECRET_ACCESS_KEY
+			
+			[profile2]
+			aws_access_key_id = YET_ANOTHER_ACCESS_KEY_ID
+			aws_secret_access_key = YET_ANOTHER_SECRET_ACCESS_KEY
+		\end{lstlisting}
+		
+		Using specific profile when running \texttt{aws cli} commands via \texttt{--profile} option in the command:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws_cli__profile, xleftmargin=\parindent]
+			aws s3 --profile profile1 [...]
+			# aws s3 --profile default [...]
+		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\section{Buckets}
+	
+	One can have several buckets. 
+	
+	\subsection{Creation}
+	
+	\begin{itemize}
+		
+		\item Creating a new bucket,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__new_bucket, xleftmargin=\parindent]
+			aws s3api create-bucket --bucket custom-bucket-name --endpoint-url https://custom-s3-endpoint.com --profile default
+		\end{lstlisting}
+		
+	\end{itemize} 
+	
+	\subsection{Listings}
+	
+	\begin{itemize} 
+		
+		\item Directly \enquote{folder} contents of an s3 bucket,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__bucket_ls, xleftmargin=\parindent]
+			aws s3 ls s3://custom-bucket-name --recursive --endpoint-url https://custom-s3-endpoint.com --profile default # `--recursive` optional
+		\end{lstlisting}
+		
+		\item Showing file contents,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__bucket_prefix_ls, xleftmargin=\parindent]
+			aws s3 ls s3://custom-bucket-name/prefix/ --recursive --endpoint-url https://custom-s3-endpoint.com --profile default # `--recursive` optional
+		\end{lstlisting}
+		
+		Note that the \texttt{/} at the end of the prefix (\enquote{folder}) is necessary.
+		
+	\end{itemize}
+	
+	\subsection{File Copying}
+	
+	\begin{itemize}
+		\item Local machine $\longrightarrow$ S3:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__file_copying_local_s3, xleftmargin=\parindent]
+			aws s3 cp path/to/custom_file.ext s3://custom-bucket-name/path/to/custom_file.ext --endpoint-url https://custom-s3-endpoint.com --profile default
+		\end{lstlisting}	
+		
+		\item S3 $\longrightarrow$ local machine:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__file_copying_s3_local, xleftmargin=\parindent]
+			aws s3 cp s3://custom-bucket-name/path/to/s3_file.ext custom/destination --endpoint-url https://custom-s3-endpoint.com --profile default
+		\end{lstlisting}	
+	\end{itemize}
+	
+	\subsection{Directory Copying}
+	
+	\begin{itemize}
+		\item Local machine $\longrightarrow$ S3:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__dir_copying, xleftmargin=\parindent]
+			aws s3 sync path/to/dir s3://custom-bucket-name/path/to --endpoint-url      
+			https://custom-s3-endpoint.com --profile default
+		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\subsection{Directory/File Deletion}
+	
+	\begin{itemize}
+		\item Deleting a folder (which is essentially a prefix in S3) and its contents in
+		an S3 bucket, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__dir_rm, xleftmargin=\parindent]
+			aws s3 rm s3://your-bucket-name/path-to-your-folder --recursive --endpoint-url https://custom-s3-endpoint.com --profile default
+		\end{lstlisting}
+		
+		\item Deleting a file, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:aws__file_rm, xleftmargin=\parindent]
+			aws s3 rm s3://your-bucket-name/path-to-your-file.out --recursive --endpoint-url https://custom-s3-endpoint.com --profile default
+		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\section{Cloudpathlib}
+	
+	\begin{itemize}
+		\item When you use the \href{https://cloudpathlib.drivendata.org/stable/}{cloudpathlib} module, and you want to specify a profile, do this:
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:aws__cloudpathlib_profile, xleftmargin=\parindent]
+			from cloudpathlib import S3Path, S3Client
+			
+			# Create an S3 client with a specific AWS profile
+			s3_client = S3Client(
+			aws_access_key_id=aws_access_key_id,
+			aws_secret_access_key=aws_secret_access_key,
+			endpoint_url=endpoint_url,
+			profile_name="profile1", # specify profile here
+			)
+			
+			# Make `client` default:
+			client.set_as_default_client()
+		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\chapter{Conda}
 	
 	\begin{itemize}
 		\item Retrieving information about currently activated conda environment,
@@ -622,337 +814,6 @@
 
 	\begin{itemize}
 		\item Selecting a conda environment in VSCode, do \texttt{Ctrl + Shift + P} and type \newline \texttt{Python:~select interpreter}. 
-	\end{itemize}
-	
-	\chapter{Python}
-	
-	\section{Config File \& JSON Files}
-	
-	\begin{itemize}
-		\item  When using \texttt{argparse} in combination with a JSON configuration file, the JSON keys need to match the long option names specified in \texttt{parser.add\_argument()} method calls. The \texttt{argparse} module itself does not automatically recognize abbreviated forms from a JSON file.
-	\end{itemize} 
-
-	\section{Jupyter Notebooks}
-	
-	\begin{itemize}
-		\item Converting jupyter notebooks into PDFs,
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf, xleftmargin=\parindent]
-			for nb in /path/one/Notebook1.ipynb /path/two/Notebook2.ipynb [...]
-			do
-				jupyter nbconvert --to pdf "$nb"
-			done 
-		\end{lstlisting}
-	
-		Wildcarding notation would also work, 
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf__wildcard, xleftmargin=\parindent]
-			# optionally: `output_dir="[...]"`
-			
-			for nb in *.ipynb; do
-				nb_name="${nb%.ipynb}"
-				jupyter nbconvert --to pdf "$nb" # `--output "$output_dir/$nb_name.pdf"`
-			done 
-		\end{lstlisting}
-		
-	\end{itemize}
-	
-	\section{Map (Built-In Function)}
-	
-	\begin{itemize}
-		\item Function signature:
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:map__func_signa, xleftmargin=\parindent]
-			map(function, iterable, *iterables)
-		\end{lstlisting}
-		
-		Description provided in the \href{https://docs.python.org/3/library/functions.html#map}{documentation}:
-		
-		\begin{quote}
-			Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted. For cases where the function inputs are already arranged into argument tuples, see \textit{itertools.starmap()}.
-		\end{quote}		
-		
-		\item Example usage:~Natively multiplying Python lists elementwise,
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:map__python_lists_elementwise, xleftmargin=\parindent]
-			from typing import List
-			
-			def multiply(x: List, y: List):
-			    return x * y
-			
-			list_one = [i for i in range(1000)]
-			list_two = [j for j in range(1000, 2000)]
-			result = list(map(multiply, list_one, list_two)) # `map` is a built-in function, do not use `(list_one, list_two)` in this case
-		\end{lstlisting}
-		
-		\item Example usage:~Converting NumPy arrays into PyTorch tensors,
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:map__numpy_torch_conv, xleftmargin=\parindent]
-			a = np.array([1, 2, 3, 4])
-			tensor_list = list(map(torch.from_numpy, (a,))) # list containing tensor, use of additional brackets necessary
-		\end{lstlisting}
-	
-		\item Example usage:~Converting NumPy arrays into PyTorch tensors,
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:map__numpy_torch_tuple_unpacking, xleftmargin=\parindent]
-			a = np.array([1, 2, 3, 4]) 
-			b = np.array([5, 6, 7, 8]) 
-			a, b = map(torch.from_numpy, (a, b)) # tuple unpacking
-		\end{lstlisting}
-		
-	\end{itemize}
-	
-	\section{PyTorch}
-	
-		\subsubsection{Leaf Tensors}
-			
-			\begin{itemize}
-				\item If \texttt{requires\_grad=False}, then the tensor will be leaf by convention. If \texttt{requires\_grad=True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation, e.g.~\texttt{.to(device)} when the tensor is on \texttt{cpu} and \texttt{device="cuda:0"}.
-				
-				\item However, by definition, leaf tensors themselves do not have a \textbf{gradient function} \texttt{.grad\_fn} \mbox{because} they are not the result of a differentiable operation applied to other tensors, i.e.~\texttt{grad\_fn} on such tensors will return \texttt{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
-				
-				\item The \texttt{.grad} attribute on leaf tensors that require gradients, i.e.~those for which \\ \texttt{requires\_grad=True}, stores the gradient computed during backpropagation. (For leaf tensors that have \texttt{requires\_grad=False}, calling the \texttt{.grad} attribute outputs \texttt{None}.) Note that for non-leaf tensors, calling \texttt{.grad} results in a \texttt{UserWarning}, since non-leaf tensors are generally intermediate results in the computation graph, and their gradients are usually not needed once the gradients of the leaf tensors have been obtained. However, there are cases where those gradients are needed, which can be enforced by setting \texttt{retain\_grad=True} on those tensors,
-				
-				\begin{lstlisting}[style=mystylepython, label=alg:retain_grad, xleftmargin=\parindent]
-					x = torch.tensor([1., 2., 3.], requires_grad=True, device=torch.device("cuda:0"))
-					
-					# fwd pass
-					y = x**2
-					
-					# retain gradients
-					y.retain_grad()
-
-					# backward pas
-					y.sum().backward()
-					
-					# access gradients
-					y.grad # `torch.tensor([1., 1., 1.], device="cuda:0")`
-				\end{lstlisting}
-				
-				Note that in the example of this code snippet, doing \texttt{y.grad} means that we access the gradient of the scalar loss function \texttt{y.sum()} --- on which we performed \texttt{.backward()}. Correspondingly, doing \texttt{x.grad} implies the gradient of the scalar loss function \texttt{y.sum()} with respect to \texttt{x}.
-				
-				\item In general, it is \textbf{not} possible to perform \textbf{in-place} operations on leaf tensors for which \\ \texttt{requires\_grad=True}, since
-				PyTorch dynamically builds a computational graph during the forward pass, which is used during backpropagation to calculate the gradients. If leaf tensors that have \texttt{requires\_grad=True} are changed in-place, then the values used during the forward pass are changed, which will affect the gradient calculations in the backward pass. However, note that when no gradients are required for the operations, e.g.~when performing parameter updates manually, one can use the context manager \texttt{with torch.no\_grad()}, in which case in-place operations on leaf tensors \textbf{can} be performed, since inside the context manager, \texttt{requires\_grad=False}.
-				
-			\end{itemize}		
-		
-		\subsubsection{Autograd \& Backward}
-		
-			\begin{itemize}
-				\item The function \texttt{torch.autograd.grad()} computes the gradient. If the gradient of a scalar (loss function) wrt a (weight) matrix is taken, then the output will also be a matrix, where each element corresponds to the partial derivative of the scalar (loss function) wrt to the (weight) matrix element.
-				
-				\item \texttt{torch.autograd.grad()} is particularly useful if more direct control over the gradient computation is desired, in particular compared to \texttt{.backward()}.
-				
-				\item Note that the default behavior of \texttt{.backward()} accumulates gradients in the \texttt{.grad} attribute of tensors,
-				
-				\begin{lstlisting}[style=mystylepython, label=alg:torch_backward, xleftmargin=\parindent]
-					x = torch.tensor([1., 2., 3.], requires_grad=True, device=torch.device("cuda:0"))
-					
-					# fwd pass
-					y = 2 * x
-					
-					# first backward pass
-					y.sum().backward(retain_graph=True)
-					print(f"Gradients of `x` after first backward pass: {x.grad}") # `torch.tensor([2., 2., 2.])`
-					
-					# second backward pass
-					y.sum().backward()
-					print(f"Gradients of `x` after second backward pass: {x.grad}")  # `torch.tensor([4., 4., 4.])`, notice how gradients have accumulated
-				\end{lstlisting}
-				
-				However, this behavior can be suppressed by simply zeroing the gradients, i.e.~\texttt{x.grad.zero\_()} --- note that \texttt{x.grad} returns a tensor, and \texttt{<tensor>.zero\_()} is a general PyTorch function that sets all elements in-place to $0$.
-			\end{itemize} 
-	
-	\chapter{AWS S3} 
-	
-	\section{Installation \& Configuration}
-	
-	\begin{enumerate}
-		\item \href{https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions}{Installation instructions}
-		\item The CLI will display the path under which the \textit{aws} package was installed, but it might be sufficient to simply run 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws, xleftmargin=\parindent]
-			aws
-		\end{lstlisting}
-		
-		Double check by running 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws_path, xleftmargin=\parindent]
-			which aws
-		\end{lstlisting}
-		
-		\item After installation, configuration is necessary. For this run
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws_configure, xleftmargin=\parindent]
-			aws configure
-		\end{lstlisting}
-		
-		You can leave these fields empty:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws_configure__default_reg, xleftmargin=\parindent]
-			Default region name [None]:
-			Default output format [None]:
-		\end{lstlisting}
-		
-		A configuration file will be saved under 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__config_file, xleftmargin=\parindent]
-			~/.aws/credentials
-		\end{lstlisting}
-		
-		\item In the case you are a member of UNIGE, you can obtain the AWS access key ID and the secret access key as follows:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__access_secret_key, xleftmargin=\parindent]
-			echo -n "$user_name" | base64 # the `-n` is important in this context
-			echo -n "$passwd" | md5sum
-		\end{lstlisting}
-		
-		where \$user\_name and \$passwd need to be provided
-		
-		Otherwise, you need login to the AWS Management Console. 
-		
-		\item \textbf{To test the configuration was successful, do this:}
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws_configure_test, xleftmargin=\parindent]
-			aws s3 ls --endpoint-url https://your-custom-s3-endpoint.com
-		\end{lstlisting}
-		
-		where you replace the endpoint-url \url{https://your-custom-s3-endpoint.com} with yours.
-		
-	\end{enumerate}
-
-	\section{AWS Credentials (Profiles)}
-	
-	\begin{itemize}
-		\item It is possible to use several profiles in the file \texttt{$\sim$/.aws/credentials}. 
-
-		\item For example,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws_profiles, xleftmargin=\parindent]
-			[default]
-			aws_access_key_id = YOUR_DEFAULT_ACCESS_KEY
-			aws_secret_access_key = YOUR_DEFAULT_SECRET_KEY
-			
-			[profile1]                                                                   
-			aws_access_key_id = ANOTHER_ACCESS_KEY_ID
-			aws_secret_access_key = ANOTHER_SECRET_ACCESS_KEY
-			
-			[profile2]
-			aws_access_key_id = YET_ANOTHER_ACCESS_KEY_ID
-			aws_secret_access_key = YET_ANOTHER_SECRET_ACCESS_KEY
-		\end{lstlisting}
-	
-		Using specific profile when running \texttt{aws cli} commands via \texttt{--profile} option in the command:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws_cli__profile, xleftmargin=\parindent]
-			aws s3 --profile profile1 [...]
-			# aws s3 --profile default [...]
-		\end{lstlisting}
-		
-	\end{itemize}
-
-	\section{Buckets}
-	
-	One can have several buckets. 
-	
-	\subsection{Creation}
-
-	\begin{itemize}
-		
-		\item Creating a new bucket,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__new_bucket, xleftmargin=\parindent]
-			aws s3api create-bucket --bucket custom-bucket-name --endpoint-url https://custom-s3-endpoint.com --profile default
-		\end{lstlisting}
-	
-	\end{itemize} 
-
-	\subsection{Listings}
-
-	\begin{itemize} 
-		
-		\item Directly \enquote{folder} contents of an s3 bucket,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__bucket_ls, xleftmargin=\parindent]
-			aws s3 ls s3://custom-bucket-name --recursive --endpoint-url https://custom-s3-endpoint.com --profile default # `--recursive` optional
-		\end{lstlisting}
-		
-		\item Showing file contents,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__bucket_prefix_ls, xleftmargin=\parindent]
-			aws s3 ls s3://custom-bucket-name/prefix/ --recursive --endpoint-url https://custom-s3-endpoint.com --profile default # `--recursive` optional
-		\end{lstlisting}
-	
-		Note that the \texttt{/} at the end of the prefix (\enquote{folder}) is necessary.
-		
-	\end{itemize}
-
-	\subsection{File Copying}
-	
-	\begin{itemize}
-		\item Local machine $\longrightarrow$ S3:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__file_copying_local_s3, xleftmargin=\parindent]
-			aws s3 cp path/to/custom_file.ext s3://custom-bucket-name/path/to/custom_file.ext --endpoint-url https://custom-s3-endpoint.com --profile default
-		\end{lstlisting}	
-		
-		\item S3 $\longrightarrow$ local machine:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__file_copying_s3_local, xleftmargin=\parindent]
-			aws s3 cp s3://custom-bucket-name/path/to/s3_file.ext custom/destination --endpoint-url https://custom-s3-endpoint.com --profile default
-		\end{lstlisting}	
-	\end{itemize}
-
-	\subsection{Directory Copying}
-	
-	\begin{itemize}
-		\item Local machine $\longrightarrow$ S3:
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__dir_copying, xleftmargin=\parindent]
-			aws s3 sync path/to/dir s3://custom-bucket-name/path/to --endpoint-url      
-			https://custom-s3-endpoint.com --profile default
-		\end{lstlisting}
-		
-	\end{itemize}
-
-	\subsection{Directory/File Deletion}
-	
-	\begin{itemize}
-		\item Deleting a folder (which is essentially a prefix in S3) and its contents in
-		an S3 bucket, 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__dir_rm, xleftmargin=\parindent]
-			aws s3 rm s3://your-bucket-name/path-to-your-folder --recursive --endpoint-url https://custom-s3-endpoint.com --profile default
-		\end{lstlisting}
-		
-		\item Deleting a file, 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:aws__file_rm, xleftmargin=\parindent]
-			aws s3 rm s3://your-bucket-name/path-to-your-file.out --recursive --endpoint-url https://custom-s3-endpoint.com --profile default
-		\end{lstlisting}
-		
-	\end{itemize}
-
-	\section{Cloudpathlib}
-	
-	\begin{itemize}
-		\item When you use the \href{https://cloudpathlib.drivendata.org/stable/}{cloudpathlib} module, and you want to specify a profile, do this:
-		
-		\begin{lstlisting}[style=mystylepython, label=alg:aws__cloudpathlib_profile, xleftmargin=\parindent]
-			from cloudpathlib import S3Path, S3Client
-			
-			# Create an S3 client with a specific AWS profile
-			s3_client = S3Client(
-				aws_access_key_id=aws_access_key_id,
-				aws_secret_access_key=aws_secret_access_key,
-				endpoint_url=endpoint_url,
-				profile_name="profile1", # specify profile here
-			)
-			
-			# Make `client` default:
-			client.set_as_default_client()
-		\end{lstlisting}
-		
 	\end{itemize}
 	
 	\chapter{Git}
@@ -1229,6 +1090,145 @@
 		\begin{lstlisting}[style=mystylebash, label=alg:fusermount, xleftmargin=\parindent]
 			fusermount -zu /path/to/dir
 		\end{lstlisting}
+	
+	\chapter{Python}
+	
+	\section{Config File \& JSON Files}
+	
+	\begin{itemize}
+		\item  When using \texttt{argparse} in combination with a JSON configuration file, the JSON keys need to match the long option names specified in \texttt{parser.add\_argument()} method calls. The \texttt{argparse} module itself does not automatically recognize abbreviated forms from a JSON file.
+	\end{itemize} 
+	
+	\section{Jupyter Notebooks}
+	
+	\begin{itemize}
+		\item Converting jupyter notebooks into PDFs,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf, xleftmargin=\parindent]
+			for nb in /path/one/Notebook1.ipynb /path/two/Notebook2.ipynb [...]
+			do
+			jupyter nbconvert --to pdf "$nb"
+			done 
+		\end{lstlisting}
+		
+		Wildcarding notation would also work, 
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:notebooks_to_pdf__wildcard, xleftmargin=\parindent]
+			# optionally: `output_dir="[...]"`
+			
+			for nb in *.ipynb; do
+			nb_name="${nb%.ipynb}"
+			jupyter nbconvert --to pdf "$nb" # `--output "$output_dir/$nb_name.pdf"`
+			done 
+		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\section{Map (Built-In Function)}
+	
+	\begin{itemize}
+		\item Function signature:
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__func_signa, xleftmargin=\parindent]
+			map(function, iterable, *iterables)
+		\end{lstlisting}
+		
+		Description provided in the \href{https://docs.python.org/3/library/functions.html#map}{documentation}:
+		
+		\begin{quote}
+			Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted. For cases where the function inputs are already arranged into argument tuples, see \textit{itertools.starmap()}.
+		\end{quote}		
+		
+		\item Example usage:~Natively multiplying Python lists elementwise,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__python_lists_elementwise, xleftmargin=\parindent]
+			from typing import List
+			
+			def multiply(x: List, y: List):
+			return x * y
+			
+			list_one = [i for i in range(1000)]
+			list_two = [j for j in range(1000, 2000)]
+			result = list(map(multiply, list_one, list_two)) # `map` is a built-in function, do not use `(list_one, list_two)` in this case
+		\end{lstlisting}
+		
+		\item Example usage:~Converting NumPy arrays into PyTorch tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__numpy_torch_conv, xleftmargin=\parindent]
+			a = np.array([1, 2, 3, 4])
+			tensor_list = list(map(torch.from_numpy, (a,))) # list containing tensor, use of additional brackets necessary
+		\end{lstlisting}
+		
+		\item Example usage:~Converting NumPy arrays into PyTorch tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:map__numpy_torch_tuple_unpacking, xleftmargin=\parindent]
+			a = np.array([1, 2, 3, 4]) 
+			b = np.array([5, 6, 7, 8]) 
+			a, b = map(torch.from_numpy, (a, b)) # tuple unpacking
+		\end{lstlisting}
+		
+	\end{itemize}
+	
+	\section{PyTorch}
+	
+	\subsubsection{Leaf Tensors}
+	
+	\begin{itemize}
+		\item If \texttt{requires\_grad=False}, then the tensor will be leaf by convention. If \texttt{requires\_grad=True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation, e.g.~\texttt{.to(device)} when the tensor is on \texttt{cpu} and \texttt{device="cuda:0"}.
+		
+		\item However, by definition, leaf tensors themselves do not have a \textbf{gradient function} \texttt{.grad\_fn} \mbox{because} they are not the result of a differentiable operation applied to other tensors, i.e.~\texttt{grad\_fn} on such tensors will return \texttt{None}. The gradient function in neural network libraries like PyTorch or TensorFlow is associated with tensors that are outputs of differentiable operations.
+		
+		\item The \texttt{.grad} attribute on leaf tensors that require gradients, i.e.~those for which \\ \texttt{requires\_grad=True}, stores the gradient computed during backpropagation. (For leaf tensors that have \texttt{requires\_grad=False}, calling the \texttt{.grad} attribute outputs \texttt{None}.) Note that for non-leaf tensors, calling \texttt{.grad} results in a \texttt{UserWarning}, since non-leaf tensors are generally intermediate results in the computation graph, and their gradients are usually not needed once the gradients of the leaf tensors have been obtained. However, there are cases where those gradients are needed, which can be enforced by setting \texttt{retain\_grad=True} on those tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:retain_grad, xleftmargin=\parindent]
+			x = torch.tensor([1., 2., 3.], requires_grad=True, device=torch.device("cuda:0"))
+			
+			# fwd pass
+			y = x**2
+			
+			# retain gradients
+			y.retain_grad()
+			
+			# backward pas
+			y.sum().backward()
+			
+			# access gradients
+			y.grad # `torch.tensor([1., 1., 1.], device="cuda:0")`
+		\end{lstlisting}
+		
+		Note that in the example of this code snippet, doing \texttt{y.grad} means that we access the gradient of the scalar loss function \texttt{y.sum()} --- on which we performed \texttt{.backward()}. Correspondingly, doing \texttt{x.grad} implies the gradient of the scalar loss function \texttt{y.sum()} with respect to \texttt{x}.
+		
+		\item In general, it is \textbf{not} possible to perform \textbf{in-place} operations on leaf tensors for which \\ \texttt{requires\_grad=True}, since
+		PyTorch dynamically builds a computational graph during the forward pass, which is used during backpropagation to calculate the gradients. If leaf tensors that have \texttt{requires\_grad=True} are changed in-place, then the values used during the forward pass are changed, which will affect the gradient calculations in the backward pass. However, note that when no gradients are required for the operations, e.g.~when performing parameter updates manually, one can use the context manager \texttt{with torch.no\_grad()}, in which case in-place operations on leaf tensors \textbf{can} be performed, since inside the context manager, \texttt{requires\_grad=False}.
+		
+	\end{itemize}		
+	
+	\subsubsection{Autograd \& Backward}
+	
+	\begin{itemize}
+		\item The function \texttt{torch.autograd.grad()} computes the gradient. If the gradient of a scalar (loss function) wrt a (weight) matrix is taken, then the output will also be a matrix, where each element corresponds to the partial derivative of the scalar (loss function) wrt to the (weight) matrix element.
+		
+		\item \texttt{torch.autograd.grad()} is particularly useful if more direct control over the gradient computation is desired, in particular compared to \texttt{.backward()}.
+		
+		\item Note that the default behavior of \texttt{.backward()} accumulates gradients in the \texttt{.grad} attribute of tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:torch_backward, xleftmargin=\parindent]
+			x = torch.tensor([1., 2., 3.], requires_grad=True, device=torch.device("cuda:0"))
+			
+			# fwd pass
+			y = 2 * x
+			
+			# first backward pass
+			y.sum().backward(retain_graph=True)
+			print(f"Gradients of `x` after first backward pass: {x.grad}") # `torch.tensor([2., 2., 2.])`
+			
+			# second backward pass
+			y.sum().backward()
+			print(f"Gradients of `x` after second backward pass: {x.grad}")  # `torch.tensor([4., 4., 4.])`, notice how gradients have accumulated
+		\end{lstlisting}
+		
+		However, this behavior can be suppressed by simply zeroing the gradients, i.e.~\texttt{x.grad.zero\_()} --- note that \texttt{x.grad} returns a tensor, and \texttt{<tensor>.zero\_()} is a general PyTorch function that sets all elements in-place to $0$.
+	\end{itemize} 
 	
 	\chapter{Jax}
 	

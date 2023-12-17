@@ -4,13 +4,14 @@ Repository for sharing template Docker file, submit file, etc.
 ## [`infra.pdf`](infra.pdf)
 
 Useful instructions/information/commands for...
-- ... bash (**chapter 1**)
-- ... Linux (**chapter 2**)
-- general instructions and commands for Docker (**chapter $3$**).
-- 
-- **Chapter $7$**: 
-- **Chapter $8$**: Useful git commands and information.
-
+- ... bash \& Linux (**chapter 1**),
+- ... Docker (**chapter 2**),
+- ... AWS S3 (**chapter 3**),
+- ... conda (**chapter 4**), 
+- ... git (**chapter 5**), 
+- ... remote development (**chapter 6**), 
+- ... python (**chapter 7**), 
+- ... Jax (**chapter 8**)
 
 ## Template Submit File
 
