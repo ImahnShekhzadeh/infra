@@ -34,7 +34,7 @@ where you should adjust the name of the Python script you are running.
 
 Depending on your internet speed, building the docker image from the docker file will take some time. Personally, I run the script as follows:
 ```
-docker build -f docker_img -t project-name:tag-name .
+docker build -f Dockerfile -t project-name:tag-name .
 docker run --rm -v $(pwd)/test_scripts_nbs:/app/scripts --gpus all -it project-name:tag-name
 ```
 where you should replace `project-name` and `tag-name` with whatever information you want to provide, and `test_scripts_nbs` is a local directory containing a script. 
