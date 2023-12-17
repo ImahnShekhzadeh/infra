@@ -1006,9 +1006,6 @@
 	\chapter{Git}
 	
 	\section{Merging}
-	
-	\begin{itemize}
-		\item Assuming the following commit history is given,
 		
 		\begin{tikzpicture}
 			% Draw the main branch
@@ -1040,9 +1037,7 @@
 			\node[align=left] at (9, 1) {\texttt{new\_branch}};
 		\end{tikzpicture}
 		
-		when merging \texttt{main} and \texttt{new\_branch}, the commits D and D'' will be either auto-merged or there will be a merge conflict.
-		
-		\item Assuming the following commit history is given,
+		When merging \texttt{main} and \texttt{new\_branch}, the commits \texttt{D} and \texttt{D''} will either be auto-merged or there will be a merge conflict. For this commit history, 
 		
 		\begin{tikzpicture}
 			% Draw the main branch
@@ -1082,7 +1077,7 @@
 			\node[align=left] at (9, 0) {\texttt{main}};
 		\end{tikzpicture}
 
-		Merging \texttt{main} with \texttt{new\_feature} would result in a fast-forward,
+		merging \texttt{main} with \texttt{new\_feature} would result in a fast-forward,
 
 		\begin{tikzpicture}
 			% Draw the main branch
@@ -1114,14 +1109,12 @@
 			\node[align=left] at (9,-1) {\texttt{cool\_feature}};
 		\end{tikzpicture}
 				
-		\item Merging \texttt{new\_feature} into \texttt{main},
+		Merging \texttt{new\_feature} into \texttt{main} can be done via
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
-			git switch main
-			git merge new_feature
+			git switch main && git merge new_feature
 		\end{lstlisting}
 	
-	\end{itemize}
 	
 	\section{Merge Conflicts}
 	
