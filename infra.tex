@@ -804,16 +804,17 @@
 		
 		where \texttt{TMPDIR} needs to exist.
 	
-		\item Installing specific conda package version,
+		\item Installing specific conda package in a specific version --- note that the specification of a version number is optional,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:conda__spec_env_version, xleftmargin=\parindent]
-			conda install -c conda-forge custom-pkg-name -y
+			conda install -c conda-forge custom-pkg-name=version-number -y
 			# conda install -c conda-forge cloudpathlib=0.15.1 -y
+			# conda install -c conda-forge cloudpathlib -y
 		\end{lstlisting}
 	
 		\item Removing list of packages from conda environment,
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:conda__remove_pkgs, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
 			conda remove -n custom-env-name pkg1 pkg2 ... pkgN -y
 			# conda remove -n google_jax matplotlib -y
 		\end{lstlisting}
