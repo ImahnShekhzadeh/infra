@@ -1094,7 +1094,17 @@
 		
 		Then commit and push.
 		
+	\section{Pull Requests}
+		
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			gh pr create --base main --head "$bname" --title "Pin isort & black 
+			versions" --body "This pull request fixes the issue that worklfows fail
+			because of different isort/black versions used in the workflows & 
+			specified in the \`pyproject.toml\` file."
+		\end{lstlisting}
 	
+		Note that \texttt{bname} is a bash function defined in App.~\ref{app:bashrc_file}. Escaping the \texttt{\textbackslash} is necessary, since in shell commands, backticks (\texttt{`}) are used to execute commands and substitute their output into the command line.
+		
 	\chapter{Remote Development}
 	
 	\section{Connection}
