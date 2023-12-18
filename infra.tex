@@ -803,6 +803,12 @@
 		\end{lstlisting}
 		
 		where \texttt{TMPDIR} needs to exist.
+		
+		If you want to install a specific version of a package via \texttt{pip} --- and you do not use a \texttt{pyproject.toml} file --- do
+		
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			pip install package==version
+		\end{lstlisting}
 	
 		\item Installing specific conda package in a specific version --- note that the specification of a version number is optional,
 		
