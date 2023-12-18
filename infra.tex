@@ -1105,6 +1105,20 @@
 	
 		Note that \texttt{bname} is a bash function defined in App.~\ref{app:bashrc_file}. Escaping the \texttt{\textbackslash} is necessary, since in shell commands, backticks (\texttt{`}) are used to execute commands and substitute their output into the command line.
 		
+	\section{Updating Files from other Branch}	
+	
+		When working on \texttt{branch\_my}, it is possible to incorporate changes from another branch \texttt{branch\_x}, 
+
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			git switch <branch_x>
+			git pull origin <branch_x>
+			git switch <branch_my>
+			git rebase -i <branch_x>
+			git push origin <branch_my> --force
+		\end{lstlisting}
+		
+		Save the interactive view via \texttt{:wq} and make a force push to \texttt{branch\_my}. 
+	
 	\chapter{Remote Development}
 	
 	\section{Connection}
