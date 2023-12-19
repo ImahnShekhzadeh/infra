@@ -1519,7 +1519,7 @@
 			git branch $(branch_name) && git push origin $(branch_name)
 		}
 		
-		# delete remote branch
+		# delete branch
 		lbd() {
 			local branch="$1" 
 			local exists__in_local=$(git branch --list "$branch")
