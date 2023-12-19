@@ -27,7 +27,7 @@ RUN conda install -c conda-forge pip
 # Install PyTorch (with CUDA support for 12.1) using `conda`
 # CUDA 12.1 is the latest version supported by PyTorch, 
 # should also work for CUDA 12.2
-RUN conda install -y pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+RUN conda install -y pytorch=2.1.* torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
 
 # Install JAX with CUDA support using `pip` via `conda`
 # `-v` flag is for verbose output
