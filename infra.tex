@@ -1287,7 +1287,10 @@
 			print(f"Gradients of `x` after second backward pass: {x.grad}")  # `torch.tensor([4., 4., 4.])`, notice how gradients have accumulated
 		\end{lstlisting}
 		
-		However, this behavior can be suppressed by simply zeroing the gradients, i.e.~\texttt{x.grad.zero\_()} --- note that \texttt{x.grad} returns a tensor, and \texttt{<tensor>.zero\_()} is a general PyTorch function that sets all elements in-place to $0$.
+		However, this behavior can be suppressed by simply zeroing the gradients, i.e.~\texttt{x.grad.zero_()} --- note that \texttt{x.grad} returns a tensor, and \texttt{<tensor>.zero\_()} is a general PyTorch function that sets all elements in-place to $0$.
+		
+		\item When using a default iteration loop in PyTorch, \texttt{optimizer.zero_grad()} --- where \texttt{optimizer} is an instance of \texttt{torch.optim.Optimizer} --- can be put anywhere in the loop \textit{except between \texttt{loss.backward()} and \texttt{optimizer.step()}}.
+		
 	\end{itemize} 
 	
 	\chapter{Jax}
