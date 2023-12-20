@@ -541,7 +541,53 @@
 		
 	\end{itemize}
 	
-		\chapter{AWS S3} 
+	\section{Storage}
+	
+	\begin{itemize}
+		\item In case you want \texttt{docker} to install images and containers in a separate drive, e.g.~one under \texttt{/media/user-name/samsung_500}, you can follow these steps:
+		
+		\begin{enumerate}
+			\item Stop the docker service,
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				sudo systemctl stop docker
+			\end{lstlisting}
+			
+			\item Move the directory \texttt{/var/lib/docker} to the separate drive,
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				sudo mv /var/lib/docker /media/user-name/samsung_500/docker
+			\end{lstlisting}
+			
+			Note that you should \textit{not} create the \texttt{docker} directory directly under \texttt{/media/user-name/samsung_500}.
+			
+			\item Configure \texttt{docker} to use the new directory by editing the \texttt{docker} daemon configuration file,
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				sudo nano /etc/docker/daemon.json
+			\end{lstlisting}
+			
+			and then adding the following configuration,
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				{
+					"data-root": "/media/user-name/docker"
+				}
+			\end{lstlisting}
+			
+			\item Restart the \texttt{docker} service, 
+			
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				sudo systemctl restart docker
+			\end{lstlisting}	
+			
+			\item Follow the instructions from the NVIDIA Container Toolkit \href{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker}{configuration} to ensure that NVIDIA GPUs can still be used inside the containers.
+			
+		\end{enumerate}
+		
+	\end{itemize}
+	
+	\chapter{AWS S3} 
 	
 	\section{Installation \& Configuration}
 	
