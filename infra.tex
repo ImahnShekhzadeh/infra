@@ -353,6 +353,12 @@
 		
 		where \texttt{img\_name} will be the name of the newly created image, \texttt{tag\_name} the tag name and \texttt{file\_name} the name of the docker file. 
 		
+		The \texttt{.} specifies the context of the build, which is the current directory in this case. If \texttt{custom_docker_file} is in another path, it can be easily provided,
+		
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			d build -f file_name -t img_name:tag_name /path/to/build/context
+		\end{lstlisting}
+		
 		\item Via 
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:docker__expose_port, xleftmargin=\parindent]
@@ -368,30 +374,22 @@
 	
 	\begin{itemize}
 		
-		\item A Dockerfile does not necessarily need to have the name \textit{Dockerfile}. To pass another name when building the img, do 
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:docker__build_with_custom_img_name, xleftmargin=\parindent]
-			d build -f custom_docker_file .
-		\end{lstlisting}
-		
-		The . specifies the context of the build, which is the current directory in this case. \textbf{I would recommend running this command from the same dir in which \texttt{custom\_docker\_file} is located}.
-		
 		\item Check all available Docker images via
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:docker__check_avail_imgs, xleftmargin=\parindent]
 			d images
 		\end{lstlisting}
 		
-		\item Cleaning up dangling docker images (these are the entries with \textit{$\langle$none$\rangle$} in the repository or tag name in the output of the previous algo):
+		\item Cleaning up dangling docker images --- these are the entries with $\langle$\texttt{none}$\rangle$ in the repository or tag name in the output of the previous algo:
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:docker_rm__dangling, xleftmargin=\parindent]
 			d image prune -f
 		\end{lstlisting}
 		
-		\item Removing a Docker image -- \textbf{only do this when finished with using the image}
+		\item Removing a Docker image --- \textbf{only do this when finished with using the image}
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:docker_remove, xleftmargin=\parindent]
-			d image rm Image_name:Tag
+			d image rm img_name:tag_name
 			# d container rm <container_id> # in case some containers are using the image
 		\end{lstlisting}
 		
@@ -517,7 +515,7 @@
 			d ps
 		\end{lstlisting}
 		
-		Listing only the container ID (of all running containers),
+		Listing only the container ID of all running containers,
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:docker__contains_ids, xleftmargin=\parindent]
 			d ps -q
