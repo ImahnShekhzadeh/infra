@@ -266,8 +266,14 @@
 		
 		\item Once done with the installation of the NVIDIA Container Toolkit, proceed with the \href{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker}{configuration}. During the configuration, it will be necessary to restart the docker daemon, which you can achieve as follows: 
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:docker_restart, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
 			sudo systemctl restart docker
+		\end{lstlisting}
+	
+		\item Checking that the docker installation was successful, 
+		
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			docker run hello-world
 		\end{lstlisting}
 		
 	\end{itemize}
