@@ -1279,9 +1279,9 @@
 		
 	\end{itemize}
 	
-	\section{PyTorch}
+	\chapter{PyTorch}
 	
-	\subsubsection{Leaf Tensors}
+	\section{Leaf Tensors}
 	
 	\begin{itemize}
 		\item If \texttt{requires\_grad=False}, then the tensor will be leaf by convention. If \texttt{requires\_grad=True}, then the tensor will be leaf if it was created directly by the user and is \textbf{not} the result of an operation, e.g.~\texttt{.to(device)} when the tensor is on \texttt{cpu} and \texttt{device="cuda:0"}.
@@ -1313,7 +1313,7 @@
 		
 	\end{itemize}		
 	
-	\subsubsection{Autograd \& Backward}
+	\section{Autograd \& Backward}
 	
 	\begin{itemize}
 		\item The function \texttt{torch.autograd.grad()} computes the gradient. If the gradient of a scalar (loss function) wrt a (weight) matrix is taken, then the output will also be a matrix, where each element corresponds to the partial derivative of the scalar (loss function) wrt to the (weight) matrix element.
