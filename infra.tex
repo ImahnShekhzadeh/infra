@@ -1342,6 +1342,12 @@
 		\item When using a default iteration loop in PyTorch, \texttt{optimizer.zero_grad()} --- where \texttt{optimizer} is an instance of \texttt{torch.optim.Optimizer} --- can be put anywhere in the loop \textit{except between \texttt{loss.backward()} and \texttt{optimizer.step()}}.
 		
 	\end{itemize} 
+
+	\section{Half-Precision}
+	
+	\href{https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html}{This tutorial} is a great starting point, explaining the advantages of half-precision, i.e.~\texttt{float16}, training. Implementing this in \textsc{PyTorch} is possible by following \href{https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html}{this} general recipe, the documentation of \href{https://pytorch.org/docs/stable/amp.html}{\texttt{torch.amp}}, in particular the class \texttt{torch.autocast}, and some examples can be found \href{https://pytorch.org/docs/stable/notes/amp_examples.html#amp-examples}{here}. 
+	
+	A good starting point might also be my \href{https://github.com/ImahnShekhzadeh/mnist-lstm/}{git repo}, where I implemented a bidirectional LSTM on the MNIST data, which uses the class \texttt{torch.autocast}.
 	
 	\chapter{Jax}
 	
