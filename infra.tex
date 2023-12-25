@@ -163,10 +163,20 @@
 	\end{lstlisting}
 
 	Unzipping a file via the CLI, 
-	
 	\begin{lstlisting}[style=mystylebash, label=alg:bash_unzip, xleftmargin=\parindent]
 		unzip /path/to/file.zip -d /path/to/destination
 	\end{lstlisting}
+
+	Zipping a directory via the CLI,
+	\begin{lstlisting}[style=mystylebash, label=alg:bash_zip, xleftmargin=\parindent]
+		zip -r archive_name.zip -d /path/to/directory
+	\end{lstlisting}
+
+	and zipping several files,
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:bash_zip__files, xleftmargin=\parindent]
+		zip archive_name.zip /path/to/file1 /path/to/file2 /path/to/file3
+ 	\end{lstlisting}
 
 	Opening a file and automatically scrolling to the bottom,
 	
