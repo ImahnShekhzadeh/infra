@@ -1280,6 +1280,26 @@
 		
 	\end{itemize}
 	
+	\section{CPU Brand}
+	
+	Installing \texttt{py-cpuinfo},
+	
+	\begin{lstlisting}[style=mystylepython, label=alg:cpu_info__install, xleftmargin=\parindent]
+		conda install -c conda-forge py-cpuinfo
+	\end{lstlisting}
+
+	Obtaining the raw CPU info,
+	
+	\begin{lstlisting}[style=mystylepython, label=alg:cpu_info__usage, xleftmargin=\parindent]
+		import cpuinfo
+		
+		# Getting detailed CPU information
+		info = cpuinfo.get_cpu_info()
+		
+		# If you want to print specific details like the brand, you can do so as follows:
+		print(f"CPU Brand: {info['brand_raw']}")
+	\end{lstlisting}
+	
 	\chapter{PyTorch}
 	
 	\section{Leaf Tensors}
