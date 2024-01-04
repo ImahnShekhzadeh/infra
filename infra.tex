@@ -56,7 +56,7 @@
 
 \title{Infra}
 % \subtitle{Questions}
-\author{Imahn Shekhzadeh \\ \texttt{\href{mailto:email@example.com}{imahn.shekhzadeh@unige.ch}}\normalsize}
+\author{Imahn Shekhzadeh \\ \texttt{\href{mailto:email@example.com}{imahn.shekhzadeh@posteo.de}}\normalsize}
 \date{\today}
 
 \begin{document}
@@ -304,6 +304,7 @@
 			d cp file_name container_ID:/target_dir # local -> docker
 			d cp container_ID:/file_name dir_name # docker -> local
 		\end{lstlisting}
+		
 	\end{itemize}
 	
 	\section{Dockerfile}
@@ -351,7 +352,7 @@
 		
 		It is also important to put the \textit{.} at the end, since it represents the destination in the Docker image where the file should be copied. The dot . refers to the current working directory inside the Docker image, which is determined by the WORKDIR command in the Dockerfile. If WORKDIR is not set, it defaults to the root directory (/) of the image.
 		
-		Also, each time the script \texttt{relative/path/to/script.py} changes, the Dockerfile needs to be rebuilt -- \textbf{however, a cached version will be used, which speeds things up}.
+		Also, each time the script \texttt{relative/path/to/script.py} changes, the Dockerfile needs to be rebuilt --- \textbf{however, a cached version will be used, which speeds things up}.
 		
 		\item Copying local dirs into docker container, 
 		
@@ -416,6 +417,13 @@
 	\subsection{Basics}
 	
 	\begin{itemize} 
+		
+		\item In case of shared memory issues in the docker container, the shared memory --- which is by default $64$ MB --- needs to be increased when the docker container is run,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:docker_run, xleftmargin=\parindent]
+			d run --shm-size 512m [...]  # requesting memory in MB
+			# d run --shm-size 1G [...]  # requesting memory in GB
+		\end{lstlisting}
 		
 		\item Running Docker images -- without being able to utilize NVIDIA GPUs:
 		
