@@ -1109,19 +1109,6 @@
 		\item Adding the file/folder to \textit{.gitignore} is still a good idea, though, since the file/dir won’t be removed locally with the commands.
 	\end{itemize}
 	
-	\section{Renaming a Repository}
-
-		After having renamed the repository remotely, go to the locally cloned version of the repository and do
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:git__rename_repo, xleftmargin=\parindent]
-			git remote set-url origin https://github.com/username/new-repo-name.git 
-		\end{lstlisting}		
-		double-check via
-		\begin{lstlisting}[style=mystylebash, label=alg:git__check_remote_url, xleftmargin=\parindent]
-			git remote -v
-		\end{lstlisting}
-		which lists the remote names and their URLs. No force push or the alike is necessary for the changes to take place.		
-
 	\section{Restore File}
 	
 		Resetting specific file to state of previous commit,
@@ -1130,6 +1117,29 @@
 			git restore --source=<commit-hash> <file-path> && git push
 			# git restore --source=HEAD README.md && git push
 		\end{lstlisting}
+	
+	\section{Repo Renaming}
+		
+		\begin{enumerate}
+			\item 
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__rename_repo_remote, xleftmargin=\parindent]
+				gh repo rename <new-repo-name>
+				# gh repo rename new-repo-name
+			\end{lstlisting}
+			
+			\item
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__rename_repo, xleftmargin=\parindent]
+				git remote set-url origin <new-repo-url>
+				# git remote set-url origin https://github.com/username/new-repo-name.git 
+			\end{lstlisting}		
+			double-check via
+			\begin{lstlisting}[style=mystylebash, label=alg:git__check_remote_url, xleftmargin=\parindent]
+				git remote -v
+			\end{lstlisting}
+			which lists the remote names and their URLs. No force push or the alike is necessary for the changes to take place.
+		\end{enumerate}
 	
 	\section{Remote URL}
 		Obtaining the remote URL, 
