@@ -21,9 +21,7 @@ RUN conda init bash && \
     conda update -n base -c defaults conda && \
     conda install -c conda-forge pip
 
-# Install PyTorch (with CUDA support for 12.1) using `conda`
-# CUDA 12.1 is the latest version supported by PyTorch, 
-# should also work for CUDA 12.2
+# Install PyTorch with CUDA support for 12.1 using `conda`
 RUN conda install -y pytorch=2.1.* torchvision torchaudio pytorch-cuda=12.1 \
     -c pytorch -c nvidia
 
@@ -36,8 +34,7 @@ RUN pip install --upgrade\
 # Set the working directory
 WORKDIR /app
 
-# Copy all python scripts in `test_scripts_nbs` and `pyproject.toml` into
-# docker container
+# Copy files into docker container
 COPY setup.py .
 COPY pyproject.toml .
 COPY run_scripts.sh .
@@ -45,9 +42,6 @@ COPY run_scripts.sh .
 # Install packages in `pyproject.toml` via `pip`
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -e .
-
-# Make port 80 available to the world outside this container
-EXPOSE 80
 
 # Ensure `run_scripts.sh` is executable
 RUN chmod +x ./run_scripts.sh
