@@ -1251,6 +1251,34 @@
 			done 
 		\end{lstlisting}
 		
+		\item Changing default theme of notebooks,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:jupyter_nbs_theme, xleftmargin=\parindent]
+			conda install conda-forge::jupyterthemes
+			jt -l  # get list of all available themes
+			jt -t <theme-name>  # change theme
+			# jt -t onedork
+		\end{lstlisting}
+	
+		Alternative installation via \texttt{pip},
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:jupyter_nbs_theme_pip, xleftmargin=\parindent]
+			pip install jupyterthemes
+		\end{lstlisting}
+	
+		\item Displaying all statements in a Jupyter NB, e.g.,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:jupyter_nbs_out, xleftmargin=\parindent]
+			from IPython.core.interactiveshell import InteractiveShell
+			InteractiveShell.ast_node_interactivity = "all"
+			
+			x = 2
+			y = 3
+			
+			x
+			y
+		\end{lstlisting}
+		
 	\end{itemize}
 	
 	\section{Map (Built-In Function)}
