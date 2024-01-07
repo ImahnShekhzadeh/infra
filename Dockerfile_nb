@@ -21,15 +21,15 @@ RUN conda init bash && \
     conda update -n base -c defaults conda && \
     conda install -c conda-forge pip
 
-# Install PyTorch with CUDA support for 12.1 using `conda`
+# Install PyTorch with CUDA support for 12.1 using `conda`,
+# JAX with CUDA support using `pip` and jupyter notebook
 RUN conda install -y pytorch=2.1.* torchvision torchaudio pytorch-cuda=12.1 \
     -c pytorch -c nvidia
-
-# Install JAX with CUDA support using `pip`
-RUN pip install --upgrade\
-    jax==0.4.23\
-    jaxlib==0.4.23+cuda12.cudnn89\
+RUN pip install --upgrade \
+    jax==0.4.23 \
+    jaxlib==0.4.23+cuda12.cudnn89 \
     -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+RUN conda install anaconda::jupyter
 
 # Set the working directory and expose default Jupyter port 8888
 WORKDIR /app
