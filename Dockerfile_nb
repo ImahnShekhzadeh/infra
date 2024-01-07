@@ -31,8 +31,9 @@ RUN pip install --upgrade\
     jaxlib==0.4.23+cuda12.cudnn89\
     -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
-# Set the working directory
+# Set the working directory and expose default Jupyter port 8888
 WORKDIR /app
+EXPOSE 8888
 
 # Copy files into docker container
 COPY setup.py .
@@ -40,6 +41,5 @@ COPY pyproject.toml .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -e .
 
-COPY run_scripts.sh .
-RUN chmod +x ./run_scripts.sh
-ENTRYPOINT ["./run_scripts.sh"]
+ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0", "--allow-root", \
+            "--no-browser"]
