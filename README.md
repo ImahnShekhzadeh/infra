@@ -45,5 +45,5 @@ The script `run_scripts.sh` might look like this:
 
 - I also created a [Dockerfile for running a Jupyter NB inside a container](https://github.com/ImahnShekhzadeh/infra/blob/main/Dockerfile_nb), which should be run as follows:
     ```
-    docker run -it --rm -v $(pwd)/MNIST:/app/MNIST -v $(pwd)/lstm_vision:/app/scripts -p 8888:8888 img-name:tag-name
+    docker run -it --rm -v $(pwd)/test_scripts_nbs:/app/scripts -p 8888:8888 img-name:tag-name
     ```
