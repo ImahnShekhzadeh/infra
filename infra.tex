@@ -1422,6 +1422,14 @@
 	
 	A good starting point might also be my \href{https://github.com/ImahnShekhzadeh/mnist-lstm/}{git repo}, where I implemented a bidirectional LSTM on the MNIST data, which uses the class \texttt{torch.autocast}.
 	
+	\section{Miscellaneous}
+	
+		Calculating the MSE between two tensors,
+		
+		\begin{lstlisting}[style=mystylepython, label=alg:torch__vector_norm, xleftmargin=\parindent]
+			torch.linalg.vector_norm(vt - ut, ord=2,) ** 2 / vt.numel()
+		\end{lstlisting}
+	
 	\chapter{Jax}
 	
 	Try to install via pip first. Only if this doesn't work use conda!
