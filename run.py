@@ -61,10 +61,7 @@ for run_id in range(num_runs):
             "module purge && module load GCC/11.3.0 OpenMPI/4.1.4 geopsy/3.4."
             "2\n"
         )
-        file.write(
-            "source activate /home/users/s/shekhza2/.conda/envs/"
-            "ant-migrate-dev\n"
-        )
+        file.write("source activate ant-migrate-dev\n")
         file.write(
             f"python -m scripts_python.fwd_model.generate_data -i {run_id} -s "
             f"-n {num_samples} -u\n"
