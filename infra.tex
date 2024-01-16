@@ -1667,17 +1667,21 @@
 		
 		# delete branch
 		lbd() {
-			local branch="$1" 
-			local exists__in_local=$(git branch --list "$branch")
+			local branch="$1"
+			local exists_locally=$(git branch --list "$branch")
+			local exists_remotely=$(git ls-remote --heads origin "$branch")
 			
-			if [[ -z ${exists__in_local} ]]; then
-				git push origin --delete "$branch" && git clean -f
-			else
+			if [[ -n $exists_locally ]]; then
+				echo "Deleting local branch: $branch"
 				git branch -D "$branch"
 			fi
-
+			
+			if [[ -n $exists_remotely ]]; then
+				echo "Deleting remote branch: $branch"
+				git push origin --delete "$branch"
+			fi
 		}
-
+		
 		# switch branches and create if non-existent
 		lsw() {                                                                                                           
 			if git rev-parse --verify "$1" >/dev/null 2>&1; then                                                            
