@@ -1010,7 +1010,13 @@
 		Merging \texttt{new\_feature} into \texttt{main} can be done via
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
-			git switch main && git merge new_feature
+			git switch main && git merge new_feature 
+		\end{lstlisting}
+		
+		Removing the commit message \texttt{Merge pull request \#6 from [...]},
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:merging2, xleftmargin=\parindent]
+			git switch main && git merge new_feature --log
 		\end{lstlisting}
 	
 		Running dry merges to proactively check for conflicts \textit{if} a merge was performed,
