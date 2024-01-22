@@ -6,6 +6,7 @@ from typing import Optional
 
 def write_skeleton(
     submit_file: str,
+    job_name: str,
     log_file: str,
     partition: str = "shared-cpu",
     python_dir: str = "/home/users/s/shekhza2/ant-migrate/ml4ant",
@@ -32,9 +33,9 @@ def write_skeleton(
         f.write(f"#SBATCH --ntasks=1\n")
         f.write(f"#SBATCH --chdir={python_dir}\n")
         if run_id is None:
-            f.write(f"#SBATCH --job-name=dgp\n")
+            f.write(f"#SBATCH --job-name={job_name}\n")
         else:
-            f.write(f"#SBATCH --job-name=dgp_{run_id}\n")
+            f.write(f"#SBATCH --job-name={job_name}_{run_id}\n")
         f.write(f"#SBATCH --output={log_file}\n")
         f.write(f"#SBATCH --error={log_file}\n")
         # file.write(f'#SBATCH --mail-type=END\n')
@@ -81,6 +82,7 @@ for run_id in range(num_runs):
     # Write skeleton for submit file
     write_skeleton(
         submit_file=submit_file_name,
+        job_name="dgp",
         log_file=log_file,
         partition="shared-cpu",
         python_dir="/home/users/s/shekhza2/ant-migrate/git_repo/benchmarking",
