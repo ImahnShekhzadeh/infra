@@ -71,7 +71,7 @@ os.makedirs(saving_path__submit, exist_ok=True)
 # Write `num_runs` submit files
 for run_id in range(num_runs):
     # Define submit file and log file
-    submit_file_name = os.path.join(
+    submit_file = os.path.join(
         saving_path__submit, f"run_dgp_{date_time[-8:]}_{run_id}.sh"
     )
     log_file = os.path.join(
@@ -81,7 +81,7 @@ for run_id in range(num_runs):
 
     # Write skeleton for submit file
     write_skeleton(
-        submit_file=submit_file_name,
+        submit_file=submit_file,
         job_name="dgp",
         log_file=log_file,
         partition="shared-cpu",
@@ -90,7 +90,7 @@ for run_id in range(num_runs):
     )
 
     # append rest
-    with open(submit_file_name, "a") as f:
+    with open(submit_file, "a") as f:
         f.write(
             "module purge && module load GCC/11.3.0 OpenMPI/4.1.4 geopsy/3.4." "2\n"
         )
@@ -100,4 +100,4 @@ for run_id in range(num_runs):
             f"-n {num_samples} -u\n"
         )
 
-    subprocess.Popen(["sbatch", submit_file_name])
+    subprocess.Popen(["sbatch", submit_file])
