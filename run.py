@@ -10,7 +10,6 @@ def write_skeleton(
     log_file: str,
     partition: str = "shared-cpu",
     python_dir: str = "/home/users/s/shekhza2/ant-migrate/ml4ant",
-    run_id: Optional[int] = None,
     mem_per_cpu__gb: int = 8,
 ) -> None:
     """
@@ -18,10 +17,10 @@ def write_skeleton(
 
     Args:
         submit_file: Name of the submit file.
+        job_name: Name of the job.
         log_file: Name of the log file.
         partition: Name of the partition to use.
         python_dir: Path to the python directory.
-        run_id: ID of the run.
         mem_per_cpu__gb: Memory per CPU in GB.
     """
 
@@ -32,10 +31,7 @@ def write_skeleton(
         f.write(f"#SBATCH --cpus-per-task=1\n")
         f.write(f"#SBATCH --ntasks=1\n")
         f.write(f"#SBATCH --chdir={python_dir}\n")
-        if run_id is None:
-            f.write(f"#SBATCH --job-name={job_name}\n")
-        else:
-            f.write(f"#SBATCH --job-name={job_name}_{run_id}\n")
+        f.write(f"#SBATCH --job-name={job_name}\n")
         f.write(f"#SBATCH --output={log_file}\n")
         f.write(f"#SBATCH --error={log_file}\n")
         # file.write(f'#SBATCH --mail-type=END\n')
@@ -87,7 +83,6 @@ if __name__ == "__main__":
             log_file=log_file,
             partition="shared-cpu",
             python_dir="/home/users/s/shekhza2/ant-migrate/git_repo/benchmarking",
-            run_id=run_id,
         )
 
         # append rest
