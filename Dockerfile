@@ -8,28 +8,27 @@ ENV MINICONDA_SHA_256 \
 43651393236cb8bb4219dcd429b3803a60f318e5507d8d84ca00dafa0c69f1bb
 
 RUN apt-get update && apt-get install -y curl && \
-    curl -O https://repo.anaconda.com/miniconda/$MINICONDA_VERSION && \
-    /bin/bash $MINICONDA_VERSION -b -p /opt/conda && \
-    rm $MINICONDA_VERSION && \
-    apt-get clean
+curl -O https://repo.anaconda.com/miniconda/$MINICONDA_VERSION && \
+/bin/bash $MINICONDA_VERSION -b -p /opt/conda && \
+rm $MINICONDA_VERSION && \
+apt-get clean
 
 # Add `conda` to path; initialize `conda`, install specific python version, 
 # update `conda` and install `pip` via `conda`
 ENV PATH /opt/conda/bin:$PATH
 RUN conda init bash && \
-    conda install -y python=3.10.3 && \
-    conda update -n base -c defaults conda && \
-    conda install -c conda-forge pip
+conda install -y python=3.10.3 && \
+conda update -n base -c defaults conda && \
+conda install -c conda-forge pip
 
 # Install PyTorch with CUDA support for 12.1 using `conda`
 RUN conda install -y pytorch=2.1.* torchvision torchaudio pytorch-cuda=12.1 \
-    -c pytorch -c nvidia
+-c pytorch -c nvidia
 
 # Install JAX with CUDA support using `pip`
-RUN pip install --upgrade\
-    jax==0.4.23\
-    jaxlib==0.4.23+cuda12.cudnn89\
-    -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+RUN pip install --upgrade \
+jax==0.4.23 jaxlib==0.4.23+cuda12.cudnn89 \
+-f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 # Set the working directory
 WORKDIR /app
@@ -38,7 +37,7 @@ WORKDIR /app
 COPY setup.py .
 COPY pyproject.toml .
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -e .
+pip install --no-cache-dir -e .
 
 COPY run_scripts.sh .
 RUN chmod +x ./run_scripts.sh
