@@ -497,7 +497,13 @@
 			d run -it --rm img_name:tag_name python3 --version
 		\end{lstlisting}
 		
-		This command will immediately remove the container after execution.
+		This command will immediately remove the container after execution. 
+		
+		\item It is also possible to interact with a docker container,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:docker_interactive_bash, xleftmargin=\parindent]
+			docker run -it --rm img_name:tag_name /bin/bash
+		\end{lstlisting}
 		
 	\end{itemize}
 	
