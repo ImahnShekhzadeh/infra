@@ -1696,11 +1696,7 @@
 		
 		# switch branches and create if non-existent
 		lsw() {                                                                                                           
-			if git rev-parse --verify "$1" >/dev/null 2>&1; then                                                            
-			  git switch "$1"                                                                                               
-			else                                                                                                            
-			  git switch -c "$1" && git push -u origin $(bname)
-			fi                                                                                                              
+			git switch "$@"
 		}
 	
 		# cloning
