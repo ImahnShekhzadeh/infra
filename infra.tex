@@ -1693,6 +1693,7 @@
 		# delete branch
 		lbd() {
 			local branch="$1"
+			local current_branch=$(git branch --show-current)
 			local exists_locally=$(git branch --list "$branch")
 			local exists_remotely=$(git ls-remote --heads origin "$branch")
 			
