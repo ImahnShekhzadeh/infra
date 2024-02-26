@@ -1696,6 +1696,16 @@
 			local exists_locally=$(git branch --list "$branch")
 			local exists_remotely=$(git ls-remote --heads origin "$branch")
 			
+			if [[ "$branch" == "main" || "$branch" == "master" ]]; then
+				echo "Deletion of 'main' or 'master' branch is not allowed."
+				return
+			fi
+			
+			if [[ "$branch" == "$current_branch" ]]; then
+				echo "You are currently on branch $branch. Switching to 'main' before deletion..."
+				git switch main || git checkout master || { echo "Failed to switch branches. Aborting."; return; }
+			fi
+			
 			if [[ -n $exists_locally ]]; then
 				echo "Deleting local branch: $branch"
 				git branch -D "$branch"
