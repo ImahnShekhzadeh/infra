@@ -1108,7 +1108,38 @@
 			\end{lstlisting}
 		
 		\end{enumerate}
+	
+	\section{Stashing}
 
+		To include untracked files for the stash, do
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash --include-untracked
+			\end{lstlisting}
+		In case you want to stash only one file, do (https://stackoverflow.com/a/3041055/15528750):
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash push <file_name> --include-untracked
+			\end{lstlisting}
+		When applying the stash (to make sure that the files are staged also after applying the stash, use --index option): 
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash apply stash@{0} --index
+			\end{lstlisting}
+		To remove a particular item from the stash, do (first item starts with 0)
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash drop stash@{2}
+			\end{lstlisting}
+		The last two commands can also be combined. To find out the index number on the stash, we can simply do
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash list 
+			\end{lstlisting}
+		To remove all stashes, do
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash clear
+			\end{lstlisting}
+		This command is irreversible, though! To remove a specific stash in git, you can use the \texttt{git stash drop} command followed by the stash identifier, which is typically in the form  \texttt{stash@{<stash_number>}}. For example, if you want to remove the stash with the identifier \texttt{stash@{2}}, you would run:                                                                                                                                                                                                    
+			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+				git stash drop stash@{2}
+			\end{lstlisting}
+	
 	\section{Checking History}
 
 	\begin{itemize}
@@ -1120,7 +1151,7 @@
 	
 		\item Viewing a specific file,
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:history1, xleftmargin=\parindent]
+		\begin{lstlisting}[style=mystylebash, label=alg:history2, xleftmargin=\parindent]
 			git show <commit-hash>:<file-name>
 			# git show 123abc:example.txt
 		\end{lstlisting}
