@@ -414,6 +414,11 @@
 		\begin{lstlisting}[style=mystylebash, label=alg:docker_rm__dangling, xleftmargin=\parindent]
 			d image prune -f
 		\end{lstlisting}
+	
+		If the total acclaimed disk space is $0$B, give this command a try, which can help clean up \textit{a lot of} disk space:
+		\begin{lstlisting}[style=mystylebash, label=alg:docker_system_prune, xleftmargin=\parindent]
+			d system prune
+		\end{lstlisting}
 		
 		\item Removing a Docker image --- \textbf{only do this when finished with using the image}
 		
