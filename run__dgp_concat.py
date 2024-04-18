@@ -129,6 +129,7 @@ if __name__ == "__main__":
 
         SLURM_CMD = SLURM_TEMPLATE.format(
             partition="shared-cpu",
+            time="0-00:30:00",
             job_name=f"{args.experiment_name}_{run_id}",
             log_file=log_file,
             mem_per_cpu__gb=8,
@@ -172,6 +173,7 @@ if __name__ == "__main__":
 
     SLURM_CMD = SLURM_TEMPLATE.format(
         partition="shared-cpu",
+        time="0-00:30:00",
         job_name="concat",
         log_file=log_file,
         mem_per_cpu__gb=8,
