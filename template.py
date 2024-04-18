@@ -1,7 +1,7 @@
 SLURM_TEMPLATE = """#!/bin/bash
 
 #SBATCH --partition={partition}
-#SBATCH --time=0-00:30:00
+#SBATCH --time={time}
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks=1
 #SBATCH --job-name={job_name}
