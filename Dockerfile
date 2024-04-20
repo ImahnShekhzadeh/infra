@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y curl && \
 curl -O https://repo.anaconda.com/miniconda/$MINICONDA_VERSION && \
 /bin/bash $MINICONDA_VERSION -b -p /opt/conda && \
 rm $MINICONDA_VERSION && \
+apt-get -y install git && \
 apt-get clean
 
 # Add `conda` to path; initialize `conda`, install specific python version, 
@@ -32,6 +33,9 @@ jax==0.4.23 jaxlib==0.4.23+cuda12.cudnn89 \
 
 # Set the working directory
 WORKDIR /app
+
+# Git
+RUN git config --global --add safe.directory /app
 
 # Copy files into docker container
 COPY setup.py .
