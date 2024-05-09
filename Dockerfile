@@ -42,7 +42,3 @@ COPY setup.py .
 COPY pyproject.toml .
 RUN pip install --upgrade pip && \
 pip install --no-cache-dir -e .
-
-COPY run_scripts.sh .
-RUN chmod +x ./run_scripts.sh
-ENTRYPOINT ["./run_scripts.sh"]
