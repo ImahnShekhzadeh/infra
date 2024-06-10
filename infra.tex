@@ -271,6 +271,35 @@
 		
 	\end{itemize}
 
+	\section{tmux}
+	
+	\begin{itemize}
+		\item Creating a new session:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:tmux_sess_creation, xleftmargin=\parindent]
+			tmux new -s <name>
+			# tmux new -s mysession
+		\end{lstlisting}
+	
+		\item To detach from the current \textsc{tmux} session and leave it running in the background, press \textsc{Ctrl + b} and then type \textsc{d}.
+		
+		\item Reconnecting to a \textsc{tmux} session,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:tmux_sess_reconnect, xleftmargin=\parindent]
+			tmux attach -t <name>
+			# tmux attach -t mysession
+		\end{lstlisting}
+	
+		\item Killing a \textsc{tmux} session from outside,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:tmux_sess_kill, xleftmargin=\parindent]
+			tmux kill-session -t <name>
+			# tmux kill-session -t mysession
+		\end{lstlisting}
+	\end{itemize}
+
+	% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - %
+
 	\chapter{Slurm}
 	
 	\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
