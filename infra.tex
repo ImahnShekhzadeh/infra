@@ -972,6 +972,13 @@
 	\end{lstlisting}
 	
 	The \texttt{--global} flag sets the configuration for all repositories on your machine. If you want to set the username and email for a specific repository only, omit the \texttt{--global} flag and run the commands inside that repository.
+	
+	To check that these settings were successful, run
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_config_check, xleftmargin=\parindent]
+		git config --global --list
+		git config --list
+	\end{lstlisting}
 
 	\section{Branch Creation}
 		
