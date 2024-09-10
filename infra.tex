@@ -1242,14 +1242,33 @@
 		\item Adding the file/folder to \textit{.gitignore} is still a good idea, though, since the file/dir won’t be removed locally with the commands.
 	\end{itemize}
 	
-	\section{Restore File}
+	\section{\texttt{restore}}
 	
-		Resetting specific file to state of previous commit,
+	Restoring specific file to state of any previous commit,
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
+		git restore --source=<commit-hash> <file-path>
+		# git restore --source=HEAD README.md
+		# git restore --source=HEAD .
+	\end{lstlisting}
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:git_restore, xleftmargin=\parindent]
-			git restore --source=<commit-hash> <file-path> && git push
-			# git restore --source=HEAD README.md && git push
-		\end{lstlisting}
+	To restore the content in the index, additionally use \texttt{--staged}:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_restore_staged, xleftmargin=\parindent]
+		git restore --staged --source=<commit-hash> <file-path>
+		# git restore --staged --source=HEAD README.md
+	\end{lstlisting}
+
+	\textbf{Only restore the index if you know what the implications are.} \\ \\
+	To restore both the index and the working tree, add \texttt{--staged --worktree}:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_restore_staged_worktree, xleftmargin=\parindent]
+		git restore --staged --worktree --source=<commit-hash> <file-path>
+		# git restore --staged --worktree --source=HEAD README.md
+	\end{lstlisting}
+
+	\textbf{Only restore the worktree if you know what the implications are.} \\ \\
+	If you want any of the changes to be permanent, type \texttt{git push} afterwards.
 	
 	\section{\texttt{blame}}
 	
