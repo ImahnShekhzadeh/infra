@@ -962,6 +962,17 @@
 	
 	\chapter{Git}
 	
+	\section{\texttt{config}}
+	
+	Setting your username and e-mail:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_config, xleftmargin=\parindent]
+		git config --global user.name "Blub blub"
+		git config --global user.email "blub@blub.com"
+	\end{lstlisting}
+	
+	The \texttt{--global} flag sets the configuration for all repositories on your machine. If you want to set the username and email for a specific repository only, omit the \texttt{--global} flag and run the commands inside that repository.
+
 	\section{Branch Creation}
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git__branch_creation, xleftmargin=\parindent]
