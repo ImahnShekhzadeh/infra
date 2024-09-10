@@ -1221,6 +1221,28 @@
 			# git restore --source=HEAD README.md && git push
 		\end{lstlisting}
 	
+	\section{\texttt{blame}}
+	
+	The command \texttt{git blame} can be used to understand which person authored a revision for each line of a file. Basic usage:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_blame_a, xleftmargin=\parindent]
+		git blame <filename>
+	\end{lstlisting}
+
+	Blaming a \textbf{specific commit}:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_blame_b, xleftmargin=\parindent]
+		git blame <commit_hash> <filename>
+	\end{lstlisting}
+		
+	Ignoring whitespace changes:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_blame_b, xleftmargin=\parindent]
+		git blame -w <filename>
+		git blame -w <commit_hash> <filename>
+	\end{lstlisting}
+	
+	
 	\section{Repo Renaming}
 		
 		\begin{enumerate}
