@@ -1237,11 +1237,18 @@
 		
 	Ignoring whitespace changes:
 	
-	\begin{lstlisting}[style=mystylebash, label=alg:git_blame_b, xleftmargin=\parindent]
+	\begin{lstlisting}[style=mystylebash, label=alg:git_blame_c, xleftmargin=\parindent]
 		git blame -w <filename>
 		git blame -w <commit_hash> <filename>
 	\end{lstlisting}
 	
+	\section{\texttt{log}}
+	
+	There are different ways to format the output. In order to get a graph-like visualization of the branches and commits, one can use:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_log, xleftmargin=\parindent]
+		git log --oneline --all --graph --decorate
+	\end{lstlisting}
 	
 	\section{Repo Renaming}
 		
