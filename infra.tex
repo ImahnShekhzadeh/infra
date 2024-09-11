@@ -992,140 +992,173 @@
 		git config --list
 	\end{lstlisting}
 
-	\section{Branch Creation}
-		
+	\section{Branches}
+	
+		\subsection{Creation}
+			
 		\begin{lstlisting}[style=mystylebash, label=alg:git__branch_creation, xleftmargin=\parindent]
 			git switch -c <new_bname>
 			git push -u origin <new_bname>
 		\end{lstlisting}
-	
-	\section{Merging}
 		
-		\begin{tikzpicture}
-			% Draw the main branch
-			\draw (0,0) -- (5,0);
-			\foreach \x in {0,1,2,3,4,5}
-			\draw (\x cm, 3pt) -- (\x cm, -3pt);
-			
-			% Label the main branch commits
-			\node at (0, -0.5) {A};
-			\node at (1, -0.5) {B};
-			\node at (2, -0.5) {C};
-			\node at (3, -0.5) {D};
-			\node at (4, -0.5) {D'};
-			\node at (5, -0.5) {D''};
-			
-			% Draw the new_feature branch
-			\draw (3,0) -- (4,1) -- (7,1);
-			\foreach \x in {4,5,6,7}
-			\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
-			
-			% Label the new_feature branch commits
-			\node at (4, 1.5) {E};
-			\node at (5, 1.5) {F};
-			\node at (6, 1.5) {G};
-			\node at (7, 1.5) {H};
-			
-			% Position the branch labels
-			\node[align=left] at (9, 0) {\texttt{main}};
-			\node[align=left] at (9, 1) {\texttt{new\_branch}};
-		\end{tikzpicture}
+		\subsection{Deletion}
 		
-		When merging \texttt{main} and \texttt{new\_branch}, the commits \texttt{D} and \texttt{D''} will either be auto-merged or there will be a merge conflict. For this commit history, 
+		Delete a remote branch via
+		\begin{lstlisting}[style=mystylebash, label=alg:git__branch_deletion_remote, xleftmargin=\parindent]
+			git push origin --delete <branch_name>
+		\end{lstlisting}
 		
-		\begin{tikzpicture}
-			% Draw the main branch
-			\draw (0,0) -- (3,0);
-			\foreach \x in {0,1,2,3}
-			\draw (\x cm, 3pt) -- (\x cm, -3pt);
+		To delete a local branch, first switch to another branch and then do
+		\begin{lstlisting}[style=mystylebash, label=alg:git__branch_deletion_local, xleftmargin=\parindent]
+			git branch -d <branch_name>  # if branch has already been merged into upstream branch
+			git branch -D <branch_name>  # force deletion; irrespective of merge status (equivalent to `git branch --delete --force <branch_name>`)
+		\end{lstlisting}
+		
+		If a branch is deleted remotely, it might still exist locally.
+		
+		\subsection{Listing}
+		
+		List all remote and local branches:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git__branch_list, xleftmargin=\parindent]
+			git branch -a
+		\end{lstlisting}
+		
+		\subsection{Merging}
 			
-			% Label the main branch commits
-			\node at (0, -0.5) {A};
-			\node at (1, -0.5) {B};
-			\node at (2, -0.5) {C};
-			\node at (3, -0.5) {D};
-			
-			% Draw the new_feature branch
-			\draw (3,0) -- (4,1) -- (7,1);
-			\foreach \x in {4,5,6,7}
-			\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
-			
-			% Label the new_feature branch commits
-			\node at (4, 1.5) {E};
-			\node at (5, 1.5) {F};
-			\node at (6, 1.5) {G};
-			\node at (7, 1.5) {H};
-			
-			% Draw the cool_feature branch
-			\draw (3,0) -- (4,-1) -- (5,-1);
-			\foreach \x in {4,5}
-			\draw (\x cm, -1cm + 3pt) -- (\x cm, -1cm - 3pt);
-			
-			% Label the cool_feature branch commits
-			\node at (4, -1.5) {D'};
-			\node at (5, -1.5) {D''};
-			
-			% Position the branch labels
-			\node[align=left] at (9, 1) {\texttt{new\_feature}};
-			\node[align=left] at (9, -1) {\texttt{cool\_feature}};
-			\node[align=left] at (9, 0) {\texttt{main}};
-		\end{tikzpicture}
-
-		merging \texttt{main} with \texttt{new\_feature} would result in a fast-forward,
-
-		\begin{tikzpicture}
-			% Draw the main branch
-			\draw (0,0) -- (7,0);
-			\foreach \x in {0,1,2,3,4,5,6,7}
-			\draw (\x cm, 3pt) -- (\x cm, -3pt);
-			
-			% Label the main branch commits
-			\node at (0, -0.5) {A};
-			\node at (1, -0.5) {B};
-			\node at (2, -0.5) {C};
-			\node at (3, -0.5) {D};
-			\node at (4, -0.5) {E};
-			\node at (5, -0.5) {F};
-			\node at (6, -0.5) {G};
-			\node at (7, -0.5) {H};
-			
-			% Draw the diverging branch
-			\draw (3,0) -- (4,-1) -- (5,-1);
-			\foreach \x in {4,5}
-			\draw (\x cm, -1cm + 3pt) -- (\x cm, -1cm - 3pt);
-			
-			% Label the diverging branch commits
-			\node at (4, -1.5) {D'};
-			\node at (5, -1.5) {D''};
-			
-			% Position the branch labels
-			\node[align=left] at (9,0) {\texttt{main}};
-			\node[align=left] at (9,-1) {\texttt{cool\_feature}};
-		\end{tikzpicture}
+			\begin{tikzpicture}
+				% Draw the main branch
+				\draw (0,0) -- (5,0);
+				\foreach \x in {0,1,2,3,4,5}
+				\draw (\x cm, 3pt) -- (\x cm, -3pt);
 				
-		Merging \texttt{new\_feature} into \texttt{main} can be done via
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
-			git switch main && git merge new_feature 
-		\end{lstlisting}
-		
-		Removing the commit message \texttt{Merge pull request \#6 from [...]},
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:merging2, xleftmargin=\parindent]
-			git switch main && git merge new_feature --log
-		\end{lstlisting}
+				% Label the main branch commits
+				\node at (0, -0.5) {A};
+				\node at (1, -0.5) {B};
+				\node at (2, -0.5) {C};
+				\node at (3, -0.5) {D};
+				\node at (4, -0.5) {D'};
+				\node at (5, -0.5) {D''};
+				
+				% Draw the new_feature branch
+				\draw (3,0) -- (4,1) -- (7,1);
+				\foreach \x in {4,5,6,7}
+				\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
+				
+				% Label the new_feature branch commits
+				\node at (4, 1.5) {E};
+				\node at (5, 1.5) {F};
+				\node at (6, 1.5) {G};
+				\node at (7, 1.5) {H};
+				
+				% Position the branch labels
+				\node[align=left] at (9, 0) {\texttt{main}};
+				\node[align=left] at (9, 1) {\texttt{new\_branch}};
+			\end{tikzpicture}
+			
+			When merging \texttt{main} and \texttt{new\_branch}, the commits \texttt{D} and \texttt{D''} will either be auto-merged or there will be a merge conflict. In case the merge is successful or the merge conflicts have been resolved, there will be a new \textbf{merge commit} in the \texttt{main} branch. In case there was an auto-merge, git automatically creates the merge commit, otherwise the user needs to do this after resolving the merge conflicts.
+			
+			For this commit history, 
+			
+			\begin{tikzpicture}
+				% Draw the main branch
+				\draw (0,0) -- (3,0);
+				\foreach \x in {0,1,2,3}
+				\draw (\x cm, 3pt) -- (\x cm, -3pt);
+				
+				% Label the main branch commits
+				\node at (0, -0.5) {A};
+				\node at (1, -0.5) {B};
+				\node at (2, -0.5) {C};
+				\node at (3, -0.5) {D};
+				
+				% Draw the new_feature branch
+				\draw (3,0) -- (4,1) -- (7,1);
+				\foreach \x in {4,5,6,7}
+				\draw (\x cm, 1cm + 3pt) -- (\x cm, 1cm - 3pt);
+				
+				% Label the new_feature branch commits
+				\node at (4, 1.5) {E};
+				\node at (5, 1.5) {F};
+				\node at (6, 1.5) {G};
+				\node at (7, 1.5) {H};
+				
+				% Draw the cool_feature branch
+				\draw (3,0) -- (4,-1) -- (5,-1);
+				\foreach \x in {4,5}
+				\draw (\x cm, -1cm + 3pt) -- (\x cm, -1cm - 3pt);
+				
+				% Label the cool_feature branch commits
+				\node at (4, -1.5) {D'};
+				\node at (5, -1.5) {D''};
+				
+				% Position the branch labels
+				\node[align=left] at (9, 1) {\texttt{new\_feature}};
+				\node[align=left] at (9, -1) {\texttt{cool\_feature}};
+				\node[align=left] at (9, 0) {\texttt{main}};
+			\end{tikzpicture}
 	
-		Running dry merges to proactively check for conflicts \textit{if} a merge was performed,
+			merging \texttt{main} with \texttt{new\_feature} would result in a fast-forward (and no merge commit is created),
+	
+			\begin{tikzpicture}
+				% Draw the main branch
+				\draw (0,0) -- (7,0);
+				\foreach \x in {0,1,2,3,4,5,6,7}
+				\draw (\x cm, 3pt) -- (\x cm, -3pt);
+				
+				% Label the main branch commits
+				\node at (0, -0.5) {A};
+				\node at (1, -0.5) {B};
+				\node at (2, -0.5) {C};
+				\node at (3, -0.5) {D};
+				\node at (4, -0.5) {E};
+				\node at (5, -0.5) {F};
+				\node at (6, -0.5) {G};
+				\node at (7, -0.5) {H};
+				
+				% Draw the diverging branch
+				\draw (3,0) -- (4,-1) -- (5,-1);
+				\foreach \x in {4,5}
+				\draw (\x cm, -1cm + 3pt) -- (\x cm, -1cm - 3pt);
+				
+				% Label the diverging branch commits
+				\node at (4, -1.5) {D'};
+				\node at (5, -1.5) {D''};
+				
+				% Position the branch labels
+				\node[align=left] at (9,0) {\texttt{main}};
+				\node[align=left] at (9,-1) {\texttt{cool\_feature}};
+			\end{tikzpicture}
+					
+			Merging \texttt{new\_feature} into \texttt{main} can be done via
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:merging1, xleftmargin=\parindent]
+				git switch main && git merge new_feature 
+			\end{lstlisting}
+			
+			Removing the commit message \texttt{Merge pull request \#6 from [...]},
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:merging2, xleftmargin=\parindent]
+				git switch main && git merge new_feature --log
+			\end{lstlisting}
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
-			git merge --no-commit --no-ff branch-name && git merge --abort
-		\end{lstlisting}
+			Running dry merges to proactively check for conflicts \textit{if} a merge was performed,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__dry_merge, xleftmargin=\parindent]
+				git merge --no-commit --no-ff branch-name && git merge --abort
+			\end{lstlisting}
+			
+			For a fast-forward only,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
+				git merge branch_to_be_merged --ff-only
+			\end{lstlisting}
 		
-		For a fast-forward only,
-		
-		\begin{lstlisting}[style=mystylebash, label=alg:git__ff_only, xleftmargin=\parindent]
-			git merge branch_to_be_merged --ff-only
-		\end{lstlisting}
+			To abort an ongoing merge,
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_merge_abort, xleftmargin=\parindent]
+				git merge --abort
+			\end{lstlisting}
 	
 	
 	\section{Merge Conflicts}
