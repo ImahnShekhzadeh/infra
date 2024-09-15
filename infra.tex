@@ -1348,10 +1348,10 @@
 
 	\section{\texttt{clean}}
 	
-	Note that neither Alg.~\ref{alg:git_reset_soft} nor Alg.~\ref{alg:git_reset_hard} will remove untracked files. For this, do
+	Note that neither Alg.~\ref{alg:git_reset_soft} nor Alg.~\ref{alg:git_reset_hard} will remove untracked files or directories. For this, do
 	
 	\begin{lstlisting}[style=mystylebash, label=alg:git_clean_forced, xleftmargin=\parindent]
-		git clean -f
+		git clean -fd
 	\end{lstlisting}
 
 	\textbf{For this, please note that the untracked files will be irrevocably deleted!}
@@ -1534,6 +1534,31 @@
 		InvestmentCalculator calculator = new ExponentialInvestmentCalculator();
 		boolean instanceCheck = calculator instanceof InvestmentCalculator;  // `true`
 	\end{lstlisting}
+
+	\subsection{Inheritance}
+	
+	When inheriting from another class and overriding (not overloading) a method from the super class, you can use the \texttt{@Override} tag to make this clear. While this is not strictly necessary, it makes the code better readable and it is easier to maintain.
+	
+	\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_inheritance, xleftmargin=\parindent]
+		public class Account {
+			protected double savings;
+			
+			public void withdraw(double amount) {
+				this.savings -= amount;
+			}
+		}
+		
+		public class SavingAccount extends Account {
+			
+			@Override
+			public void withdraw(double amount) {
+				
+				if (amount > 0 && amount > this.savings)  {
+					this.savings -= 1.01 * amount;
+				}
+			}
+		}
+	\end{lstlisting}
 	
 	
 	\section{Access Level Modifiers}
@@ -1544,11 +1569,119 @@
 
 	For multi-line comments, use \texttt{/* comment...*/}, but if you want to comment a method, use \texttt{/** doc string...*/}.
 	
-	\section{Interfaces}
-	
 	\section{JavaDoc}
 	
-	@see
+	\subsection{HTML}
+
+	It is possible to generate an HTML version of the docs. For this, do
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:java_html_doc_generation, xleftmargin=\parindent]
+		javadoc -private -d doc `file1.java` `file2.java`  [...]
+		# javadoc -private -d doc Account.java SavingsAccount.java
+	\end{lstlisting}
+
+	If you intend to publish the docs, then remove the \texttt{-private} option.
+
+	\subsection{Tags}
+	
+	\begin{itemize}
+		\item \texttt{@see}: Reference other functions; these references are clickable. Example:
+		
+		\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_@see, xleftmargin=\parindent]
+			public class Account {
+				protected double savings;
+				
+				public void withdraw(double amount) {
+					this.savings -= amount;
+				}
+			}
+			
+			public class SavingAccount extends Account {
+				
+				/**
+				* Saving account discourages money being withdrawn through a 1% relative penalty relative to the amount that is withdrawn.
+				*
+				* @param amount Amount to be withdrawn.
+				* @return 
+				* @see Account#withdraw(double)
+				*/	
+				@Override
+				public void withdraw(double amount) {
+					
+					if (amount > 0 && amount > this.savings)  {
+						this.savings -= 1.01 * amount;
+					}
+				}
+			}
+		\end{lstlisting}
+		\item \texttt{@throws}
+		
+		\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_@throws, xleftmargin=\parindent]
+			public class Account {
+				
+				/**
+				 * Withdraw money from account.
+				 * @param amount Amount to be withdrawn.
+				 * @return
+				 * @throws IllegalArgumentException if the amount is negative
+				 */
+				@Override
+				public void withdraw(double amount) {
+					
+					if (amount < 0) {
+						throw new IllegalArgumentException(
+							"Amount must be strictly positive!"
+						);
+					}
+				}
+							
+			}		
+		\end{lstlisting}
+	
+		\item \texttt{@deprecated}:~Used to indicate that a method or class is deprecated.
+		\item \texttt{@link}:~Used to create hyperlinks in comments; references methods, constructors, fields or other classes in the documentation. 
+		
+		\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_@link, xleftmargin=\parindent]
+			public class Account {
+				protected double savings;
+				protected double withdrawalPenalty;
+				
+				public Account(double savings, double withdrawalPenalty) {
+					this.savings = savings;
+					this.withdrawalPenalty = withdrawalPenalty;
+				}
+				
+				public void withdraw(double amount) {
+					this.savings -= amount;
+				}
+			}
+			
+			public class SavingAccount extends Account {
+				
+				public SavingAccount(double savings, double withdrawalPenalty) {
+					super(savings, withdrawalPenalty);
+				}
+					
+				/**
+				* Saving account discourages money being withdrawn through a 1% relative {@link withdrawalPenalty penalty} relative to the amount that is withdrawn.
+				*
+				* @param amount Amount to be withdrawn.
+				* @return 
+				* @see Account#withdraw(double)
+				*/	
+				@Override
+				public void withdraw(double amount) {
+					
+					if (amount > 0 && amount > this.savings)  {
+						this.savings -= ((1 + withdrawalPenalty) * amount);
+					}
+				}
+			}
+		\end{lstlisting}
+	
+		Note that is not necessary to use the \texttt{@link} tag when using the \texttt{@see} tag, since \texttt{@see} automatically leads to a hyperlink.
+		
+	\end{itemize}
 	
 	\chapter{Python}
 	
