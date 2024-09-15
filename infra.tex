@@ -35,6 +35,21 @@
 	columns=fullflexible,
 }
 
+\lstdefinestyle{mystylejava}{
+	language=Java,
+	basicstyle=\ttfamily,
+	commentstyle=\color{green!40!black},
+	keywordstyle=\color{blue},
+	numberstyle=\tiny\color{gray},
+	numbers=left,
+	frame=single,
+	breaklines=true,
+	showstringspaces=false,
+	captionpos=b, 
+	tabsize=1,  % Adjust as needed
+	columns=fullflexible,
+}
+
 \lstdefinestyle{mystylebash}{
 	language=bash,
 	basicstyle=\ttfamily,
@@ -1016,6 +1031,14 @@
 		
 		If a branch is deleted remotely, it might still exist locally.
 		
+		When merging a branch into another one remotely, e.g.~via GitLab, and deleting it in the process, it can happen that \texttt{git branch -a} would indicate that the branch still exists. To correct this, 
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_branch_del_prune, xleftmargin=\parindent]
+			git fetch --prune
+		\end{lstlisting}
+	
+		The branch might still exist locally, just run Alg.~\ref{alg:git__branch_deletion_local}.
+		
 		\subsection{Listing}
 		
 		List all remote and local branches:
@@ -1025,6 +1048,8 @@
 		\end{lstlisting}
 		
 		\subsection{Merging}
+		
+			\subsubsection{Basics}
 			
 			\begin{tikzpicture}
 				% Draw the main branch
@@ -1159,9 +1184,11 @@
 			\begin{lstlisting}[style=mystylebash, label=alg:git_merge_abort, xleftmargin=\parindent]
 				git merge --abort
 			\end{lstlisting}
+			
+			When merging a branch into another one remotely, e.g.~via GitLab, and deleting it in the process, it can happen that \texttt{git branch -a} would indicate that the branch still exists. To correct this, cf.~Alg.~\ref{alg:git_branch_del_prune}.
 	
 	
-	\section{Merge Conflicts}
+		\subsubsection{Conflicts}
 	
 		\begin{enumerate}
 			\item Resolving a merge conflict,
@@ -1262,7 +1289,7 @@
 	
 	\end{itemize}
 	
-	\section{Removing a File/Folder}
+	\section{\texttt{rm}}
 	
 	\begin{itemize}
 		\item To remove a file/folder that is already tracked, adding it to .gitignore won’t remove it (though this also needs to happen). For this, do:
@@ -1303,6 +1330,32 @@
 	\textbf{Only restore the worktree if you know what the implications are.} \\ \\
 	If you want any of the changes to be permanent, type \texttt{git push} afterwards.
 	
+	\section{\texttt{reset}}
+	
+	If you made a commit that is not pushed yet, and you do not want to throw away the commit, but just continue working on it, then do
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_reset_soft, xleftmargin=\parindent]
+		git reset HEAD~1
+	\end{lstlisting}
+
+	If you want to throw the last $n$ commits, then do
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_reset_hard, xleftmargin=\parindent]
+		git reset --hard HEAD~n
+	\end{lstlisting}
+
+	If the commits were already pushed, then force push.
+
+	\section{\texttt{clean}}
+	
+	Note that neither Alg.~\ref{alg:git_reset_soft} nor Alg.~\ref{alg:git_reset_hard} will remove untracked files. For this, do
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_clean_forced, xleftmargin=\parindent]
+		git clean -f
+	\end{lstlisting}
+
+	\textbf{For this, please note that the untracked files will be irrevocably deleted!}
+
 	\section{\texttt{blame}}
 	
 	The command \texttt{git blame} can be used to understand which person authored a revision for each line of a file. Basic usage:
@@ -1330,6 +1383,12 @@
 	
 	\begin{lstlisting}[style=mystylebash, label=alg:git_log, xleftmargin=\parindent]
 		git log --oneline --all --graph --decorate
+	\end{lstlisting}
+
+	This command is also very useful to see the origin of branches. If you want more detailed information, e.g.~timestamps and author information, remove the \texttt{--oneline}:
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:git_log, xleftmargin=\parindent]
+		git log --all --graph --decorate
 	\end{lstlisting}
 	
 	\section{Repo Renaming}
@@ -1436,11 +1495,50 @@
 	
 	\chapter{Java}
 	
-	\section{Classes}
+	\section{Classes \& Interfaces}
 
-	There is a difference between \texttt{abstract} and \texttt{public abstract} classes. An abstract class is a \texttt{protected abstract} class.
+	There is a difference between \texttt{abstract} and \texttt{public abstract} classes. An abstract class without any access level modifier is a \texttt{protected abstract} class.
 	
-	Unlike methods and variables, classes and interfaces only allow the two access level modifiers \texttt{public} and \texttt{abstract}.
+	Unlike methods and fields, classes and interfaces only allow the two access level modifiers \texttt{public} and \texttt{abstract}.
+	
+	Abstract classes can have constructors. Interfaces, on the other hand, cannot.
+	
+	When inheriting from a class, the subclass must implement the constructor if the super class has a non-default constructor and call the constructor from the super class.
+	
+	One can have protected fields in public abstract classes.
+	
+	Methods in interfaces are public and abstract by default. Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.
+	
+	\subsection{\texttt{instanceof}}
+
+	When a class implements an interface, then an object of this class is also an instance of the interface. 
+	
+	\begin{lstlisting}[style=mystylejava, label=alg:java_interfaces, xleftmargin=\parindent]
+		public interface InvestmentCalculator {
+			[...]
+		}
+		
+		public class ExponentialInvestmentCalculator implements InvestmentCalculator{
+			[...]
+		}
+		
+		// In a main function:
+		ExponentialInvestmentCalculator calculator = new ExponentialInvestmentCalculator();
+		boolean instanceCheck = calculator instanceof InvestmentCalculator;  // `true`
+	\end{lstlisting}
+
+	With \textbf{polymorphism}, you can also make \texttt{calculator} an object, which has as type the interface \texttt{InvestmentCalculator}:
+	
+	\begin{lstlisting}[style=mystylejava, label=alg:java_interfaces_b, xleftmargin=\parindent]
+		// In a main function:
+		InvestmentCalculator calculator = new ExponentialInvestmentCalculator();
+		boolean instanceCheck = calculator instanceof InvestmentCalculator;  // `true`
+	\end{lstlisting}
+	
+	
+	\section{Access Level Modifiers}
+	
+	If a base class has a \texttt{protected} field, subclasses can access it (\textbf{also outside the package}). Any class within the same package can access a protected field.
 	
 	\section{Commenting}
 
@@ -1448,8 +1546,10 @@
 	
 	\section{Interfaces}
 	
-	Methods in interfaces are public and abstract by default. Hence the access modifiers do not need to be specified.
-
+	\section{JavaDoc}
+	
+	@see
+	
 	\chapter{Python}
 	
 	\section{Config File \& JSON Files}
