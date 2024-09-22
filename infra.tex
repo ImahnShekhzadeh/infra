@@ -1308,20 +1308,36 @@
 	\end{itemize}
 
 	\section{\texttt{filter-repo}} \label{git:filter_repo}
-	
-		To delete a file from the history, first install \href{https://github.com/newren/git-filter-repo/?tab=readme-ov-file}{\texttt{filter-repo}}:
 		
-		\begin{lstlisting}[style=mystylebash, label=alg:git_filter_repo__install, xleftmargin=\parindent]
-			sudo apt-get install git-filter-repo -y
-		\end{lstlisting}
-	
-		Then do
+		\subsection{Installation}
+
+			To delete a file from the history, first install \href{https://github.com/newren/git-filter-repo/?tab=readme-ov-file}{\texttt{filter-repo}}:
+			
+			\begin{lstlisting}[style=mystylebash, label=alg:git_filter_repo__install, xleftmargin=\parindent]
+				sudo apt-get install git-filter-repo -y
+			\end{lstlisting}
+		
+		\subsection{Usage}
+		
+		To rewrite the history:
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git_filter_repo__use, xleftmargin=\parindent]
-			git filter-repo --path PATH_TO_FILE --invert-paths
+			git filter-repo --path PATH_TO_FILE --invert-paths --force
 		\end{lstlisting}
 		
-		Afterwards, force push the changes.
+		If \texttt{PATH\_TO\_FILE} still exists remotely, then add the remote repository:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_add_upstream, xleftmargin=\parindent]
+			git remote add origin git@github.com:username/repository.git
+		\end{lstlisting}
+		
+		And then verify this was successful via
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_add_upstream_b, xleftmargin=\parindent]
+			git remote -v
+		\end{lstlisting}
+		
+		Now force-push.
 	
 	\section{\texttt{restore}}
 	
