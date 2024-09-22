@@ -1242,6 +1242,8 @@
 	
 	\section{Stashing}
 
+		The stash follows a FIFO (first-in, first-out) principle.
+
 		To include untracked files for the stash, do
 			\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
 				git stash --include-untracked
@@ -1296,11 +1298,30 @@
 		
 		\begin{lstlisting}[style=mystylebash, label=alg:git_remove, xleftmargin=\parindent]
 			git rm --cached <file>
-			git rm -r --cached <folder>
+			# git rm -r --cached <folder>
+			git push origin <bname>
 		\end{lstlisting}
 
 		\item Adding the file/folder to \textit{.gitignore} is still a good idea, though, since the file/dir won’t be removed locally with the commands.
+		
+		\item Note that if you also want to delete the file from the history, then you should use \texttt{git filter-repo}, cf.~Sec.~\ref{git:filter_repo}.
 	\end{itemize}
+
+	\section{\texttt{filter-repo}} \label{git:filter_repo}
+	
+		To delete a file from the history, first install \href{https://github.com/newren/git-filter-repo/?tab=readme-ov-file}{\texttt{filter-repo}}:
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_filter_repo__install, xleftmargin=\parindent]
+			sudo apt-get install git-filter-repo -y
+		\end{lstlisting}
+	
+		Then do
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:git_filter_repo__use, xleftmargin=\parindent]
+			git filter-repo --path PATH_TO_FILE --invert-paths
+		\end{lstlisting}
+		
+		Afterwards, force push the changes.
 	
 	\section{\texttt{restore}}
 	
@@ -1495,19 +1516,67 @@
 	
 	\chapter{Java}
 	
+	\section{\texttt{ArrayList}}
+	
+		\begin{itemize}
+			\item In Java, \texttt{ArrayList} objects can be initialized directly:
+			
+			\begin{lstlisting}[style=mystylejava, label=alg:arraylist_init, xleftmargin=\parindent]
+				import java.util.ArrayList;
+				
+				ArrayList<Integer> numbers = new ArrayList<Integer>(
+					List.of(1, 2, 4, -5, 10)
+				);
+			\end{lstlisting}
+			
+			This only works in Java version 9+.
+			
+			\item From Java version 7+, you can use the \textbf{diamond operator} to omit the generic type on the RHS of the declaration:
+			
+			\begin{lstlisting}[style=mystylejava, label=alg:arraylist_diam, xleftmargin=\parindent]
+				import java.util.ArrayList;
+				
+				ArrayList<Integer> numbers = new ArrayList<>(
+					List.of(1, 2, 4, -5, 10)
+				);
+			\end{lstlisting}
+		
+			\item To compare two \texttt{ArrayList} objects for equality, do \textbf{not} use the \texttt{==} operator; instead
+			
+			\begin{lstlisting}[style=mystylejava, label=alg:arraylist_comp, xleftmargin=\parindent]
+				import java.util.ArrayList;
+				
+				ArrayList<Integer> numbers1 = new ArrayList<>(
+					List.of(1, 2, 4, -5, 10)
+				);
+				ArrayList<Integer> numbers2 = new ArrayList<>(
+					List.of(1, 2, 4, -5, 10)
+				);
+
+				boolean equalValues = numbers1.equals(numbers2);  // `true`
+				boolean equalReferences = (numbers1 == numbers2);  // `false`
+				
+			\end{lstlisting}
+			
+		\end{itemize}
+	
 	\section{Classes \& Interfaces}
 
-	There is a difference between \texttt{abstract} and \texttt{public abstract} classes. An abstract class without any access level modifier is a \texttt{protected abstract} class.
+	\subsection{Basics}
 	
-	Unlike methods and fields, classes and interfaces only allow the two access level modifiers \texttt{public} and \texttt{abstract}.
-	
-	Abstract classes can have constructors. Interfaces, on the other hand, cannot.
-	
-	When inheriting from a class, the subclass must implement the constructor if the super class has a non-default constructor and call the constructor from the super class.
-	
-	One can have protected fields in public abstract classes.
-	
-	Methods in interfaces are public and abstract by default. Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.
+		\begin{itemize}
+			\item There is a difference between \texttt{abstract} and \texttt{public abstract} classes. An abstract class without any access level modifier is a \texttt{protected abstract} class.
+			
+			\item Unlike methods and fields, classes and interfaces only allow the two access level modifiers \texttt{public} and \texttt{abstract}.
+			
+			\item Abstract classes can have constructors; interfaces, on the other hand, cannot.
+			
+			\item When inheriting from a class, the subclass must implement the constructor if the super class has a non-default constructor and call the constructor from the super class.
+			
+			\item One can have protected fields in public abstract classes. In interfaces, fields are always static, final and public.
+			
+			\item Methods in interfaces are \textbf{public} and \textbf{abstract} by default. Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.
+		\end{itemize}	
 	
 	\subsection{\texttt{instanceof}}
 
@@ -2295,57 +2364,6 @@
 
 		diff() {
 			/usr/bin/diff --color "$@"
-		}
-
-		# overload `shred` func, allow (recursive) shredding of dirs/files
-		# multiple files/dirs can be provided, mixing allowed
-		# usage (e.g.): `shred 10 <file_name>`
-		# shred <file_name>
-		# shred <dir_path>
-		# shred <file_name> <dir_path>
-		shred() {
-			
-			# check whether first argument is a number
-			if [[ "$1" =~ ^[0-9]+$ ]]; then
-				local iterations="$1"
-				shift
-			else
-				iterations=5 # default
-			fi
-			
-			# check file/dir existences
-			for path in "$@"; do
-				if check_existence "$path"; then
-				# check whether passed input is directory or not
-					if [[ -d "$path" ]]; then
-						echo "Files to be shredded in $path:"
-						find "$path" -type f -print0 | xargs -0 ls -ld
-					fi
-				else
-					echo "Error occurred in check_existence for file/dir: $path"
-					return 1
-				fi
-			done
-			
-			# prompt user for confirmation
-			read -rp "Do you wish to proceed with shredding all files in $@ for $iterations iterations? (yes/no): " confirmation
-			
-			if [[ $confirmation = [yY] || $confirmation = [yY][eE][sS] ]]; then
-				for path in "$@"; do
-					if [[ -d "$path" ]]; then
-						# shred all files within the directory
-						find "$path" -type f -exec /usr/bin/shred -uz -n "$iterations" {} \;
-						rm -rf "$path"
-						echo "All files in '$path' have been shredded for $iterations iterations."
-					elif [[ -f "$path" ]]; then
-						# shred the individual file
-						/usr/bin/shred -uz -n "$iterations" "$path"
-						echo "File '$path' has been shredded for $iterations iterations."
-					fi
-				done
-			else
-				echo "Shredding aborted."
-			fi
 		}
 		
 		# shortcut for clearing terminal output
