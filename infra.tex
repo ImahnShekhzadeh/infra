@@ -265,6 +265,15 @@
 		uname -a
 	\end{lstlisting}
 
+	\section{Port Number}
+	
+	To check whether port is used or not,
+	
+	\begin{lstlisting}[style=mystylebash, label=alg:port_number, xleftmargin=\parindent]
+		ss -tuln | grep :<port_number>
+		# e.g.: `ss -tuln | grep :11434`
+	\end{lstlisting}
+
 	\section{CUDA}
 	
 	\begin{itemize}
