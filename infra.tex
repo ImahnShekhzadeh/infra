@@ -1,6 +1,6 @@
 \documentclass[12pt, a4paper]{scrbook}
 \usepackage[utf8]{inputenc}
-\usepackage{comment, listings, amssymb, hyperref, natbib, graphicx, amsmath, textcomp, breqn, mathtools, csquotes, cancel, enumitem, amsthm, caption}
+\usepackage{comment, listings, amssymb, hyperref, natbib, graphicx, amsmath, textcomp, breqn, mathtools, csquotes, cancel, enumitem, amsthm, caption, upquote}
 \usepackage[english]{babel}
 \usepackage[svgnames]{xcolor}
 \usepackage{tikz} % load after `xcolor`, since `tikz` internally loads `xcolor`
@@ -84,9 +84,24 @@
 	
 	\chapter{Bash \& Linux}
 	
+	\section{Pattern Matching}
+
 	In Bash, \texttt{[[ ]]} over \texttt{[ ]} is preferred, since \texttt{[[ ]]} is safer and more capable within Bash scripts. 
 	Within \texttt{[ ]}, where word splitting and filename expansion do occur, it is good practice to double-quote variables. 
 	But it is safe to omit the double-quotes for e.g.~\$\# within \texttt{[[ ]]}.
+	
+	\section{Multi-Line Comments}
+	
+	Use \texttt{:\ \textquotesingle\ [...]\ \textquotesingle} for a multi-line comment.
+		
+	\begin{lstlisting}[style=mystylebash, label=alg:bash_multiline_comments, xleftmargin=\parindent]
+		: '
+		This is a
+		very long
+		comment
+		'
+	\end{lstlisting}
+
 	
 	\section{File Download}	
 
