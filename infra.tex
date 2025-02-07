@@ -439,7 +439,6 @@
 		\begin{lstlisting}[style=mystylebash, label=alg:docker_build, xleftmargin=\parindent]
 			d build -f file_name -t img_name .
 			d build -f file_name -t img_name:tag_name . # tag name optional, but recommended, e.g. 1.0 (no quotes required)
-			# d build -f file_name --no-cache -t [...] # forcing to rebuild from scratch, no cached version is used (only do if really required)
 		\end{lstlisting} 
 		
 		where \texttt{img\_name} will be the name of the newly created image, \texttt{tag\_name} the tag name and \texttt{file\_name} the name of the docker file. 
@@ -448,6 +447,12 @@
 		
 		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
 			d build -f file_name -t img_name:tag_name /path/to/build/context
+		\end{lstlisting}
+		
+		\item In order to forcefully rebuild the Dockerfile from scratch, i.e. without the use of a cached version, use the \texttt{--no-cache} option,
+
+		\begin{lstlisting}[style=mystylebash, xleftmargin=\parindent]
+			d build -f file_name --no-cache -t img_name:tag_name .
 		\end{lstlisting}
 		
 		\item Via 
