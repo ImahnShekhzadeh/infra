@@ -346,6 +346,12 @@
 	\begin{itemize}
 		\item Follow  \href{https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04}{this great tutorial by DigitalOcean}.
 		
+		\item To start the Docker daemon,
+		
+		\begin{lstlisting}[style=mystylebash, label=alg:docker_daemon_start, xleftmargin=\parindent]
+			sudo systemctl start docker
+		\end{lstlisting}
+		
 		\item To use NVIDIA GPUs (both in PyTorch \& Jax), install the \href{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installing-with-apt}{NVIDIA Container Toolkit}
 		
 		\item Once done with the installation of the NVIDIA Container Toolkit, proceed with the \href{https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker}{configuration}. During the configuration, it will be necessary to restart the docker daemon, which you can achieve as follows: 
