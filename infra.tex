@@ -1612,7 +1612,13 @@
 			
 			\item Abstract classes can contain public, protected, package private and private fields. In interfaces, fields are always \texttt{public static final}, i.e. there are no instance fields.
 			
-			\item All non-static methods in interfaces are abstract and public\footnote{Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.}; however, public static methods in interfaces can be concrete. In abstract classes, abstract methods need to be declared as such (via the \texttt{abstract} keyword) and they can be public, protected or package private (but not private!). Abstract classes can also have non-abstract methods, which can be public, protected, package private or private\footnote{Obviously, private non-abstract methods cannot be overriden, and private abstract methods do not exist.}.
+			\item All non-static methods in interfaces are abstract and public\footnote{Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.}; however, public static methods in interfaces can be concrete. In abstract classes, abstract methods need to be declared as such (via the \texttt{abstract} keyword) and they can be public, protected or package private (but not private!). Abstract classes can also have non-abstract (concrete) methods, which can be public, protected, package private or private\footnote{Obviously, private non-abstract methods cannot be overriden, and private abstract methods do not exist.}.
+			
+			\item An abstract class can implement an interface, yet does not have to implement the abstract methods; this has to be done by subclasses inheriting from the abstract class.
+			
+			\item When implementing an interface's method or an abstract method from an abstract class, it is recommended to use the \texttt{@Override} tag for better readability and maintenance.
+			
+			\item When implementing a static method in a class, it can only refer to static fields.
 		\end{itemize}	
 	
 	\subsection{\texttt{instanceof}}
