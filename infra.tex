@@ -1619,6 +1619,32 @@
 			\item When implementing an interface's method or an abstract method from an abstract class, it is recommended to use the \texttt{@Override} tag for better readability and maintenance.
 			
 			\item When implementing a static method in a class, it can only refer to static fields.
+			
+			\item When inheriting from another class and overriding (not overloading) a method from the super class, you can use the \texttt{@Override} tag to make this clear. While this is not strictly necessary, it makes the code better readable and it is easier to maintain.
+			
+			\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_inheritance, xleftmargin=\parindent]
+				public class Account {
+					protected double savings;
+					
+					public void withdraw(double amount) {
+						this.savings -= amount;
+					}
+				}
+				
+				public class SavingAccount extends Account {
+					
+					@Override
+					public void withdraw(double amount) {
+						
+						if (amount > 0 && amount > this.savings)  {
+							this.savings -= 1.01 * amount;
+						}
+						else {
+							super.withdraw(amount);
+						}
+					}
+				}
+			\end{lstlisting}
 		\end{itemize}	
 	
 	\subsection{\texttt{instanceof}}
@@ -1645,33 +1671,7 @@
 		// In a main function:
 		InvestmentCalculator calculator = new ExponentialInvestmentCalculator();
 		boolean instanceCheck = calculator instanceof InvestmentCalculator;  // `true`
-	\end{lstlisting}
-
-	\subsection{Inheritance}
-	
-	When inheriting from another class and overriding (not overloading) a method from the super class, you can use the \texttt{@Override} tag to make this clear. While this is not strictly necessary, it makes the code better readable and it is easier to maintain.
-	
-	\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_inheritance, xleftmargin=\parindent]
-		public class Account {
-			protected double savings;
-			
-			public void withdraw(double amount) {
-				this.savings -= amount;
-			}
-		}
-		
-		public class SavingAccount extends Account {
-			
-			@Override
-			public void withdraw(double amount) {
-				
-				if (amount > 0 && amount > this.savings)  {
-					this.savings -= 1.01 * amount;
-				}
-			}
-		}
-	\end{lstlisting}
-	
+	\end{lstlisting}	
 	
 	\section{Access Level Modifiers}
 	
