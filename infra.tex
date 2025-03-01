@@ -1612,13 +1612,47 @@
 			
 			\item Abstract classes can contain public, protected, package private and private fields. In interfaces, fields are always \texttt{public static final}, i.e. there are no instance fields.
 			
-			\item All non-static methods in interfaces are abstract and public\footnote{Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.}; however, public static methods in interfaces can be concrete. In abstract classes, abstract methods need to be declared as such (via the \texttt{abstract} keyword) and they can be public, protected or package private (but not private!). Abstract classes can also have non-abstract (concrete) methods, which can be public, protected, package private or private\footnote{Obviously, private non-abstract methods cannot be overriden, and private abstract methods do not exist.}.
+			\item All non-static methods in interfaces are implicitly abstract and public\footnote{Hence the access modifiers do not need to be specified. When writing a class that implements an interface, the class cannot reduce the visibility of the methods from the interface, which means that those need to be public. Other additional methods can of course have any access level modifiers.}; however, static methods in interfaces can be concrete. Also, static methods in interfaces can be either public (which they are implicitly, cf. \href{https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.4}{here}\footnote{\begin{quote}
+					Every method declaration in the body of an interface is implicitly public (§6.6). It is permitted, but discouraged as a matter of style, to redundantly specify the public modifier for a method declaration in an interface.
+			\end{quote}}) or private, but not protected or package private.\footnote{It is generally the case that static methods cannot be \texttt{protected}, since they belong to the type where they are defined.}
+			
+			\item In abstract classes, abstract methods need to be declared as such (via the \texttt{abstract} keyword) and they can be public, protected or package private (but not private!). Abstract classes can also have non-abstract (concrete) methods, which can be public, protected, package private or private\footnote{Obviously, private non-abstract methods cannot be overriden, and private abstract methods do not exist.}.
 			
 			\item An abstract class can implement an interface, yet does not have to implement the abstract methods; this has to be done by subclasses inheriting from the abstract class.
 			
 			\item When implementing an interface's method or an abstract method from an abstract class, it is recommended to use the \texttt{@Override} tag for better readability and maintenance.
 			
 			\item When implementing a static method in a class, it can only refer to static fields.
+			
+			\item The \texttt{final} keyword can be used independently from \texttt{sealed} classes, cf. Sec. \ref{subsec:java_sealed}, and means that no class can inherit from a final class.
+			
+			\item In order to extend interfaces, it is possible to add \texttt{default} methods, which can be overriden in the classes implementing the interface.
+			
+			\begin{lstlisting}[style=mystylejava, label=alg:java_doc_tags_inheritance, xleftmargin=\parindent]
+				public interface Truck 
+				{
+					void accelerate();
+					
+					void break();
+					
+					default void fly(){};
+				}
+			
+				public class MAN implements Truck 
+				{
+					@Override
+					public void accelerate(){};
+					
+					@Override
+					public void break(){};
+					
+					@Override 
+					public void fly()
+					{
+						//
+					}
+				}
+			\end{lstlisting}
 			
 			\item When inheriting from another class and overriding (not overloading) a method from the super class, you can use the \texttt{@Override} tag to make this clear. While this is not strictly necessary, it makes the code better readable and it is easier to maintain.
 			
@@ -1673,9 +1707,37 @@
 		boolean instanceCheck = calculator instanceof InvestmentCalculator;  // `true`
 	\end{lstlisting}	
 	
-	\section{Access Level Modifiers}
+	\subsection{\texttt{sealed}}\label{subsec:java_sealed}
 	
-	If a base class has a \texttt{protected} field, subclasses can access it (\textbf{also outside the package}). Any class within the same package can access a protected field.
+	It is possible to define \texttt{sealed} classes, \texttt{sealed} abstract classes and 
+	\texttt{sealed} interfaces in Java17+. The keyword has the effect that it restricts which other 
+	classes or interfaces may extend or implement them. For example:
+	
+	\begin{lstlisting}[style=mystylejava, label=alg:java_sealed, xleftmargin=\parindent]
+		abstract sealed class Daimler extends Car permits EKlasse, CKlasse
+		{
+			void bite(){};
+			
+			void doNothing(){};
+		}
+	\end{lstlisting}
+	
+	Here, the class \texttt{Daimler} inherits from the class \texttt{Car} and only allows the subclasses \texttt{EKlasse} and \texttt{CKlasse}, which will need to be defined.
+	
+	The subclasses \texttt{EKlasse} and \texttt{CKlasse} can now either be \texttt{final}, i.e. no other class can inherit from them, \texttt{sealed}, or \texttt{non-sealed}, which means that any subclass can inherit from the class (note that a sealed class cannot prevent its permitted subclasses from doing this). For example:
+	
+	\begin{lstlisting}[style=mystylejava, label=alg:java_sealed_subclass, xleftmargin=\parindent]
+		final class EKlasse extends Daimler
+		{ 
+			@Override
+			void bite()
+			{
+				//
+			}
+		}
+	\end{lstlisting}
+	
+	Also, according to the \href{https://docs.oracle.com/en/java/javase/17/language/sealed-classes-and-interfaces.html}{documentation}, any permitted subclasses must be accessible by the sealed class at compile time.
 	
 	\section{Commenting}
 
